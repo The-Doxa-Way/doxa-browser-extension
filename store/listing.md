@@ -20,13 +20,13 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 > DoxaBot brings the encouragement of Scripture to wherever you already are on the web.
 >
-> Select any text on any page — a hard email, a discouraging headline, a message from a friend — right-click, and choose "Encourage me with this". DoxaBot responds with a short word of encouragement anchored in the Bible (Berean Standard Bible), written in the voice of Doxa: warm, scriptural, and free of hype.
+> Select any text on any page — a hard email, a discouraging headline, a message from a friend — right-click, and choose "Encourage me with this". DoxaBot responds with a short word of encouragement anchored in Scripture, written in the voice of Doxa: warm, biblical, and free of hype.
 >
-> Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly, with a link to keep reading in Doxa's Bible reader.
+> Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly (Berean Standard Bible), with a link to keep reading in Doxa's Bible reader.
 >
 > Or click the DoxaBot icon in your toolbar and describe what you are facing in your own words.
 >
-> Every response is tagged to one of the nine movements of The Doxa Way — hear, discern, test, record, remember, engage, trust, fight, endure — a simple map for holding on to what God has said and done.
+> Every response is tagged to one of nine movements of the journey — hear, discern, test, record, remember, engage, trust, fight, endure — a simple map for holding on to what God has said and done.
 >
 > FREE TO USE
 > DoxaBot includes a free tier so you can start right away. Power users can add their own Anthropic API key in Settings for unlimited use.
@@ -34,7 +34,7 @@ CEO sign-off required before submission (public Doxa surface; see the
 > PRIVACY FIRST
 > DoxaBot talks to exactly one server: doxa.app. No analytics, no tracking, no ads, no data sold — ever. Only the text you select or type is sent, only when you ask. Full details: https://doxa.app/privacy
 >
-> DoxaBot is made by Doxa (https://doxa.app), the app for recording and remembering God's encouragement across your whole faith journey.
+> DoxaBot is made by Doxa (https://doxa.app). Record what God has said and done, remember it, and come to know Him through it — for the whole journey.
 
 ## Graphic assets
 
@@ -59,8 +59,8 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 **Data usage disclosures:**
 
-- Collects: "Website content" (the text the user selects, sent to doxa.app only when the user invokes an action) and "Authentication information" (the optional user-supplied Anthropic API key, stored locally, sent only to doxa.app as a request header).
-- Not collected: browsing history, location, personal communications, financial info, health info, user activity.
+- Collects: "Website content" (the text the user selects, sent to doxa.app only when the user invokes an action), "Personal communications" (a selection the user chooses to send may itself be an email or message excerpt — same user-initiated path, nothing is read passively), and "Authentication information" (the optional user-supplied Anthropic API key, stored locally, sent only to doxa.app as a request header).
+- Not collected: browsing history, location, financial info, health info, user activity.
 - Certify: data is not sold, not used for unrelated purposes, not used for creditworthiness.
 
 **Privacy policy URL:** https://doxa.app/privacy

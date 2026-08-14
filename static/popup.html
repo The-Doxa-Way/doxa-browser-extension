@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>DoxaBot</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="doxa-header">
+    <img src="icons/icon-32.png" alt="" class="doxa-logo" />
+    <div class="doxa-title">
+      <h1>DoxaBot</h1>
+      <p class="doxa-tagline">Scripture, summoned.</p>
+    </div>
+  </header>
+
+  <main>
+    <form id="encourage-form" class="doxa-form">
+      <label for="situation" class="doxa-label">What are you facing?</label>
+      <textarea
+        id="situation"
+        name="situation"
+        placeholder="Describe in 1-3 sentences."
+        rows="4"
+        maxlength="2000"
+        required
+      ></textarea>
+      <button type="submit" id="submit-btn" class="doxa-cta">ENCOURAGE ME</button>
+    </form>
+
+    <section id="result" class="doxa-result" hidden>
+      <div id="movement-badge" class="doxa-movement"></div>
+      <div id="result-text" class="doxa-text"></div>
+      <div id="scriptures" class="doxa-scriptures"></div>
+    </section>
+
+    <section id="error" class="doxa-error" hidden>
+      <p id="error-text"></p>
+      <a id="error-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Upgrade to unlimited</a>
+    </section>
+
+    <section id="quota" class="doxa-quota" hidden>
+      <span id="quota-text"></span>
+    </section>
+  </main>
+
+  <footer class="doxa-footer">
+    <a href="#" id="open-options">Settings</a>
+    <span class="doxa-sep">&middot;</span>
+    <a href="https://doxa.app" target="_blank" rel="noopener noreferrer">doxa.app</a>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

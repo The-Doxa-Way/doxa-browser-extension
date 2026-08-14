@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 800px; overflow: hidden; }
+  body { background: #0F0F0F; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  .page { position: absolute; inset: 0; padding: 56px 64px; }
+  .headline { color: #FFFFFF; font-size: 40px; font-weight: 800; line-height: 1.2; max-width: 560px; letter-spacing: -0.01em; }
+  .headline .accent { color: #FF9500; }
+  .sub { color: #B0B0B0; font-size: 19px; line-height: 1.6; max-width: 520px; margin-top: 20px; }
+  .steps { margin-top: 40px; display: flex; flex-direction: column; gap: 18px; max-width: 500px; }
+  .step { display: flex; align-items: center; gap: 14px; color: #E6E6E6; font-size: 17px; }
+  .num { width: 32px; height: 32px; border-radius: 999px; background: rgba(255,149,0,0.12); border: 1px solid rgba(255,149,0,0.4);
+         color: #FF9500; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .menu { position: absolute; left: 64px; bottom: 92px; background: #242424; border: 1px solid #3C3C3C; border-radius: 10px;
+          padding: 6px 0; width: 260px; box-shadow: 0 12px 32px rgba(0,0,0,0.5); font-size: 14.5px; color: #DDD; }
+  .menu div { padding: 8px 16px; }
+  .menu .sel { background: #FF9500; color: #141414; font-weight: 600; }
+  .toast { position: absolute; top: 48px; right: 56px; width: 400px; background: #1A1A1A; color: #FFF;
+           border: 1px solid #3C3C3C; border-radius: 16px; padding: 20px; font-size: 14.5px; line-height: 1.6;
+           box-shadow: 0 8px 24px rgba(0,0,0,0.55); }
+  .thead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #FF9500; }
+  .close { color: #707070; font-size: 18px; }
+  .tbody { white-space: pre-wrap; color: #FFFFFF; }
+  .pills { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { display: inline-block; padding: 6px 12px; font-size: 12px; color: #FF9500; background: rgba(255,149,0,0.08);
+          border: 1px solid rgba(255,149,0,0.3); border-radius: 999px; }
+  .logo { position: absolute; left: 64px; bottom: 32px; display: flex; align-items: center; gap: 10px; color: #808080; font-size: 14px; }
+  .logo img { width: 24px; height: 24px; border-radius: 5px; }
+</style></head>
+<body>
+  <div class="page">
+    <div class="headline">Encouragement from <span class="accent">Scripture</span>, right where you are.</div>
+    <div class="sub">A hard email. A heavy headline. A message from a friend. Select it, right-click, and receive a word anchored in the Bible.</div>
+    <div class="steps">
+      <div class="step"><span class="num">1</span> Select any text on any page</div>
+      <div class="step"><span class="num">2</span> Right-click → “Encourage me with this”</div>
+      <div class="step"><span class="num">3</span> Receive Scripture that speaks to it</div>
+    </div>
+  </div>
+  <div class="menu">
+    <div class="sel">Encourage me with this</div>
+    <div>Look up in Doxa</div>
+  </div>
+  <div class="toast">
+    <div class="thead"><span class="badge">Remember</span><span class="close">×</span></div>
+    <div class="tbody">Forgetting is one of the oldest human struggles — Israel built stone memorials at the Jordan River precisely because they knew they would forget what God had done there. The discipline of remembering is not automatic; it has to be practiced and protected. Joshua 4:6-7 puts it plainly: those stones were to be a sign, so that when your children ask, you can tell them what God did. One of the most honest things you can do today is write down one thing God has done for you — not a grand theological statement, just a specific moment — so that when the fog of forgetfulness rolls in, you have something concrete to return to.
+
+— Doxa · doxa.app</div>
+    <div class="pills"><span class="pill">Joshua 4:6-7</span></div>
+  </div>
+  <div class="logo"><img src="../../src/icons/icon-128.png" alt=""> DoxaBot · doxa.app</div>
+</body></html>

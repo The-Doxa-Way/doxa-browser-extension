@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 800px; overflow: hidden; }
+  body { background: #0F0F0F; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  .page { position: absolute; inset: 0; padding: 72px 64px; }
+  .headline { color: #FFFFFF; font-size: 40px; font-weight: 800; line-height: 1.2; max-width: 560px; letter-spacing: -0.01em; }
+  .headline .accent { color: #FF9500; }
+  .sub { color: #B0B0B0; font-size: 19px; line-height: 1.6; max-width: 500px; margin-top: 20px; }
+  .sel { margin-top: 44px; max-width: 480px; color: #C9C9C9; font-size: 20px; line-height: 1.7; }
+  .sel mark { background: rgba(255,149,0,0.35); color: #FFF; padding: 2px 4px; border-radius: 4px; }
+  .toast { position: absolute; top: 120px; right: 72px; width: 420px; background: #1A1A1A; color: #FFF;
+           border: 1px solid #3C3C3C; border-radius: 16px; padding: 22px; font-size: 16px; line-height: 1.65;
+           box-shadow: 0 8px 24px rgba(0,0,0,0.55); }
+  .thead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .badge { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #FF9500; }
+  .close { color: #707070; font-size: 18px; }
+  .tbody { white-space: pre-wrap; color: #FFFFFF; }
+  .link { display: inline-block; margin-top: 16px; padding: 8px 14px; font-size: 13px; color: #FF9500;
+          background: rgba(255,149,0,0.08); border: 1px solid rgba(255,149,0,0.3); border-radius: 999px; }
+  .logo { position: absolute; left: 64px; bottom: 32px; display: flex; align-items: center; gap: 10px; color: #808080; font-size: 14px; }
+  .logo img { width: 24px; height: 24px; border-radius: 5px; }
+</style></head>
+<body>
+  <div class="page">
+    <div class="headline">Look up any verse, <span class="accent">anywhere</span>.</div>
+    <div class="sub">Select a reference like “John 14:6” on any page and DoxaBot brings you the verse — Berean Standard Bible, with a link to keep reading in Doxa.</div>
+    <div class="sel">…as it says in <mark>John 14:6</mark>, which has carried generations through their hardest seasons…</div>
+  </div>
+  <div class="toast">
+    <div class="thead"><span class="badge">John 14:6</span><span class="close">×</span></div>
+    <div class="tbody">Jesus answered, “I am the way and the truth and the life. No one comes to the Father except through Me. (John 14:6, BSB)
+
+— Doxa · doxa.app</div>
+    <span class="link">Open in Doxa</span>
+  </div>
+  <div class="logo"><img src="../../src/icons/icon-128.png" alt=""> DoxaBot · doxa.app</div>
+</body></html>

@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import { looksLikeBibleRef } from '../dist/lib/bible-ref.js';
 import { callerIdFromUuid, isValidCallerId, CALLER_SURFACE } from '../dist/lib/caller.js';
 import { errorToToast } from '../dist/lib/error-toast.js';
+import { stripMarkdownLinks } from '../dist/lib/strip-markdown-links.js';
 import { DoxaError, DoxaRateLimitError } from '../dist/vendor/mcp-client/index.js';
 
 test('looksLikeBibleRef accepts common reference shapes', () => {
@@ -50,6 +51,22 @@ test('isValidCallerId enforces surface:alnum shape', () => {
   assert.equal(isValidCallerId('ext:abc def'), false);
   assert.equal(isValidCallerId(undefined), false);
   assert.equal(isValidCallerId(42), false);
+});
+
+test('stripMarkdownLinks collapses inline links to their text', () => {
+  assert.equal(
+    stripMarkdownLinks('See [Joshua 4:6-7](https://doxa.app/bible/JOS/4/6?utm_source=mcp) today.'),
+    'See Joshua 4:6-7 today.',
+  );
+  assert.equal(
+    stripMarkdownLinks('[A](https://x.example/a) and [B](https://x.example/b)'),
+    'A and B',
+  );
+});
+
+test('stripMarkdownLinks leaves plain text and bare brackets alone', () => {
+  assert.equal(stripMarkdownLinks('no links here'), 'no links here');
+  assert.equal(stripMarkdownLinks('array[0] notation (kept)'), 'array[0] notation (kept)');
 });
 
 test('errorToToast maps a rate-limit error to the BYOL upgrade toast', () => {

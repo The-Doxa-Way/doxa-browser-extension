@@ -12,6 +12,7 @@
 
 import { encourage, scripture } from './utils/doxa.js';
 import { looksLikeBibleRef } from './lib/bible-ref.js';
+import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast, type ToastPayload } from './lib/error-toast.js';
 
 const MENU_ENCOURAGE = 'doxa-encourage';
@@ -50,7 +51,7 @@ async function handleMenuClick(
       await showToast(tab.id, {
         state: 'result',
         title: result.reference,
-        text: result.text,
+        text: stripMarkdownLinks(result.text),
         link: result.link,
         linkLabel: 'Open in Doxa',
       });
@@ -64,7 +65,7 @@ async function handleMenuClick(
       await showToast(tab.id, {
         state: 'result',
         title: result.movement || 'Encouragement',
-        text: result.text,
+        text: stripMarkdownLinks(result.text),
         scriptures: result.scriptures,
       });
       return;
@@ -75,7 +76,7 @@ async function handleMenuClick(
       await showToast(tab.id, {
         state: 'result',
         title: result.movement || 'Encouragement',
-        text: result.text,
+        text: stripMarkdownLinks(result.text),
         scriptures: result.scriptures,
       });
     }

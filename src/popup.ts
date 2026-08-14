@@ -4,6 +4,7 @@
  */
 
 import { encourage, DoxaError, DoxaRateLimitError } from './utils/doxa.js';
+import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 
 const form = document.getElementById('encourage-form') as HTMLFormElement;
 const situationInput = document.getElementById('situation') as HTMLTextAreaElement;
@@ -37,7 +38,7 @@ form.addEventListener('submit', async (e) => {
     const result = await encourage(situation);
 
     movementEl.textContent = result.movement || '';
-    textEl.textContent = result.text;
+    textEl.textContent = stripMarkdownLinks(result.text);
     scripturesEl.replaceChildren();
     for (const s of result.scriptures) {
       const a = document.createElement('a');

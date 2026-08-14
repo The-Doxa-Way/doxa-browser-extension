@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>DoxaBot Settings</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>
+    html, body { width: 100%; max-width: 560px; }
+    body { margin: 0 auto; padding: 32px; }
+    .doxa-section { margin-bottom: 24px; }
+    .doxa-section h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .doxa-section p {
+      font-size: 13px;
+      color: #707070;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      background-color: #242424;
+      color: #FFFFFF;
+      border: 1px solid #3C3C3C;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    input:focus {
+      border-color: #FF4500;
+    }
+    .doxa-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .doxa-secondary {
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 999px;
+      background: transparent;
+      color: #707070;
+      border: 1.5px solid #3C3C3C;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .doxa-secondary:hover {
+      color: #FFFFFF;
+      border-color: #707070;
+    }
+    .doxa-status {
+      margin-top: 12px;
+      font-size: 12px;
+      min-height: 18px;
+    }
+    .doxa-status.success { color: #30D158; }
+    .doxa-status.error { color: #DC2626; }
+    .doxa-tier {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .doxa-tier.free { color: #FF9500; border: 1px solid rgba(255, 149, 0, 0.4); }
+    .doxa-tier.byol { color: #30D158; border: 1px solid rgba(48, 209, 88, 0.4); }
+  </style>
+</head>
+<body>
+  <header class="doxa-header">
+    <img src="icons/icon-48.png" alt="" class="doxa-logo" style="width: 40px; height: 40px;" />
+    <div class="doxa-title">
+      <h1 style="font-size: 18px;">DoxaBot Settings</h1>
+      <p class="doxa-tagline">Bring your own Anthropic key for unlimited.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="doxa-section">
+      <h2>Current tier</h2>
+      <p>Free anon: 50 calls per day per IP, shared across everyone using DoxaBot without a key.</p>
+      <p>BYOL: unlimited calls, you pay Anthropic directly. Your key is stored locally in your browser only and is never sent anywhere other than doxa.app.</p>
+      <div>
+        <span id="tier-badge" class="doxa-tier free">Free anon</span>
+      </div>
+    </section>
+
+    <section class="doxa-section">
+      <h2>Anthropic API key (optional)</h2>
+      <p>Paste your key from console.anthropic.com. Starts with sk-ant-.</p>
+      <input
+        type="password"
+        id="api-key"
+        placeholder="sk-ant-..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <div class="doxa-actions">
+        <button id="save-btn" class="doxa-cta" style="padding: 0 24px;">SAVE</button>
+        <button id="clear-btn" class="doxa-secondary">CLEAR</button>
+      </div>
+      <div id="status" class="doxa-status"></div>
+    </section>
+
+    <section class="doxa-section">
+      <h2>How it works</h2>
+      <p>Right-click selected text on any webpage and pick "Encourage me with this" or "Look up in Doxa" for a Bible reference. Or click the DoxaBot icon for a free-form prompt.</p>
+      <p>All requests go directly to doxa.app/mcp/v1. No background server. No analytics. No tracking.</p>
+    </section>
+  </main>
+
+  <footer class="doxa-footer" style="margin-top: 32px;">
+    <a href="https://doxa.app" target="_blank" rel="noopener noreferrer">doxa.app</a>
+    <span class="doxa-sep">&middot;</span>
+    <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">Get an Anthropic key</a>
+  </footer>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

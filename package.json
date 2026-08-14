@@ -1,0 +1,31 @@
+{
+  "name": "doxa-browser-extension",
+  "version": "0.2.0",
+  "description": "DoxaBot for Chrome, Firefox, and Edge. Scripture, summoned. Encouragement on demand on any webpage.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "The Doxa Way <garth@doxa.app> (https://doxa.app)",
+  "homepage": "https://doxa.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Doxa-Way/doxa-browser-extension.git"
+  },
+  "scripts": {
+    "build": "tsc && node scripts/copy-static.mjs",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "dev": "tsc --watch"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@thedoxaway/mcp-client": "^0.2.4"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "typescript": "^5.4.0"
+  }
+}

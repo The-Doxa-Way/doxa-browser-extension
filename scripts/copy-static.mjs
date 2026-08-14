@@ -5,7 +5,7 @@
  * dist/ is the directory you load as the unpacked extension.
  */
 
-import { cp, mkdir, readFile, writeFile, readdir, stat } from 'node:fs/promises';
+import { cp, mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,25 +16,6 @@ const dist = path.join(root, 'dist');
 const staticDir = path.join(root, 'static');
 const iconsSrc = path.join(root, 'src', 'icons');
 const iconsDist = path.join(dist, 'icons');
-
-async function copyDir(src, dest) {
-  await mkdir(dest, { recursive: true });
-  const entries = await readdir(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const s = path.join(src, entry.name);
-    const d = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      await copyDir(s, d);
-    } else {
-      await cp(s, d);
-    }
-  }
-}
-
-async function copyFile(src, dest) {
-  await mkdir(path.dirname(dest), { recursive: true });
-  await cp(src, dest);
-}
 
 async function bundleMcpClient() {
   // Inline the MCP client into dist/ so the service worker (which is an
@@ -47,8 +28,7 @@ async function bundleMcpClient() {
       'Missing node_modules/@thedoxaway/mcp-client/dist. Run `npm install` first.',
     );
   }
-  const out = path.join(dist, 'vendor', 'mcp-client');
-  await copyDir(pkgRoot, out);
+  await cp(pkgRoot, path.join(dist, 'vendor', 'mcp-client'), { recursive: true });
 }
 
 async function rewriteImports() {
@@ -61,7 +41,7 @@ async function rewriteImports() {
     let src = await readFile(file, 'utf8');
     const next = src.replace(
       /from\s+['"]@thedoxaway\/mcp-client['"]/g,
-      (_, ...rest) => {
+      () => {
         const relative = path
           .relative(path.dirname(file), path.join(dist, 'vendor', 'mcp-client', 'index.js'))
           .replace(/\\/g, '/');
@@ -87,35 +67,18 @@ async function collectJs(dir) {
   return out;
 }
 
-async function ensureDist() {
-  await mkdir(dist, { recursive: true });
-}
-
-async function copyStaticFiles() {
-  const entries = await readdir(staticDir, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    await copyFile(path.join(staticDir, entry.name), path.join(dist, entry.name));
-  }
-}
-
-async function copyIcons() {
-  await mkdir(iconsDist, { recursive: true });
-  const entries = await readdir(iconsSrc, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isFile() || !entry.name.endsWith('.png')) continue;
-    await copyFile(path.join(iconsSrc, entry.name), path.join(iconsDist, entry.name));
-  }
-}
-
 async function main() {
-  await ensureDist();
+  await mkdir(dist, { recursive: true });
   await bundleMcpClient();
   await rewriteImports();
-  await copyStaticFiles();
-  await copyIcons();
-  const stats = await stat(dist);
-  if (!stats.isDirectory()) throw new Error('dist is not a directory after build');
+  await cp(staticDir, dist, {
+    recursive: true,
+    filter: (src) => src === staticDir || !path.relative(staticDir, src).includes(path.sep),
+  });
+  await cp(iconsSrc, iconsDist, {
+    recursive: true,
+    filter: (src) => src === iconsSrc || src.endsWith('.png'),
+  });
   console.log('dist/ ready. Load this folder as an unpacked extension.');
 }
 

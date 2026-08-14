@@ -1,7 +1,7 @@
 {
   "name": "doxa-browser-extension",
   "version": "0.2.0",
-  "description": "DoxaBot for Chrome, Firefox, and Edge. Scripture, summoned. Encouragement on demand on any webpage.",
+  "description": "DoxaBot for Chrome and Edge. Scripture, summoned. Encouragement on demand on any webpage.",
   "private": true,
   "type": "module",
   "license": "MIT",

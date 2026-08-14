@@ -1,4 +1,4 @@
-# DoxaBot for Chrome, Firefox, and Edge
+# DoxaBot for Chrome and Edge
 
 Scripture, summoned. Encouragement on demand on any webpage.
 
@@ -40,11 +40,11 @@ That writes everything you need into `dist/`. Load that folder as an unpacked ex
 
 ### Firefox
 
-1. Open `about:debugging#/runtime/this-firefox`
-2. Click **Load Temporary Add-on**
-3. Pick `dist/manifest.json`
-
-Note: Firefox accepts MV3 service workers but the loading dialog wants the manifest file, not the folder.
+Not supported yet. Release Firefox runs MV3 backgrounds as event pages
+(`background.scripts`), not service workers, so this manifest would install
+but never register its context menus. A Firefox port needs a per-browser
+manifest (plus the `browser_specific_settings.gecko` block) and a real
+smoke test in Firefox before any AMO listing.
 
 ## Publish
 
@@ -57,16 +57,6 @@ Note: Firefox accepts MV3 service workers but the loading dialog wants the manif
 5. Submit for review. Typical turnaround: 3 to 5 days
 
 The current `host_permissions` is restricted to `https://doxa.app/*`. Combined with `activeTab`, this means the store reviewer should not flag a broad-host warning. The right-click handler uses `activeTab` to inject the result toast into the page the user clicked on, which is a temporary permission granted only on user gesture.
-
-### Firefox Add-ons (AMO)
-
-1. Sign up at https://addons.mozilla.org/developers/. Free.
-2. Zip `dist/` the same way
-3. Submit at https://addons.mozilla.org/developers/addon/submit
-4. Pick **Listed** (public) or **Self-hosted**
-5. Typical review: about a week for first submission, faster after that
-
-The manifest includes a `browser_specific_settings.gecko` block so Firefox recognises the add-on id.
 
 ### Microsoft Edge Add-ons
 

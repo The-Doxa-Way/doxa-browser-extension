@@ -7,7 +7,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { looksLikeBibleRef } from '../dist/lib/bible-ref.js';
+import { looksLikeBibleRef, extractBibleRef } from '../dist/lib/bible-ref.js';
 import { callerIdFromUuid, isValidCallerId, CALLER_SURFACE } from '../dist/lib/caller.js';
 import { errorToToast } from '../dist/lib/error-toast.js';
 import { stripMarkdownLinks } from '../dist/lib/strip-markdown-links.js';
@@ -31,6 +31,30 @@ test('looksLikeBibleRef rejects non-references', () => {
   for (const text of ['', 'hi', 'John', '42', 'a 1']) {
     assert.equal(looksLikeBibleRef(text), false, `should not match: ${text}`);
   }
+});
+
+test('extractBibleRef pulls the reference out of surrounding prose', () => {
+  assert.equal(extractBibleRef('He quoted John 3:16 to me yesterday'), 'John 3:16');
+  assert.equal(extractBibleRef('see 1 John 4:8 for this'), '1 John 4:8');
+  assert.equal(extractBibleRef('Song of Solomon 2:10'), 'Song of Solomon 2:10');
+  assert.equal(extractBibleRef('Psalm 23:1-3 stayed with her'), 'Psalm 23:1-3');
+  assert.equal(extractBibleRef('psalm 23'), 'psalm 23');
+});
+
+test('extractBibleRef prefers the anchored book over preceding words', () => {
+  assert.equal(extractBibleRef('Read John 3:16 tonight'), 'John 3:16');
+});
+
+test('extractBibleRef falls back to a short ref-shaped selection', () => {
+  // Unknown book word, but short and ref-shaped: let the server decide.
+  assert.equal(extractBibleRef('Canticles 2:10'), 'Canticles 2:10');
+});
+
+test('extractBibleRef returns undefined when nothing usable exists', () => {
+  assert.equal(extractBibleRef('no reference here'), undefined);
+  assert.equal(extractBibleRef(''), undefined);
+  const long = 'Boeing 747 stories. '.repeat(10);
+  assert.equal(extractBibleRef(long), undefined);
 });
 
 test('callerIdFromUuid strips dashes and prefixes the surface', () => {

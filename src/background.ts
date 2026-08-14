@@ -1,33 +1,45 @@
 /**
  * DoxaBot service worker.
  *
- * Owns the two right-click context menu items:
+ * Owns the two right-click context menu items, both shown on any text
+ * selection:
  *
- *   "Encourage me with this"  — visible on any text selection
- *   "Look up in Doxa"         — visible when the selection looks like a Bible reference
+ *   "Encourage me with this"  — encouragement for the selection
+ *   "Look up in Doxa"         — verse lookup when a Bible reference can be
+ *                               extracted; otherwise falls back to encourage
+ *                               so the user gets something useful
  *
  * The actual MCP call happens here (service workers can hit external HTTPS).
  * Results are shown by injecting a transient toast into the active tab.
  */
 
 import { encourage, scripture } from './utils/doxa.js';
-import { looksLikeBibleRef } from './lib/bible-ref.js';
+import { extractBibleRef } from './lib/bible-ref.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast, type ToastPayload } from './lib/error-toast.js';
 
 const MENU_ENCOURAGE = 'doxa-encourage';
 const MENU_SCRIPTURE = 'doxa-scripture';
 
+// The situation cap documented by the doxa_encourage tool schema. The popup
+// enforces the same limit via textarea maxlength.
+const MAX_SITUATION_LENGTH = 2000;
+
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: MENU_ENCOURAGE,
-    title: 'Encourage me with this',
-    contexts: ['selection'],
-  });
-  chrome.contextMenus.create({
-    id: MENU_SCRIPTURE,
-    title: 'Look up in Doxa',
-    contexts: ['selection'],
+  // onInstalled also fires on updates and dev reloads, when the menu items
+  // from the previous version still exist — clear them or create() fails
+  // with a duplicate-id error.
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: MENU_ENCOURAGE,
+      title: 'Encourage me with this',
+      contexts: ['selection'],
+    });
+    chrome.contextMenus.create({
+      id: MENU_SCRIPTURE,
+      title: 'Look up in Doxa',
+      contexts: ['selection'],
+    });
   });
 });
 
@@ -46,8 +58,9 @@ async function handleMenuClick(
   await showToast(tab.id, { state: 'loading', text: 'Asking Doxa...' });
 
   try {
-    if (info.menuItemId === MENU_SCRIPTURE && looksLikeBibleRef(text)) {
-      const result = await scripture(text);
+    const ref = info.menuItemId === MENU_SCRIPTURE ? extractBibleRef(text) : undefined;
+    if (ref) {
+      const result = await scripture(ref);
       await showToast(tab.id, {
         state: 'result',
         title: result.reference,
@@ -58,28 +71,16 @@ async function handleMenuClick(
       return;
     }
 
-    if (info.menuItemId === MENU_SCRIPTURE) {
-      // No verse-shape match. Fall through to encourage with the selection so
-      // the user gets something useful instead of a rejection.
-      const result = await encourage(text);
-      await showToast(tab.id, {
-        state: 'result',
-        title: result.movement || 'Encouragement',
-        text: stripMarkdownLinks(result.text),
-        scriptures: result.scriptures,
-      });
-      return;
-    }
-
-    if (info.menuItemId === MENU_ENCOURAGE) {
-      const result = await encourage(text);
-      await showToast(tab.id, {
-        state: 'result',
-        title: result.movement || 'Encouragement',
-        text: stripMarkdownLinks(result.text),
-        scriptures: result.scriptures,
-      });
-    }
+    // Either the encourage item, or a "Look up in Doxa" click with no
+    // extractable reference — fall back to encourage so the user gets
+    // something useful instead of a rejection.
+    const result = await encourage(text.slice(0, MAX_SITUATION_LENGTH));
+    await showToast(tab.id, {
+      state: 'result',
+      title: result.movement || 'Encouragement',
+      text: stripMarkdownLinks(result.text),
+      scriptures: result.scriptures,
+    });
   } catch (err) {
     await showToast(tab.id, errorToToast(err));
   }
@@ -152,7 +153,6 @@ function renderToast(payload: ToastPayload): void {
     }
     .close:hover { color: #FFFFFF; }
     .body { white-space: pre-wrap; color: #FFFFFF; }
-    .body.error { color: #FFFFFF; }
     .body.loading { color: #707070; }
     .scriptures { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
     .scriptures a, .link {
@@ -174,13 +174,7 @@ function renderToast(payload: ToastPayload): void {
 
   const badge = document.createElement('span');
   badge.className = 'badge';
-  if (payload.state === 'loading') {
-    badge.textContent = 'Doxa';
-  } else if (payload.state === 'error') {
-    badge.textContent = 'Doxa';
-  } else {
-    badge.textContent = payload.title || 'Doxa';
-  }
+  badge.textContent = (payload.state === 'result' && payload.title) || 'Doxa';
 
   const close = document.createElement('button');
   close.className = 'close';

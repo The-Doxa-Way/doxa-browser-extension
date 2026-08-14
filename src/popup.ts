@@ -3,8 +3,9 @@
  * "Encourage me with this" menu does, but with a typed input.
  */
 
-import { encourage, DoxaError, DoxaRateLimitError } from './utils/doxa.js';
+import { encourage } from './utils/doxa.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
+import { errorToToast } from './lib/error-toast.js';
 
 const form = document.getElementById('encourage-form') as HTMLFormElement;
 const situationInput = document.getElementById('situation') as HTMLTextAreaElement;
@@ -70,15 +71,12 @@ function resetUI(): void {
 }
 
 function showError(err: unknown): void {
-  if (err instanceof DoxaRateLimitError) {
-    errorTextEl.textContent = `Free tier hit its daily limit (${err.quota.used}/${err.quota.limit}). Add your own Anthropic key in Settings for unlimited.`;
-    errorLinkEl.href = err.byolUrl;
-    errorLinkEl.textContent = 'How to upgrade';
+  const toast = errorToToast(err);
+  errorTextEl.textContent = toast.text;
+  if (toast.state === 'error' && toast.link) {
+    errorLinkEl.href = toast.link;
+    errorLinkEl.textContent = toast.linkLabel || 'Open';
     errorLinkEl.hidden = false;
-  } else if (err instanceof DoxaError) {
-    errorTextEl.textContent = `Doxa returned an error: ${err.message}`;
-  } else {
-    errorTextEl.textContent = 'Something went wrong. Please try again.';
   }
   errorEl.hidden = false;
 }

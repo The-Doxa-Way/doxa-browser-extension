@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "e602e7b5504c10448fae313e78c7bce11943558dadaa9087a5a0fbf26299ab44",
+  "merkleRoot": "b27c1f8358c82b4659572d4f65ef4eab38284c05aabb9e0bba93593b7fcdd654",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -34,9 +34,23 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-08-15T20:55:50.432Z"
+    },
+    {
+      "hash": "c56516200cbf31d1ea4e8bddd8fc766449db8b4f2a25194004e63f82f50c47b6",
+      "entityName": "DoxaForChromeExtension",
+      "content": "Retrospective backfill of PRs #1-#9 and the repo scaffold, all of which landed on 2026-08-14/15 BEFORE this repo had any KG, CI or hooks — the pre-gate history the banking detector surfaced. What actually shipped: #1 DoxaBot extension v0.2.0 (per-caller quota, tests, hardened build); #2 the Chrome Web Store publish package; #3 rename to 'Doxa for Chrome' with subscription framing, replacing the DoxaBot identity; #4 the master line 'Know the God who speaks' applied across every extension surface, per the yada messaging pivot; #5 Doxa sign-in plus a subscription gate, with BYOL (bring-your-own-licence) REMOVED — the extension no longer accepts a user-supplied key, so entitlement is server-side; #6 and #8 pinned the extension id by fixing the manifest key to the Chrome Web Store id, which is what keeps the published listing and local builds on one identity; #7 recorded the publish package as READY with the gate deployed; #9 rewrote the store listing copy to lead with the knowing-God promise. Banked retrospectively rather than left as a permanent gap: the work is real and this is the only record of WHY the extension's identity, entitlement model and listing copy are what they are.",
+      "provenance": {
+        "sourceFile": "store/README.md",
+        "fileHash": null,
+        "extractedAt": "2026-08-15T22:03:58.533Z",
+        "verificationStatus": "unverified",
+        "error": "Source file not found",
+        "entityType": "Feature"
+      },
+      "timestamp": "2026-08-15T22:03:58.534Z"
     }
   ],
-  "lastVerified": "2026-08-15T20:41:59.643Z",
+  "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-08-15T20:55:50.444Z"
+  "lastModified": "2026-08-15T22:04:11.646Z"
 }

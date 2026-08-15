@@ -7,3 +7,7 @@
 ## Decision (1)
 
 - DoxaBrowserExtensionBankingGates — doxa-browser-extension had NO CI, NO .knowledge-graph/ and NO .claude/hooks/ while taking autonomous work: PR…
+
+## Feature (1)
+
+- DoxaForChromeExtension — Retrospective backfill of PRs #1-#9 and the repo scaffold, all of which landed on 2026-08-14/15 BEFORE this r…

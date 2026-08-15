@@ -6,6 +6,7 @@
 import { encourage } from './utils/doxa.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast } from './lib/error-toast.js';
+import { isSignedIn } from './utils/auth.js';
 
 const form = document.getElementById('encourage-form') as HTMLFormElement;
 const situationInput = document.getElementById('situation') as HTMLTextAreaElement;
@@ -53,7 +54,7 @@ form.addEventListener('submit', async (e) => {
 
     renderQuota(result.quota.tier, result.quota.used, result.quota.limit);
   } catch (err) {
-    showError(err);
+    await showError(err);
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'ENCOURAGE ME';
@@ -70,8 +71,8 @@ function resetUI(): void {
   scripturesEl.replaceChildren();
 }
 
-function showError(err: unknown): void {
-  const toast = errorToToast(err);
+async function showError(err: unknown): Promise<void> {
+  const toast = errorToToast(err, { signedIn: await isSignedIn() });
   errorTextEl.textContent = toast.text;
   if (toast.state === 'error' && toast.link) {
     errorLinkEl.href = toast.link;

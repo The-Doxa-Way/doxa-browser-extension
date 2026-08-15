@@ -27,13 +27,30 @@ export type ToastPayload =
       linkLabel?: string;
     };
 
-export function errorToToast(err: unknown): ToastPayload {
+export const SUBSCRIBE_URL =
+  'https://doxa.app/pricing?utm_source=extension&utm_medium=paywall&utm_campaign=trial_exhausted';
+
+export function errorToToast(err: unknown, opts?: { signedIn?: boolean }): ToastPayload {
   if (err instanceof DoxaRateLimitError) {
+    // The server reports tier 'subscription' for signed-in subscribers who
+    // hit the daily fair-use cap (the client's type union lags the server).
+    if ((err.quota.tier as string) === 'subscription') {
+      return {
+        state: 'error',
+        text: `Today's fair-use limit (${err.quota.limit} encouragements) is reached. It resets tomorrow.`,
+      };
+    }
+    if (opts?.signedIn) {
+      return {
+        state: 'error',
+        text: 'Your free encouragements are used. An active Doxa subscription keeps them coming.',
+        link: SUBSCRIBE_URL,
+        linkLabel: 'See plans',
+      };
+    }
     return {
       state: 'error',
-      text: `Doxa free tier hit its daily limit (${err.quota.used}/${err.quota.limit}). Add your own Anthropic key in Settings for unlimited.`,
-      link: err.byolUrl,
-      linkLabel: 'How to upgrade',
+      text: 'Your free encouragements are used. To keep going, click the Doxa icon in your toolbar, open Settings, and sign in with your Doxa account.',
     };
   }
   if (err instanceof DoxaError) {

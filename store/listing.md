@@ -58,6 +58,7 @@ CEO sign-off required before submission (public Doxa surface; see the
 - `activeTab` — grants temporary access to the page the user right-clicked on, only on that user gesture, so the result toast can be shown there.
 - `scripting` — injects the result toast into the active tab after a right-click action. Runs only on user gesture, only on the active tab.
 - `storage` — stores the user's Doxa sign-in session and a random per-install identifier used for trial quota. Nothing else.
+- `identity` — powers the Sign in with Doxa flow (chrome.identity.launchWebAuthFlow to doxa.app). No Google account data is read.
 - Host permission `https://doxa.app/*` — the single API endpoint (doxa.app/mcp/v1) every request goes to.
 
 **Remote code:** No. All code ships in the package; the only network traffic is JSON to doxa.app.

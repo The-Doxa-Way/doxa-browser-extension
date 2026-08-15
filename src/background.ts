@@ -14,6 +14,7 @@
  */
 
 import { encourage, scripture } from './utils/doxa.js';
+import { isSignedIn } from './utils/auth.js';
 import { extractBibleRef } from './lib/bible-ref.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast, type ToastPayload } from './lib/error-toast.js';
@@ -82,7 +83,7 @@ async function handleMenuClick(
       scriptures: result.scriptures,
     });
   } catch (err) {
-    await showToast(tab.id, errorToToast(err));
+    await showToast(tab.id, errorToToast(err, { signedIn: await isSignedIn() }));
   }
 }
 

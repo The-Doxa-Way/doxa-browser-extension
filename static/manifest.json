@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "author": "The Doxa Way",
   "homepage_url": "https://doxa.app",
-  "permissions": ["contextMenus", "activeTab", "storage", "scripting"],
+  "permissions": ["contextMenus", "activeTab", "storage", "scripting", "identity"],
   "host_permissions": ["https://doxa.app/*"],
   "background": {
     "service_worker": "background.js",

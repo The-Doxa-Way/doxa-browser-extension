@@ -13,8 +13,8 @@ The extension talks straight to [doxa.app/mcp/v1](https://doxa.app/mcp). No anal
 
 ## Tiers
 
-- **Free trial**: a small per-install quota, counted by a random per-install caller id. The popup shows your used/limit as the server reports it. 250-token responses.
-- **Doxa subscription** (in progress — see `specs/subscription-gate.md`): once the trial is used, sign in with your Doxa account; an active subscription unlocks continued use, the same way Claude in Chrome gates on a Claude plan.
+- **Free trial**: a small server-enforced quota (currently counted per source IP). The popup shows your used/limit as the server reports it. 250-token responses.
+- **Doxa subscription**: sign in with your Doxa account in Settings (any provider — the flow runs through doxa.app). An active subscription unlocks ongoing use under a daily fair-use cap, the same way Claude in Chrome gates on a Claude plan. Design: `specs/subscription-gate.md`.
 
 ## Build
 
@@ -71,9 +71,10 @@ manifest.json            (lives in static/, copied into dist/ by the build)
 src/
   background.ts          service worker: context menus, MCP calls, toast injection
   popup.ts               toolbar-icon popup
-  options.ts             settings page (BYOL key)
+  options.ts             settings page (Doxa account sign-in)
   lib/                   chrome-free pure logic (ref detection, caller id, error mapping)
   utils/doxa.ts          thin wrapper around @thedoxaway/mcp-client
+  utils/auth.ts          Doxa session (connect-page sign-in, token refresh)
   icons/
     doxa-logo.svg        source SVG
     icon-16.png          generated
@@ -105,4 +106,4 @@ Requires ImageMagick (`brew install imagemagick`).
 
 ## Privacy
 
-The extension makes one kind of network request: HTTPS to `https://doxa.app/mcp/v1`. That's it. Your selected text, your free-form prompt, and (if you set it) your Anthropic key are sent in the body of that request. Nothing is logged client-side. The Anthropic key never leaves your browser except as a header to `doxa.app`. Free-tier quota is counted against a random per-install caller id generated at install time — it identifies the install, not you, and is only ever sent to `doxa.app`.
+The extension talks to two hosts, both ours to operate: `https://doxa.app/mcp/v1` (selected text and free-form prompts, sent only when you ask; your session token rides along when you are signed in) and Supabase auth (session refresh when signed in). Nothing is logged client-side. A random per-install caller id identifies the install, not you, and is only ever sent to `doxa.app`.

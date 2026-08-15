@@ -3,10 +3,19 @@
   "name": "Doxa for Chrome",
   "description": "Encouragement from Scripture on any webpage. Select text, right-click, and know the God who speaks.",
   "version": "0.2.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5W+j9WyDeFFhg1DEMXnFQT7Ze4QKbNk8UAlKirVwJCD36WkyKe89DBdD9xJMDlLftRRjQN3qLi/O+kp3YOc7kLHnBxCZdXO373M6WE7LJzpzsMCm6pcwv+u+1F0BVd7gu0WWCKZD8rz/dQXo28xZw6MELCvK0VJ8pCPdJ6v8SHwAPCEfEP/b7L6sRiCy2kmUJ2RZ5HxFy610McwZBfcg6drQD/Mdh/ARVh20BuoeAjRCmTAS6kKbAdbAuBEVoCw/SeRqvODzrR9QCpU9zMWahjMn/LY575KsBQBi0twUpM3XS9lwEvAs1gaVPuQrU/tiyVIczrciIdDmQ+5oejciewIDAQAB",
   "author": "The Doxa Way",
   "homepage_url": "https://doxa.app",
-  "permissions": ["contextMenus", "activeTab", "storage", "scripting", "identity"],
-  "host_permissions": ["https://doxa.app/*"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "storage",
+    "scripting",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://doxa.app/*"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"

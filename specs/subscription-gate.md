@@ -54,7 +54,10 @@ In `checkCaller`/dispatch:
 A small page that hands the signed-in session to the extension:
 
 1. Query param `redirect_uri`, validated against
-   `^https://[a-p]{32}\.chromiumapp\.org/$` — nothing else, ever.
+   `^https://[a-p]{32}\.chromiumapp\.org/$` AND pinned to the official
+   extension id `ldgpoiafelhpjlddkapbbidgkklpojma` (fixed by the manifest
+   `key` field; private key held offline in Garth's local secrets dir) —
+   nothing else, ever.
 2. Not signed in → the normal login flow (all providers work), then back here.
 3. Signed in → consent screen: "Connect your Doxa account to the browser
    extension?" with the extension id shown, one button. On click, redirect to

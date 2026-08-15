@@ -176,3 +176,21 @@ test('shouldRefresh: fresh tokens hold, near-expiry and garbage refresh', () => 
   assert.equal(shouldRefresh(fakeJwt({ exp: now - 10 }), now), true);
   assert.equal(shouldRefresh('garbage', now), true);
 });
+
+/**
+ * The published extension id is derived from the key the Chrome Web Store
+ * signs with, NOT from anything we choose. doxa.app/app/extension/connect
+ * pins that exact id, so a manifest `key` that derives to anything else
+ * breaks sign-in for every store user with no local symptom. Keep this
+ * test and the server-side pin in lockstep.
+ */
+test('manifest key derives to the published Chrome Web Store id', async () => {
+  const { createHash } = await import('node:crypto');
+  const { readFileSync } = await import('node:fs');
+  const manifest = JSON.parse(readFileSync(new URL('../dist/manifest.json', import.meta.url), 'utf8'));
+
+  const digest = createHash('sha256').update(Buffer.from(manifest.key, 'base64')).digest('hex');
+  const id = [...digest.slice(0, 32)].map((c) => String.fromCharCode(97 + parseInt(c, 16))).join('');
+
+  assert.equal(id, 'jcknciaelbpfchpmmmijclpkipgcdcni');
+});

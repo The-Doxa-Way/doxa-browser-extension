@@ -14,7 +14,7 @@ The extension talks straight to [doxa.app/mcp/v1](https://doxa.app/mcp). No anal
 ## Tiers
 
 - **Free trial**: a small per-install quota, counted by a random per-install caller id. The popup shows your used/limit as the server reports it. 250-token responses.
-- **Doxa subscription** (in progress — see `specs/`): once the trial is used, sign in with your Doxa account; an active subscription unlocks continued use, the same way Claude in Chrome gates on a Claude plan.
+- **Doxa subscription** (in progress — see `specs/subscription-gate.md`): once the trial is used, sign in with your Doxa account; an active subscription unlocks continued use, the same way Claude in Chrome gates on a Claude plan.
 
 ## Build
 
@@ -51,7 +51,7 @@ smoke test in Firefox before any AMO listing.
 ### Chrome Web Store
 
 1. Pay the one-time USD 5 developer fee at https://chrome.google.com/webstore/devconsole
-2. Zip the contents of `dist/` (not the folder itself): `cd dist && zip -r ../doxabot-chrome.zip .`
+2. Zip the contents of `dist/` (not the folder itself): `cd dist && zip -r ../doxa-for-chrome.zip .`
 3. Upload the zip in the developer console
 4. Fill out store listing (description, screenshots at 1280x800 or 640x400, promo tile 440x280, small tile 920x680)
 5. Submit for review. Typical turnaround: 3 to 5 days
@@ -61,7 +61,7 @@ The current `host_permissions` is restricted to `https://doxa.app/*`. Combined w
 ### Microsoft Edge Add-ons
 
 1. Sign up at https://partner.microsoft.com/dashboard/microsoftedge. Free.
-2. Upload the same zip you used for Chrome (MV3 manifests work in Edge unchanged)
+2. Upload the Chrome zip after swapping the manifest name to "Doxa for Edge" (browser-specific name; everything else is unchanged)
 3. Typical review: 1 to 2 weeks
 
 ## File layout

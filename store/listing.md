@@ -1,5 +1,10 @@
 # Chrome Web Store listing — Doxa for Chrome
 
+> **BLOCKED — do not submit yet.** This file describes the SHIP state, which includes
+> the Doxa sign-in + subscription gate (`specs/subscription-gate.md`). Until that gate is
+> merged and deployed, the built extension still carries the BYOL key field, and these
+> privacy answers would misrepresent the build. Submit only after the gate ships.
+
 Everything the developer console asks for, in order. Copy-paste from here.
 CEO sign-off required before submission (public Doxa surface; see the
 `chrome-web-store-publish-doxabot` action at insight.doxa.app/actions).

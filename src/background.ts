@@ -14,6 +14,7 @@
  */
 
 import { encourage, scripture } from './utils/doxa.js';
+import { isSignedIn } from './utils/auth.js';
 import { extractBibleRef } from './lib/bible-ref.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast, type ToastPayload } from './lib/error-toast.js';
@@ -29,6 +30,9 @@ chrome.runtime.onInstalled.addListener(() => {
   // onInstalled also fires on updates and dev reloads, when the menu items
   // from the previous version still exist — clear them or create() fails
   // with a duplicate-id error.
+  // v0.2 stored a user-supplied Anthropic key (BYOL, removed surface).
+  // Purge it on upgrade so no secret lingers with no UI left to clear it.
+  void chrome.storage.local.remove('doxa_anthropic_key');
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: MENU_ENCOURAGE,
@@ -82,7 +86,7 @@ async function handleMenuClick(
       scriptures: result.scriptures,
     });
   } catch (err) {
-    await showToast(tab.id, errorToToast(err));
+    await showToast(tab.id, errorToToast(err, { signedIn: await isSignedIn() }));
   }
 }
 

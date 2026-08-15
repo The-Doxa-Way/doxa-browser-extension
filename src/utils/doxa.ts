@@ -1,9 +1,11 @@
 /**
  * Doxa MCP wrapper for the browser extension.
  *
- * Reads the BYOL Anthropic key from chrome.storage.local when present,
- * otherwise calls the free anon tier (10 calls/day per caller). All requests
- * go directly to doxa.app/mcp/v1 via native fetch from the extension origin.
+ * Anonymous installs get the server-enforced free trial. Signed-in users
+ * (Doxa account + active subscription) get ongoing use: every request
+ * carries `Authorization: Bearer <access token>` via a wrapping fetch, and
+ * the server decides entitlement. All requests go directly to
+ * doxa.app/mcp/v1 from the extension origin.
  */
 
 import {
@@ -14,26 +16,12 @@ import {
   type DoxaScriptureResult,
 } from '@thedoxaway/mcp-client';
 import { callerIdFromUuid, isValidCallerId } from '../lib/caller.js';
+import { getAccessToken } from './auth.js';
 
-const STORAGE_KEY = 'doxa_anthropic_key';
 const CALLER_KEY = 'doxa_caller_id';
 
 export { DoxaError, DoxaRateLimitError };
 export type { DoxaEncourageResult, DoxaScriptureResult };
-
-export async function getAnthropicKey(): Promise<string | undefined> {
-  const stored = await chrome.storage.local.get(STORAGE_KEY);
-  const key = stored[STORAGE_KEY];
-  return typeof key === 'string' && key.length > 0 ? key : undefined;
-}
-
-export async function setAnthropicKey(key: string): Promise<void> {
-  await chrome.storage.local.set({ [STORAGE_KEY]: key });
-}
-
-export async function clearAnthropicKey(): Promise<void> {
-  await chrome.storage.local.remove(STORAGE_KEY);
-}
 
 /**
  * Stable per-install caller id so the free tier counts this install as one
@@ -51,14 +39,20 @@ export async function getOrCreateCallerId(): Promise<string> {
 }
 
 async function buildClient(): Promise<DoxaClient> {
-  const [anthropicKey, callerId] = await Promise.all([
-    getAnthropicKey(),
+  const [callerId, accessToken] = await Promise.all([
     getOrCreateCallerId(),
+    getAccessToken(),
   ]);
+  const authFetch: typeof fetch = (input, init) => {
+    if (!accessToken) return fetch(input, init);
+    const headers = new Headers(init?.headers);
+    headers.set('authorization', `Bearer ${accessToken}`);
+    return fetch(input, { ...init, headers });
+  };
   return new DoxaClient({
-    anthropicKey,
     callerId,
     userAgent: `doxa-browser-extension/${chrome.runtime.getManifest().version}`,
+    fetch: authFetch,
   });
 }
 

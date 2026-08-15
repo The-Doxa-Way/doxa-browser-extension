@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 
 import { looksLikeBibleRef, extractBibleRef } from '../dist/lib/bible-ref.js';
 import { callerIdFromUuid, isValidCallerId, CALLER_SURFACE } from '../dist/lib/caller.js';
-import { errorToToast } from '../dist/lib/error-toast.js';
+import { errorToToast, SUBSCRIBE_URL } from '../dist/lib/error-toast.js';
 import { stripMarkdownLinks } from '../dist/lib/strip-markdown-links.js';
 import { DoxaError, DoxaRateLimitError } from '../dist/vendor/mcp-client/index.js';
 
@@ -93,7 +93,7 @@ test('stripMarkdownLinks leaves plain text and bare brackets alone', () => {
   assert.equal(stripMarkdownLinks('array[0] notation (kept)'), 'array[0] notation (kept)');
 });
 
-test('errorToToast maps a rate-limit error to the BYOL upgrade toast', () => {
+test('errorToToast: signed-out trial exhaustion points at Settings sign-in', () => {
   const err = new DoxaRateLimitError('limit', 'https://doxa.app/mcp#byol', {
     tier: 'free',
     used: 10,
@@ -101,8 +101,32 @@ test('errorToToast maps a rate-limit error to the BYOL upgrade toast', () => {
   });
   const toast = errorToToast(err);
   assert.equal(toast.state, 'error');
-  assert.match(toast.text, /10\/10/);
-  assert.equal(toast.link, 'https://doxa.app/mcp#byol');
+  assert.match(toast.text, /sign in with your Doxa account/i);
+  assert.equal(toast.link, undefined);
+});
+
+test('errorToToast: signed-in trial exhaustion links to plans', () => {
+  const err = new DoxaRateLimitError('limit', 'https://doxa.app/mcp#byol', {
+    tier: 'free',
+    used: 10,
+    limit: 10,
+  });
+  const toast = errorToToast(err, { signedIn: true });
+  assert.equal(toast.state, 'error');
+  assert.match(toast.text, /already subscribe/);
+  assert.equal(toast.link, SUBSCRIBE_URL);
+});
+
+test('errorToToast: subscriber daily cap explains the reset, no upsell', () => {
+  const err = new DoxaRateLimitError('limit', 'https://doxa.app/pricing', {
+    tier: 'subscription',
+    used: 100,
+    limit: 100,
+  });
+  const toast = errorToToast(err, { signedIn: true });
+  assert.equal(toast.state, 'error');
+  assert.match(toast.text, /resets tomorrow/);
+  assert.equal(toast.link, undefined);
 });
 
 test('errorToToast maps a DoxaError to its message', () => {
@@ -115,4 +139,40 @@ test('errorToToast maps unknown errors to a generic message', () => {
   const toast = errorToToast(new TypeError('fetch failed'));
   assert.equal(toast.state, 'error');
   assert.match(toast.text, /Something went wrong/);
+});
+
+// --- session logic ---
+
+import { parseAuthFragment, jwtExpiry, jwtEmail, shouldRefresh } from '../dist/lib/session.js';
+
+function fakeJwt(payload) {
+  const b64 = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
+  return `${b64({ alg: 'HS256' })}.${b64(payload)}.sig`;
+}
+
+test('parseAuthFragment extracts both tokens from the redirect URL', () => {
+  const url = 'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#access_token=aaa&refresh_token=bbb';
+  assert.deepEqual(parseAuthFragment(url), { accessToken: 'aaa', refreshToken: 'bbb' });
+});
+
+test('parseAuthFragment rejects missing fragments or tokens', () => {
+  assert.equal(parseAuthFragment('https://x.chromiumapp.org/'), null);
+  assert.equal(parseAuthFragment('https://x.chromiumapp.org/#access_token=aaa'), null);
+  assert.equal(parseAuthFragment('https://x.chromiumapp.org/#refresh_token=bbb'), null);
+});
+
+test('jwtExpiry and jwtEmail read claims without verification', () => {
+  const token = fakeJwt({ exp: 1234567890, email: 'g@doxa.app' });
+  assert.equal(jwtExpiry(token), 1234567890);
+  assert.equal(jwtEmail(token), 'g@doxa.app');
+  assert.equal(jwtExpiry('not-a-jwt'), null);
+  assert.equal(jwtEmail('a.b'), null);
+});
+
+test('shouldRefresh: fresh tokens hold, near-expiry and garbage refresh', () => {
+  const now = 1_000_000;
+  assert.equal(shouldRefresh(fakeJwt({ exp: now + 3600 }), now), false);
+  assert.equal(shouldRefresh(fakeJwt({ exp: now + 30 }), now), true);
+  assert.equal(shouldRefresh(fakeJwt({ exp: now - 10 }), now), true);
+  assert.equal(shouldRefresh('garbage', now), true);
 });

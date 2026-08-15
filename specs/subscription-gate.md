@@ -55,9 +55,15 @@ A small page that hands the signed-in session to the extension:
 
 1. Query param `redirect_uri`, validated against
    `^https://[a-p]{32}\.chromiumapp\.org/$` AND pinned to the official
-   extension id `ldgpoiafelhpjlddkapbbidgkklpojma` (fixed by the manifest
-   `key` field; private key held offline in Garth's local secrets dir) —
-   nothing else, ever.
+   extension id `jcknciaelbpfchpmmmijclpkipgcdcni`, nothing else, ever.
+
+   That id is assigned by the Chrome Web Store and cannot be chosen by us.
+   The store signs every published build with its OWN key pair, so the
+   `key` field in `static/manifest.json` is a COPY of the store item's
+   public key (Package tab, "View public key"), which makes an unpacked
+   dev build load under the same id as the published build. A locally
+   generated key produces a different id and silently breaks sign-in for
+   every store user, which is exactly what happened before 2026-08-15.
 2. Not signed in → the normal login flow (all providers work), then back here.
 3. Signed in → consent screen: "Connect your Doxa account to the browser
    extension?" with the extension id shown, one button. On click, redirect to

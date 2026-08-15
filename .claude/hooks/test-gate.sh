@@ -17,14 +17,24 @@
 # build output and never counts, .test.ts files are excluded from CODE below
 # since they ARE the test signal).
 #
-# What counts as a TEST change: src/**/*.test.{ts,js} (colocated, this repo
-# has no tests/ directory yet) or tests/**.
+# What counts as a TEST change in THIS repo: test/*.test.mjs — the files
+# `npm test` actually executes (`node --test test/*.test.mjs`). Colocated
+# src/**/*.test.ts is also accepted by the pattern, but note it would NOT be
+# run by `npm test` and tsconfig's `include: ["src/**/*"]` would compile it
+# into dist/ and ship it inside the packaged extension, so prefer test/.
 #
 # FAIL-OPEN: any uncertainty allows. Only the confirmed case blocks: code
 # changed, zero test changes, zero waiver for the tip.
 #
 # Exit codes: 0 = allow, 2 = block (stderr shown to the model).
 
+# gh repo view takes OWNER/REPO, never a path — `gh repo view "$dir"` is an
+# argument error that always fails, which silently disabled the PR-file-list
+# lookups this gate depends on. Resolve the slug from the checkout's remote.
+repo_slug_of() {
+  git -C "$1" remote get-url origin 2>/dev/null \
+    | sed -E 's#^git@[^:]+:##; s#^https?://[^/]+/##; s#\.git$##'
+}
 payload="$(cat 2>/dev/null)" || exit 0
 [ -n "$payload" ] || exit 0
 command -v jq >/dev/null 2>&1 || exit 0
@@ -83,7 +93,7 @@ elif [ -n "$cmd" ]; then
   # head SHA the same way the MCP branch above does.
   cmd_pr="$(printf '%s' "$cmd" | grep -oE 'pr[[:space:]]+merge[[:space:]]+[0-9]+' | grep -oE '[0-9]+$' | head -1)"
   if [ -n "$cmd_pr" ] && command -v gh >/dev/null 2>&1; then
-    cmd_pr_repo="${flag_repo:-$(gh repo view "$dir" --json nameWithOwner -q .nameWithOwner 2>/dev/null)}"
+    cmd_pr_repo="${flag_repo:-$(repo_slug_of "$dir")}"
     if [ -n "$cmd_pr_repo" ]; then
       remote_head_sha="$(gh pr view "$cmd_pr" --repo "$cmd_pr_repo" --json headRefOid -q .headRefOid 2>/dev/null)"
       remote_changed="$(gh pr diff "$cmd_pr" --repo "$cmd_pr_repo" --name-only 2>/dev/null)"
@@ -102,7 +112,12 @@ ledger="$common/review-attest.jsonl"
 # `npm test` (node --test). Keep these two in step with package.json's test
 # script — a pattern that matches nothing turns this gate into a no-op.
 test_re='^(test/.+\.test\.(mjs|ts|js)|src/.+\.test\.(mjs|ts|js))$'
-code_re='^src/.+\.(ts|js|mjs)$'
+# Hand-authored code, wherever it lives. src/ alone left the build scripts
+# ungated — scripts/copy-static.mjs performs the import rewrite the shipped
+# extension depends on, and a commit touching only it passed a gate whose whole
+# point is "tests for all the code we write". dist/ and node_modules are build
+# output, never hand-authored, so they stay out.
+code_re='^(src|scripts)/.+\.(ts|js|mjs|cjs)$'
 
 # Evaluate HEAD plus every worktree tip; the merge could land any of them.
 tips="$(git rev-parse HEAD 2>/dev/null)
@@ -149,7 +164,7 @@ fi
   echo "⛔ test gate — this chunk changes code with NO test change:"
   printf '%s\n' "$code_without_tests" | sed 's/^/    /'
   echo "Garth's standing rule (2026-07-16): tests for all the code we write."
-  echo "Add or update a test (src/**/*.test.ts colocated, or tests/) pinning the change,"
+  echo "Add or update a test in test/ (e.g. test/<area>.test.mjs — what \`npm test\` runs) pinning the change,"
   echo "or log an explicit waiver:"
   echo "  scripts/attest-review.sh \"waived-tests: <reason>\""
 } >&2

@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
+  "merkleRoot": "e602e7b5504c10448fae313e78c7bce11943558dadaa9087a5a0fbf26299ab44",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -17,9 +17,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-08-15T20:41:56.464Z"
+    },
+    {
+      "hash": "7ce7b7583990c1604c9a5a03d0caeff97d62669c298098099e4a8e835c21b48b",
+      "entityName": "DoxaBrowserExtensionBankingGates",
+      "content": "Independent review (high) on PR #10 found the ported kit shipped several gates that report without gating. Fixed here: (1) kg-save-gate.sh replaced with doxa-cns's evolved version, which carries the kg_guard_verdict CI oracle (2026-08-11 rule: a merge with a red or PENDING KG Guard never lands) -- the discord-bot variant had no such fast path, so a red KG Guard blocked nothing. (2) review-gate.sh: when the PR's real remote head SHA resolves it is now the ONLY attestation candidate; OR-ing it into local worktree tips could only widen the pass set, and was verified admitting 'gh pr merge 9' on the strength of an unrelated attested local tip. (3) repo_slug_of(): 'gh repo view $dir' is an argument error (gh wants OWNER/REPO, never a path) and always failed, silently disabling the PR-file-list lookups both gates rely on; the slug now comes from the checkout's origin remote. (4) test-gate code_re widened from ^src/ to ^(src|scripts)/ -- scripts/copy-static.mjs performs the import rewrite the shipped extension depends on and was ungated; and its block message now names test/ (what npm test actually runs) instead of a tests/ directory that does not exist here. (5) check-kg-merge-integrity is invoked as .cjs, not .js: the [ -f ] guard was false so the PR #343 data-loss guard was inert -- the same silently-inert-gate class the rest of this PR is about. Vendored scripts/*.test.cjs added and wired into npm test: 30/30 pass. NOT fixed here, and live in the sibling repos this kit came from (doxa-discord-bot, doxa-mcp-schema, scripture-grounding-mcp, doxa-shared): test-gate.sh's worktree loop over-blocks on unrelated stale worktrees, and knowledge-graph-merkle's 'add' exits 0 on a usage error so a scripted kg-save can read as success while writing nothing.",
+      "provenance": {
+        "sourceFile": ".claude/hooks/kg-save-gate.sh",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "16e5a77b3febe059d601d399d80f80fbf317d4d6400113a65ef8ac01ea9b9598",
+        "totalLines": 471,
+        "extractedAt": "2026-08-15T20:55:50.431Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-08-15T20:55:50.432Z"
     }
   ],
   "lastVerified": "2026-08-15T20:41:59.643Z",
   "version": 1,
-  "lastModified": "2026-08-15T20:41:59.645Z"
+  "lastModified": "2026-08-15T20:55:50.444Z"
 }

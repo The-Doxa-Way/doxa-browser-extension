@@ -15,7 +15,7 @@
     "build": "tsc && node scripts/copy-static.mjs",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
-    "test": "npm run build && node --test test/*.test.mjs",
+    "test": "npm run build && node --test test/*.test.mjs scripts/*.test.cjs",
     "dev": "tsc --watch"
   },
   "engines": {

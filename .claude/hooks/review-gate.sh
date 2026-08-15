@@ -28,6 +28,13 @@
 #
 # Exit codes: 0 = allow, 2 = block (stderr shown to the model).
 
+# gh repo view takes OWNER/REPO, never a path — `gh repo view "$dir"` is an
+# argument error that always fails, which silently disabled the PR-file-list
+# lookups this gate depends on. Resolve the slug from the checkout's remote.
+repo_slug_of() {
+  git -C "$1" remote get-url origin 2>/dev/null \
+    | sed -E 's#^git@[^:]+:##; s#^https?://[^/]+/##; s#\.git$##'
+}
 payload="$(cat 2>/dev/null)" || exit 0
 [ -n "$payload" ] || exit 0
 command -v jq >/dev/null 2>&1 || exit 0
@@ -91,7 +98,7 @@ elif [ -n "$cmd" ]; then
     if [ -n "$flag_repo" ]; then
       remote_head_sha="$(gh pr view "$cmd_pr" --repo "$flag_repo" --json headRefOid -q .headRefOid 2>/dev/null)"
     else
-      remote_head_sha="$(gh pr view "$cmd_pr" --repo "$(gh repo view "$dir" --json nameWithOwner -q .nameWithOwner 2>/dev/null)" --json headRefOid -q .headRefOid 2>/dev/null)"
+      remote_head_sha="$(gh pr view "$cmd_pr" --repo "$(repo_slug_of "$dir")" --json headRefOid -q .headRefOid 2>/dev/null)"
     fi
   fi
 else
@@ -103,11 +110,26 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 common="$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" || exit 0
 ledger="$common/review-attest.jsonl"
 
-# Candidate SHAs the merge could be landing: HEAD, every worktree tip, and
-# (when resolvable) the PR's actual remote head SHA.
-tips="$(git rev-parse HEAD 2>/dev/null)
-$(git worktree list --porcelain 2>/dev/null | sed -n 's/^HEAD //p')
-$remote_head_sha"
+# Candidate SHAs the merge could be landing.
+#
+# When the PR's real remote head resolves, it is the ONLY candidate. OR-ing it
+# into the local tips (the ported behaviour) could only ever make this gate MORE
+# permissive — the loop below passes if ANY candidate is attested, so a session
+# that attested its own branch could land an unrelated, never-reviewed PR by
+# number. Verified against this repo before the fix: with the local tip
+# attested, `gh pr merge 9` was admitted while PR 9's real head had no
+# attestation at all. That is precisely the hole the header comment claims to
+# close, so the fix is to stop widening the set once we know the true target.
+#
+# Only when the remote head cannot be resolved (offline, gh unavailable) do we
+# fall back to local tips — fail-open is the documented posture for a hook that
+# cannot see, and a blocked-on-blindness merge gate would be worse.
+if [ -n "$remote_head_sha" ]; then
+  tips="$remote_head_sha"
+else
+  tips="$(git rev-parse HEAD 2>/dev/null)
+$(git worktree list --porcelain 2>/dev/null | sed -n 's/^HEAD //p')"
+fi
 
 if [ -f "$ledger" ]; then
   while IFS= read -r sha; do

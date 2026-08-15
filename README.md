@@ -1,8 +1,8 @@
-# DoxaBot for Chrome and Edge
+# Doxa for Chrome (and Edge)
 
-Scripture, summoned. Encouragement on demand on any webpage.
+Encouragement from Scripture on any webpage.
 
-DoxaBot adds two right-click items to your browser:
+Doxa for Chrome adds two right-click items to your browser:
 
 - **Encourage me with this**: select any text, get a Doxa-voice encouragement back in a corner toast
 - **Look up in Doxa**: select a Bible reference (e.g. `John 14:6`), get the verse plus a deep link into Doxa's Bible reader
@@ -13,8 +13,8 @@ The extension talks straight to [doxa.app/mcp/v1](https://doxa.app/mcp). No anal
 
 ## Tiers
 
-- **Free anon**: a small per-install quota, counted by a random per-install caller id. The popup shows your used/limit as the server reports it. 250-token responses.
-- **BYOL**: paste your Anthropic key in Settings. Unlimited calls, 1500-token responses, billed to your Anthropic account. The key is stored in `chrome.storage.local` and only ever sent to `doxa.app`.
+- **Free trial**: a small per-install quota, counted by a random per-install caller id. The popup shows your used/limit as the server reports it. 250-token responses.
+- **Doxa subscription** (in progress — see `specs/`): once the trial is used, sign in with your Doxa account; an active subscription unlocks continued use, the same way Claude in Chrome gates on a Claude plan.
 
 ## Build
 

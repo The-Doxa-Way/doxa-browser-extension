@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "DoxaBot",
-  "description": "Scripture, summoned. Encouragement on demand on any webpage.",
+  "name": "Doxa for Chrome",
+  "description": "Encouragement from Scripture on any webpage. Select text, right-click, and know the God who speaks.",
   "version": "0.2.0",
   "author": "The Doxa Way",
   "homepage_url": "https://doxa.app",
@@ -12,7 +12,7 @@
     "type": "module"
   },
   "action": {
-    "default_title": "DoxaBot",
+    "default_title": "Doxa",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",

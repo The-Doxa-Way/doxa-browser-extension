@@ -2,8 +2,13 @@
 
 > **READY (2026-08-15).** The sign-in + subscription gate is merged and deployed end to
 > end (mcp-server subscriber tier live; doxa.app/app/extension/connect live; extension
-> main has the gate and the pinned id). Submission waits only on the CEO go-ahead in the
-> `chrome-web-store-publish-doxabot` action.
+> main has the gate and the pinned id). Developer account verified as "The Doxa Way";
+> CEO go-ahead given 2026-08-15.
+>
+> **Store item id: `jcknciaelbpfchpmmmijclpkipgcdcni`** (assigned by the store, not
+> chosen by us). The manifest `key` is a copy of the store item's public key so
+> unpacked dev builds share that id, and `doxa.app/app/extension/connect` pins it.
+> All three must move together, or store sign-in breaks with no dev symptom.
 
 Everything the developer console asks for, in order. Copy-paste from here.
 CEO sign-off required before submission (public Doxa surface; see the
@@ -23,23 +28,34 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 ## Description
 
-> Doxa for Chrome brings the encouragement of Scripture to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done; this extension is Doxa meeting you in the middle of your day.
+Aligned to the knowing-God re-tier (doxa-shared PR #26, merged 2026-08-15):
+the promise leads, record-and-remember is the practice that serves it. Opens
+with the canonical elevator pitch verbatim and closes on the master line. No
+em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
+
+> Know the God who speaks. Remembering on purpose what God has said and done, so you can know Him more deeply for your whole journey.
 >
-> Select any text on any page — a hard email, a discouraging headline, a message from a friend — right-click, and choose "Encourage me with this". Doxa responds with a short word of encouragement anchored in Scripture, written in the voice of Doxa: warm, biblical, and free of hype.
+> Doxa for Chrome brings Scripture and God's encouragement to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done. This extension is Doxa meeting you in the middle of your day.
+>
+> HOW IT WORKS
+>
+> Select any text on any page: a hard email, a discouraging headline, a message from a friend. Right-click and choose "Encourage me with this". Doxa responds with a short word of encouragement anchored in Scripture, written in the voice of Doxa: warm, biblical, and free of hype.
 >
 > Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly (Berean Standard Bible), with a link to keep reading in Doxa's Bible reader.
 >
 > Or click the Doxa icon in your toolbar and describe what you are facing in your own words.
 >
-> Every response is tagged to one of nine movements of the journey — hear, discern, test, record, remember, engage, trust, fight, endure — a simple map for holding on to what God has said and done.
+> Every response is tagged to one of nine movements of the journey: hear, discern, test, record, remember, engage, trust, fight, endure. A simple map for holding on to what God has said and done.
 >
 > TRY IT FREE
-> Your first encouragements are free — no account needed. To keep going, sign in with your Doxa account and an active Doxa subscription (start yours at https://doxa.app).
+>
+> Your first encouragements are free, no account needed. To keep going, sign in with your Doxa account and an active Doxa subscription. Start yours at https://doxa.app
 >
 > PRIVACY FIRST
-> The extension talks to exactly one server: doxa.app. No analytics, no tracking, no ads, no data sold — ever. Only the text you select or type is sent, only when you ask. Full details: https://doxa.app/privacy
 >
-> Doxa for Chrome is made by Doxa (https://doxa.app). Record what God has said and done, remember it, and come to know Him through it — for the whole journey.
+> The extension talks to exactly one server: doxa.app. No analytics, no tracking, no ads, no data sold. Only the text you select or type is sent, and only when you ask. Full details: https://doxa.app/privacy
+>
+> Doxa for Chrome is made by Doxa (https://doxa.app). Know the God who speaks.
 
 ## Graphic assets
 

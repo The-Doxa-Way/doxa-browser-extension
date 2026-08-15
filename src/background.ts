@@ -1,5 +1,5 @@
 /**
- * DoxaBot service worker.
+ * Doxa for Chrome service worker.
  *
  * Owns the two right-click context menu items, both shown on any text
  * selection:

@@ -1,5 +1,5 @@
 /**
- * DoxaBot settings page. Lets the user paste an Anthropic key for unlimited BYOL.
+ * Doxa for Chrome settings page. Lets the user paste an Anthropic key for unlimited BYOL.
  */
 
 import { getAnthropicKey, setAnthropicKey, clearAnthropicKey } from './utils/doxa.js';

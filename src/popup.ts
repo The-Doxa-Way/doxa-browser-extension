@@ -1,5 +1,5 @@
 /**
- * DoxaBot popup. Free-form encourage prompt; mirrors what the right-click
+ * Doxa for Chrome popup. Free-form encourage prompt; mirrors what the right-click
  * "Encourage me with this" menu does, but with a typed input.
  */
 

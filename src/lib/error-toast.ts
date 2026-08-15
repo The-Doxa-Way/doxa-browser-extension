@@ -43,7 +43,7 @@ export function errorToToast(err: unknown, opts?: { signedIn?: boolean }): Toast
     if (opts?.signedIn) {
       return {
         state: 'error',
-        text: 'Your free encouragements are used. An active Doxa subscription keeps them coming.',
+        text: 'Your free encouragements are used. If you already subscribe, sign out and back in via Settings to reconnect; to start a subscription, see plans.',
         link: SUBSCRIBE_URL,
         linkLabel: 'See plans',
       };

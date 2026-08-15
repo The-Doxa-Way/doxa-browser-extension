@@ -83,12 +83,12 @@ async function showError(err: unknown): Promise<void> {
 }
 
 function renderQuota(tier: string, used: number, limit: number): void {
-  if (tier === 'byol') {
-    quotaTextEl.textContent = 'BYOL tier: unlimited';
+  if (tier === 'subscription') {
+    quotaTextEl.textContent = `Doxa subscription: ${used} / ${limit} today`;
   } else if (limit > 0) {
-    quotaTextEl.textContent = `Free tier: ${used} / ${limit} used`;
+    quotaTextEl.textContent = `Free trial: ${used} / ${limit} used`;
   } else {
-    quotaTextEl.textContent = 'Free tier';
+    quotaTextEl.textContent = 'Doxa';
   }
   quotaEl.hidden = false;
 }

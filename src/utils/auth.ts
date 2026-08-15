@@ -43,6 +43,19 @@ export async function signIn(): Promise<void> {
 }
 
 export async function signOut(): Promise<void> {
+  const session = await readSession();
+  if (session) {
+    // Best-effort server-side revocation so sign-out on a shared machine
+    // actually kills the refresh token, not just this browser's copy.
+    try {
+      await fetch(`${SUPABASE_URL}/auth/v1/logout`, {
+        method: 'POST',
+        headers: { apikey: SUPABASE_ANON_KEY, authorization: `Bearer ${session.accessToken}` },
+      });
+    } catch (err) {
+      console.error('[doxa] server-side logout failed; clearing local session anyway', err);
+    }
+  }
   await writeSession(null);
 }
 
@@ -58,29 +71,56 @@ export async function sessionEmail(): Promise<string | null> {
 
 /**
  * Current access token, refreshed if it is about to expire. Returns null
- * when signed out or when the refresh fails (session is then cleared).
+ * when signed out or when a refresh cannot produce a token right now.
+ * Only a definitive auth rejection clears the session; transient network
+ * or server failures keep it and degrade this one call to anonymous.
  */
 export async function getAccessToken(): Promise<string | null> {
   const session = await readSession();
   if (!session) return null;
   if (!shouldRefresh(session.accessToken, Date.now() / 1000)) return session.accessToken;
+  // Single-flight across popup and service worker: both contexts share the
+  // ROTATING refresh token, so concurrent refreshes would invalidate each
+  // other. The web lock serializes them; the re-read picks up a refresh the
+  // other context just finished.
+  return navigator.locks.request('doxa-session-refresh', async () => {
+    const current = await readSession();
+    if (!current) return null;
+    if (!shouldRefresh(current.accessToken, Date.now() / 1000)) return current.accessToken;
+    return refreshSession(current);
+  });
+}
+
+async function refreshSession(current: SessionTokens): Promise<string | null> {
+  let res: Response;
   try {
-    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+    res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', apikey: SUPABASE_ANON_KEY },
-      body: JSON.stringify({ refresh_token: session.refreshToken }),
+      body: JSON.stringify({ refresh_token: current.refreshToken }),
     });
-    if (!res.ok) throw new Error(`refresh failed: ${res.status}`);
-    const data = await res.json();
-    if (typeof data.access_token !== 'string' || typeof data.refresh_token !== 'string') {
-      throw new Error('refresh returned no session');
-    }
-    const next: SessionTokens = { accessToken: data.access_token, refreshToken: data.refresh_token };
-    await writeSession(next);
-    return next.accessToken;
   } catch (err) {
-    console.error('[doxa] session refresh failed; signing out', err);
-    await writeSession(null);
+    console.error('[doxa] session refresh unreachable; staying signed in', err);
     return null;
   }
+  if (res.status === 400 || res.status === 401 || res.status === 403) {
+    // Definitive rejection (revoked or invalid refresh token). Clear only if
+    // the stored session is still the one we tried, so we never wipe a newer
+    // session another context just wrote.
+    const stored = await readSession();
+    if (stored?.refreshToken === current.refreshToken) await writeSession(null);
+    return null;
+  }
+  if (!res.ok) {
+    console.error(`[doxa] session refresh failed (${res.status}); staying signed in`);
+    return null;
+  }
+  const data = await res.json();
+  if (typeof data.access_token !== 'string' || typeof data.refresh_token !== 'string') {
+    console.error('[doxa] session refresh returned no session; staying signed in');
+    return null;
+  }
+  const next: SessionTokens = { accessToken: data.access_token, refreshToken: data.refresh_token };
+  await writeSession(next);
+  return next.accessToken;
 }

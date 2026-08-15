@@ -113,7 +113,7 @@ test('errorToToast: signed-in trial exhaustion links to plans', () => {
   });
   const toast = errorToToast(err, { signedIn: true });
   assert.equal(toast.state, 'error');
-  assert.match(toast.text, /Doxa subscription/);
+  assert.match(toast.text, /already subscribe/);
   assert.equal(toast.link, SUBSCRIBE_URL);
 });
 

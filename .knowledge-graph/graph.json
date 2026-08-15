@@ -1,0 +1,12 @@
+{
+  "entities": [
+    {
+      "name": "DoxaBrowserExtensionBankingGates",
+      "entityType": "Decision",
+      "observations": [
+        "doxa-browser-extension had NO CI, NO .knowledge-graph/ and NO .claude/hooks/ while taking autonomous work: PRs #2-#9 all landed on 2026-08-15 completely unbanked and ungated, the only active Doxa repo in that state. Installed the standard banking kit ported from doxa-discord-bot: .github/workflows/kg-guard.yml (job explicitly named 'KG Guard' so a branch ruleset can require it by name rather than the ambiguous bare job id 'check'), scripts/knowledge-graph-merkle.cjs + kg-index.cjs + check-kg-merge-integrity.cjs + lib/, scripts/attest-review.sh, and .claude/hooks/{kg-save-gate,review-gate,test-gate,session-start-kg-import,pre-compact-kg-export}.sh wired through .claude/settings.json. .cjs not .js because this package is type=module. test-gate patterns retargeted to this repo's real layout (src/**.ts sources, test/*.test.mjs run by node --test)."
+      ]
+    }
+  ],
+  "relations": []
+}

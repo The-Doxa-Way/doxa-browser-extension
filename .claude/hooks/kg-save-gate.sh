@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+#
+# kg-save-gate.sh — PreToolUse(Bash) hook for doxa-browser-extension.
+# Ported from doxa-cns / openclaw (Garth 2026-07-16 landing-gates suite).
+#
+# Garth's standing rule: "kg-save on every chunk." This hook is the ENFORCEMENT
+# for that rule so it never depends on the model remembering — it survives
+# fresh cron/headless sessions.
+#
+# It gates the chunk-LANDING commands (git push / gh pr create / gh pr merge):
+# if the work about to land on main (origin/main..HEAD) contains no change to
+# .knowledge-graph/, the landing is blocked with guidance to run kg-save first.
+#
+# Design choices:
+#   * Gates at landing, not per micro-commit — review fix commits would
+#     otherwise spam reminders. The real failure is a chunk hitting main with
+#     no KG record.
+#   * FAIL-OPEN. Any uncertainty (no payload, no jq, no origin/main, not a git
+#     repo) -> exit 0 (allow). A buggy hook must never wedge an autonomous
+#     build. Only a *confirmed* "landing command + zero KG change" blocks.
+#   * Escape hatch: the literal token [skip-kg] anywhere in the command
+#     bypasses (for the rare push that is genuinely not a chunk landing).
+#
+# Exit codes (Claude Code hook contract): 0 = allow, 2 = block (stderr shown
+# to the model), anything else = non-blocking error (tool still proceeds).
+
+payload="$(cat 2>/dev/null)" || exit 0
+[ -n "$payload" ] || exit 0
+
+command -v jq >/dev/null 2>&1 || exit 0
+# ---------------------------------------------------------------------------
+# GitHub MCP merge path.
+#
+# A PR merged through mcp__github__merge_pull_request never carries
+# .tool_input.command, so the Bash-command extraction below finds nothing.
+# review-gate.sh and test-gate.sh are both registered for this matcher too;
+# kg-save-gate.sh must be as well, or an MCP merge silently bypasses the gate.
+#
+# Escape hatch: there is no [skip-kg] token to attach to an MCP call, so a
+# genuinely KG-less merge is done through Bash instead
+# (`gh pr merge N --squash  # [skip-kg]`), which stays visible in the transcript.
+# ---------------------------------------------------------------------------
+tool_name="$(printf '%s' "$payload" | jq -r '.tool_name // empty' 2>/dev/null)"
+if [ "$tool_name" = "mcp__github__merge_pull_request" ]; then
+  mcp_repo="$(printf '%s' "$payload" | jq -r '.tool_input.repo // empty' 2>/dev/null)"
+  [ "$mcp_repo" = "doxa-browser-extension" ] || exit 0   # gate only this repo; siblings pass
+
+  # Ask GitHub what this PR actually contains, rather than inferring it from
+  # local state — a stale unrelated worktree with a KG commit could otherwise
+  # satisfy the gate for every merge. `| floor` normalises the PR number
+  # BEFORE it reaches the shell (jq preserves e.g. `278.0` verbatim, which
+  # would fail the digits-only guard below and silently no-op the gate).
+  pr_number="$(printf '%s' "$payload" | jq -r '(.tool_input.pullNumber // empty) | if type == "number" then floor else . end' 2>/dev/null)"
+  mcp_owner="$(printf '%s' "$payload" | jq -r '.tool_input.owner // empty' 2>/dev/null)"
+  case "$pr_number" in ''|*[!0-9]*) exit 0 ;; esac   # no usable PR number -> allow
+  [ -n "$mcp_owner" ] || exit 0
+  command -v gh >/dev/null 2>&1 || exit 0
+
+  # Fail-open on any lookup trouble (offline, auth expired, API hiccup): a gate
+  # that cannot see must not block. Only a CONFIRMED KG-less PR blocks.
+  pr_files="$(gh pr diff "$pr_number" --repo "$mcp_owner/$mcp_repo" --name-only 2>/dev/null)" || exit 0
+  [ -n "$pr_files" ] || exit 0
+
+  printf '%s\n' "$pr_files" | grep -q '^\.knowledge-graph/' && exit 0
+
+  {
+    echo "⛔ kg-save gate — the chunk being merged has NO change to .knowledge-graph/."
+    echo "Garth's standing rule is \"kg-save on every chunk\", and it applies to MCP merges too."
+    echo "Record the KG learning on the branch, push, then merge:"
+    echo
+    echo "  node scripts/knowledge-graph-merkle.cjs add \"<Entity>\" \"<observation>\" \"<file>\" <line> --type <Type>"
+    echo "  git add .knowledge-graph/graph.json .knowledge-graph-merkle.json"
+    echo "  git commit -m \"chore(kg): <what changed and why>\" && git push"
+    echo
+    echo "(Genuinely not a chunk landing? Merge via Bash with [skip-kg] in the command.)"
+  } >&2
+  exit 2
+fi
+
+cmd="$(printf '%s' "$payload" | jq -r '.tool_input.command // empty' 2>/dev/null)" || exit 0
+[ -n "$cmd" ] || exit 0
+
+# Escape hatch.
+case "$cmd" in
+  *"[skip-kg]"*) exit 0 ;;
+esac
+
+# Only gate genuine chunk-LANDING commands. Match the landing verb at COMMAND
+# POSITION — start of string, OR right after a `&&`/`;` chain separator (so
+# the extremely common `git add -A && git commit -m x && git push` one-liner
+# is caught, not just a bare `git push`) — after optional VAR=val assignments
+# and git/gh options incl. `-C <path>` / `-c <k=v>` — NOT as a substring, so
+# `git commit -m '…git push…'` and `grep -r 'git push'` are not spuriously
+# blocked. Known fail-open residual (under-block, never over-block): a landing
+# buried behind a `|` pipe or inside a `$(...)` subshell.
+printf '%s' "$cmd" | grep -qE '(^|&&|;)[[:space:]]*([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]+[[:space:]]+)*(git([[:space:]]+(-[Cc][[:space:]]+[^[:space:]]+|-[^[:space:]]+))*[[:space:]]+push([[:space:];&|>]|$)|gh[[:space:]]+pr[[:space:]]+(create|merge)([[:space:];&|>]|$))' || exit 0
+
+# The command runs in the Bash tool's PERSISTENT cwd, which may be a different
+# repo than doxa-browser-extension. This gate enforces "kg-save on every chunk" for
+# doxa-browser-extension landings ONLY — it must never block a sibling repo's push.
+# Use the hook payload's cwd over CLAUDE_PROJECT_DIR, but if the command cd's
+# into an absolute path or uses `git -C <path> … push`, evaluate THAT repo
+# instead (the -C path only counts when attached to the git invocation that
+# itself carries the push).
+hook_cwd="$(printf '%s' "$payload" | jq -r '.cwd // empty' 2>/dev/null)"
+cmd_gitC_clause="$(printf '%s' "$cmd" | grep -oE 'git[[:space:]]+(-[^C[:space:]][^[:space:]]*[[:space:]]+)*-C[[:space:]]+/[^[:space:];&|]+[^;&|]*[[:space:]]push' | head -1)"
+cmd_gitC="$(printf '%s' "$cmd_gitC_clause" | grep -oE -- '-C[[:space:]]+/[^[:space:];&|]+' | head -1 | sed -E 's#-C[[:space:]]+##')"
+cmd_cd="$(printf '%s' "$cmd" | grep -oE '(^|[;&|]|[[:space:]])cd[[:space:]]+/[^[:space:];&|]+' | head -1 | sed -E 's#.*cd[[:space:]]+##')"
+if [ -n "$cmd_gitC" ] && [ -d "$cmd_gitC" ]; then
+  dir="$cmd_gitC"
+elif [ -n "$cmd_cd" ] && [ -d "$cmd_cd" ]; then
+  dir="$cmd_cd"
+else
+  dir="${hook_cwd:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+fi
+cd "$dir" 2>/dev/null || exit 0
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
+
+# Only gate the doxa-browser-extension repo itself; allow landings on other repos.
+# Compare via --git-common-dir (resolves the MAIN checkout's .git dir for any
+# linked worktree of the same repo), NOT --show-toplevel. Runs BEFORE the
+# merge-integrity block below (review 2026-08-13, catching a real regression
+# in this port's first draft): the first draft ran the integrity check
+# before this bail, so a Bash landing command that `cd`'d or `git -C`'d into
+# a SIBLING repo — one that also happens to carry
+# scripts/check-kg-merge-integrity.cjs, since this feature is meant to land
+# fleet-wide — could get wrongly blocked by that sibling's OWN merge history,
+# violating this hook's very next comment ("must never block a sibling
+# repo's push"). Reproduced directly against the first-draft ordering before
+# being fixed.
+repo_common="$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)" || exit 0
+proj_common="$(cd "${CLAUDE_PROJECT_DIR:-$PWD}" 2>/dev/null && git rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"
+[ -n "$proj_common" ] && [ "$repo_common" != "$proj_common" ] && exit 0
+
+# Base this chunk diverged from. No origin/main ref -> can't reason -> allow.
+base="$(git merge-base HEAD origin/main 2>/dev/null)" || exit 0
+[ -n "$base" ] || exit 0
+
+# ---------------------------------------------------------------------------
+# Merge-integrity check (ported from doxa-cns 2026-08-13, Garth: "standing
+# doctrine and practice across all repos"). Real incident: a merge conflict
+# on .knowledge-graph-merkle.json resolved with `git checkout --theirs`
+# silently discarded a branch's own observation — the observations array is
+# an append log, and a naive "pick a side" resolution can only ever keep a
+# subset.
+#
+# Runs HERE — after the repo-scoping bail above (so it can never fire against
+# a sibling repo) but before every remaining exit path below (the empty-range
+# check, the generated-surface check, the already-KG-changed check, the
+# worktree pass). This repo's Bash-cmd path has no `gh pr merge`-specific
+# KG-Guard-verdict fast path today (unlike doxa-cns's own copy of this block,
+# whose earlier placement after such a fast path made the check unreachable
+# on doxa-cns's most common landing shape until a review moved it) — placed
+# at this earliest-safe-after-repo-scoping point regardless, so a future fast
+# path added here can never silently outrun it. This inspects the LOCAL git
+# range (merge-base(origin/main, HEAD)..HEAD) regardless of which landing
+# command follows — it protects any session that resolved a conflict in this
+# checkout, whether it then lands via `gh pr merge`, `git push`, or `gh pr
+# create`.
+#
+# KNOWN GAP (review 2026-08-13, not fixed here — real but out of this port's
+# scope, and inherited from doxa-cns's identical gap in its own source): a
+# merge landed via the mcp__github__merge_pull_request branch ABOVE never
+# reaches this block — that branch resolves everything through `gh pr diff`
+# against GitHub's remote state and exits before the Bash-cmd `cd "$dir"`
+# line runs, so a conflict resolved locally (creating a bad merge commit)
+# and then landed via the MCP tool instead of `gh pr merge` is NOT caught.
+# There is no CI backstop for this either — .github/workflows/kg-guard.yml
+# only checks for a .knowledge-graph/ file change, not merge integrity — so,
+# unlike the comment doxa-cns carries claiming CI covers this gap, that claim
+# does not hold here (nor, on inspection, does it actually hold in doxa-cns
+# either). Also out of scope: a conflict resolved via `git rebase` (rather
+# than `git merge`) never creates a 2-parent merge commit, so
+# check-kg-merge-integrity.cjs's `git rev-list --merges` scan finds nothing
+# to inspect — this matches the detector's documented scope, ported as-is
+# from doxa-cns rather than redesigned here.
+#
+# Fail-open on any tooling trouble (script missing, node missing, empty
+# range) — this block must never itself become the reason a legitimate
+# landing is blocked.
+if command -v node >/dev/null 2>&1 && [ -f "$dir/scripts/check-kg-merge-integrity.cjs" ] && [ "$base" != "$(git rev-parse HEAD 2>/dev/null)" ]; then
+  integrity_output="$(node "$dir/scripts/check-kg-merge-integrity.cjs" "$base" HEAD 2>&1)"
+  integrity_status=$?
+  if [ "$integrity_status" -eq 1 ]; then
+    printf '%s\n' "$integrity_output" >&2
+    exit 2
+  fi
+fi
+
+# Empty range (HEAD at or behind origin/main) -> nothing is landing -> allow.
+[ "$base" = "$(git rev-parse HEAD 2>/dev/null)" ] && exit 0
+
+# Direct-to-main generated surfaces never require kg-save. If EVERY file in
+# the range is such a path, nothing hand-authored is landing -> allow.
+hand_authored=""
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  case "$f" in
+    .knowledge-graph/*|.knowledge-graph-merkle.json) continue ;;
+  esac
+  hand_authored="yes"
+  break
+done <<EOF
+$(git diff --name-only "$base" HEAD 2>/dev/null)
+EOF
+[ -z "$hand_authored" ] && exit 0
+
+# Already a KG change in this chunk's range? -> allow.
+if ! git diff --quiet "$base" HEAD -- .knowledge-graph/ 2>/dev/null; then
+  exit 0
+fi
+
+# Worktree-aware pass (PR-first landings may push from scratch worktrees): if
+# ANY worktree of this repo has a non-empty origin/main..HEAD range that
+# includes a .knowledge-graph/ change -> allow (under-block, never over-block).
+while IFS= read -r wt; do
+  [ -d "$wt" ] || continue
+  wt_head="$(git -C "$wt" rev-parse HEAD 2>/dev/null)" || continue
+  wt_base="$(git -C "$wt" merge-base HEAD origin/main 2>/dev/null)" || continue
+  [ "$wt_base" = "$wt_head" ] && continue   # nothing landing from this worktree
+  if ! git -C "$wt" diff --quiet "$wt_base" "$wt_head" -- .knowledge-graph/ 2>/dev/null; then
+    exit 0
+  fi
+done <<EOF
+$(git worktree list --porcelain 2>/dev/null | sed -n 's/^worktree //p')
+EOF
+
+# Confirmed: a landing command with zero .knowledge-graph/ change in origin/main..HEAD.
+{
+  echo "⛔ kg-save gate — this chunk (origin/main..HEAD) has NO change to .knowledge-graph/."
+  echo "Garth's standing rule is \"kg-save on every chunk.\" Record the KG learning before landing:"
+  echo
+  echo "  node scripts/knowledge-graph-merkle.cjs add \"<Entity>\" \"<observation>\" \"<file>\" <line> --type <Type>"
+  echo "  git add .knowledge-graph/graph.json .knowledge-graph-merkle.json"
+  echo "  git commit -m \"<AgentName>: kg-save — <what changed and why>\""
+  echo
+  echo "Then re-run this command. (Genuinely not a chunk landing? Add [skip-kg] to the command to bypass.)"
+} >&2
+exit 2

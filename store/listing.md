@@ -20,7 +20,7 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 **Summary** (132 chars max):
 
-> Encouragement from Scripture on any webpage. Select text, right-click, and know the God who speaks.
+> Engage Scripture with Doxa. Select text on any webpage and receive encouragement grounded in the Word.
 
 **Category:** Lifestyle (pick the closest religion/well-being subcategory the console offers)
 
@@ -33,17 +33,17 @@ the promise leads, record-and-remember is the practice that serves it. Opens
 with the canonical elevator pitch verbatim and closes on the master line. No
 em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 
-> Know the God who speaks. Remembering on purpose what God has said and done, so you can know Him more deeply for your whole journey.
+> Engage Scripture with Doxa. Remembering on purpose what God has said and done, so you can know Him more deeply for your whole journey.
 >
 > Doxa for Chrome brings Scripture and God's encouragement to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done. This extension is Doxa meeting you in the middle of your day.
 >
 > HOW IT WORKS
 >
-> Select any text on any page: a hard email, a discouraging headline, a message from a friend. Right-click and choose "Encourage me with this". Doxa responds with a short word of encouragement anchored in Scripture, written in the voice of Doxa: warm, biblical, and free of hype.
+> Select any text on any page: a hard email, a discouraging headline, a message from a friend. A small Doxa icon appears near your selection. Click it and receive a word of encouragement anchored in Scripture. You can also right-click and choose "Encourage me with this".
 >
 > Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly (Berean Standard Bible), with a link to keep reading in Doxa's Bible reader.
 >
-> Or click the Doxa icon in your toolbar and describe what you are facing in your own words.
+> Click the Doxa icon in your toolbar to open the Engage panel. A persistent sidebar where you can have an ongoing Engage session while you browse. Describe what you are facing in your own words and receive Scripture that speaks to it.
 >
 > Every response is tagged to one of nine movements of the journey: hear, discern, test, record, remember, engage, trust, fight, endure. A simple map for holding on to what God has said and done.
 >
@@ -55,7 +55,7 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 >
 > The extension talks to exactly one server: doxa.app. No analytics, no tracking, no ads, no data sold. Only the text you select or type is sent, and only when you ask. Full details: https://doxa.app/privacy
 >
-> Doxa for Chrome is made by Doxa (https://doxa.app). Know the God who speaks.
+> Doxa for Chrome is made by Doxa (https://doxa.app). Engage Scripture with Doxa.
 
 ## Graphic assets
 
@@ -73,9 +73,11 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 - `contextMenus` — adds the two right-click actions ("Encourage me with this", "Look up in Doxa") that are the extension's core interface.
 - `activeTab` — grants temporary access to the page the user right-clicked on, only on that user gesture, so the result toast can be shown there.
 - `scripting` — injects the result toast into the active tab after a right-click action. Runs only on user gesture, only on the active tab.
-- `storage` — stores the user's Doxa sign-in session and a random per-install identifier used for trial quota. Nothing else.
+- `storage` — stores the user's Doxa sign-in session, Engage session history, and a random per-install identifier used for trial quota. Nothing else.
 - `identity` — powers the Sign in with Doxa flow (chrome.identity.launchWebAuthFlow to doxa.app). No Google account data is read.
+- `sidePanel` — opens a persistent side panel for multi-turn Scripture-based Engage sessions alongside browsing.
 - Host permission `https://doxa.app/*` — the single API endpoint (doxa.app/mcp/v1) every request goes to.
+- Host permission `<all_urls>` — content script that shows a small selection bubble (Doxa icon) when the user selects text. The script reads only the user's text selection on click; no page content is read passively.
 
 **Remote code:** No. All code ships in the package; the only network traffic is JSON to doxa.app.
 

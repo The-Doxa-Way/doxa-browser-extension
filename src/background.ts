@@ -1,16 +1,14 @@
 /**
  * Doxa for Chrome service worker.
  *
- * Owns the two right-click context menu items, both shown on any text
- * selection:
+ * Routes encouragement requests from three sources:
  *
- *   "Encourage me with this"  — encouragement for the selection
- *   "Look up in Doxa"         — verse lookup when a Bible reference can be
- *                               extracted; otherwise falls back to encourage
- *                               so the user gets something useful
+ *   1. Right-click context menu ("Encourage me with this" / "Look up in Doxa")
+ *   2. Selection bubble (content script click → chrome.runtime.sendMessage)
+ *   3. Side panel (calls encourage() directly, no routing needed)
  *
- * The actual MCP call happens here (service workers can hit external HTTPS).
- * Results are shown by injecting a transient toast into the active tab.
+ * Results route to the side panel if it is open, otherwise to an injected
+ * toast on the active tab.
  */
 
 import { encourage, scripture } from './utils/doxa.js';
@@ -25,6 +23,8 @@ const MENU_SCRIPTURE = 'doxa-scripture';
 // The situation cap documented by the doxa_encourage tool schema. The popup
 // enforces the same limit via textarea maxlength.
 const MAX_SITUATION_LENGTH = 2000;
+
+// --- Setup ---
 
 chrome.runtime.onInstalled.addListener(() => {
   // onInstalled also fires on updates and dev reloads, when the menu items
@@ -47,6 +47,13 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+// Make the toolbar icon open the side panel instead of the popup.
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch(console.error);
+
+// --- Context menu handler ---
+
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   void handleMenuClick(info, tab);
 });
@@ -59,11 +66,11 @@ async function handleMenuClick(
   const text = info.selectionText.trim();
   if (!text) return;
 
-  await showToast(tab.id, { state: 'loading', text: 'Asking Doxa...' });
-
-  try {
-    const ref = info.menuItemId === MENU_SCRIPTURE ? extractBibleRef(text) : undefined;
-    if (ref) {
+  // Check if it is a scripture lookup.
+  const ref = info.menuItemId === MENU_SCRIPTURE ? extractBibleRef(text) : undefined;
+  if (ref) {
+    await showToast(tab.id, { state: 'loading', text: 'Looking up...' });
+    try {
       const result = await scripture(ref);
       await showToast(tab.id, {
         state: 'result',
@@ -72,23 +79,93 @@ async function handleMenuClick(
         link: result.link,
         linkLabel: 'Open in Doxa',
       });
-      return;
+    } catch (err) {
+      await showToast(tab.id, errorToToast(err, { signedIn: await isSignedIn() }));
     }
+    return;
+  }
 
-    // Either the encourage item, or a "Look up in Doxa" click with no
-    // extractable reference — fall back to encourage so the user gets
-    // something useful instead of a rejection.
-    const result = await encourage(text.slice(0, MAX_SITUATION_LENGTH));
-    await showToast(tab.id, {
+  // Encourage flow — route to side panel or toast.
+  await encourageAndRoute(text, tab);
+}
+
+// --- Selection bubble handler ---
+
+chrome.runtime.onMessage.addListener((msg, _sender, _sendResponse) => {
+  if (msg.action === 'encourage-selection' && msg.text) {
+    void handleBubbleClick(msg.text);
+  }
+});
+
+async function handleBubbleClick(text: string): Promise<void> {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.id) return;
+  await encourageAndRoute(text, tab);
+}
+
+// --- Shared encourage + route logic ---
+
+async function encourageAndRoute(
+  text: string,
+  tab: chrome.tabs.Tab,
+): Promise<void> {
+  const tabId = tab.id!;
+  const trimmed = text.trim().slice(0, MAX_SITUATION_LENGTH);
+  if (!trimmed) return;
+
+  // Try to route to the side panel first.
+  const panelOpen = await isSidePanelOpen();
+
+  if (panelOpen) {
+    // Send the text to the side panel for the Engage session flow.
+    try {
+      await chrome.runtime.sendMessage({
+        action: 'encourage-in-panel',
+        text: trimmed,
+      });
+      return;
+    } catch {
+      // Side panel might have closed between check and send. Fall through to toast.
+    }
+  }
+
+  // Fall back to toast on the active tab.
+  await showToast(tabId, { state: 'loading', text: 'Asking Doxa...' });
+  try {
+    const result = await encourage(trimmed);
+    await showToast(tabId, {
       state: 'result',
       title: result.movement || 'Encouragement',
       text: stripMarkdownLinks(result.text),
       scriptures: result.scriptures,
     });
   } catch (err) {
-    await showToast(tab.id, errorToToast(err, { signedIn: await isSignedIn() }));
+    await showToast(tabId, errorToToast(err, { signedIn: await isSignedIn() }));
   }
 }
+
+/**
+ * Check if the side panel is currently open by trying to get all extension
+ * views. The side panel registers as a "tab" view with url containing
+ * "sidepanel.html".
+ */
+async function isSidePanelOpen(): Promise<boolean> {
+  try {
+    // Side panel views don't always show as type 'tab'. Check all views.
+    const allViews = chrome.extension.getViews();
+    return allViews.some((v) => {
+      try {
+        return v.location.pathname.endsWith('sidepanel.html');
+      } catch {
+        return false;
+      }
+    });
+  } catch {
+    return false;
+  }
+}
+
+// --- Toast injection ---
 
 async function showToast(tabId: number, payload: ToastPayload): Promise<void> {
   try {

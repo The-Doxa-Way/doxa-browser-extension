@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Doxa for Chrome",
-  "description": "Encouragement from Scripture on any webpage. Select text, right-click, and know the God who speaks.",
-  "version": "0.2.0",
+  "description": "Engage Scripture with Doxa. Select text on any webpage and receive encouragement grounded in the Word.",
+  "version": "0.3.0",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAralX8W3ipteQfqC69OUusEOPWBo22vanB/bUHowJY2MSR8dj2I/KZvxSG4WO4801KbzBGMwAP9RSxzohyVUNp1uf25u1Jv6rUPZB95K/W4gBl1tLYk/95pDzZnLc8/4ezxYe45yCA4nVSyHQtdykhh4HVoK+WmB5Ktas/HjvAFED9G4TZ8Rxap+XAGuMYwJcMHgucTieHe4lENv98KzM2JGjxrqJhAtLtnEtHpgl/vcyH1VgdyTCb5868zCCn0A7Z/SAaX0s5RLGOx+MolLRvzedrVWgXhwiZqpUhV2/ohn/GXbsdvojACTPriqPGKyf58MyHbpcC1Dw5qyGVVTswwIDAQAB",
   "author": "The Doxa Way",
   "homepage_url": "https://doxa.app",
@@ -11,10 +11,12 @@
     "activeTab",
     "storage",
     "scripting",
-    "identity"
+    "identity",
+    "sidePanel"
   ],
   "host_permissions": [
-    "https://doxa.app/*"
+    "https://doxa.app/*",
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js",
@@ -30,6 +32,16 @@
       "128": "icons/icon-128.png"
     }
   },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/selection-bubble.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "options_page": "options.html",
   "icons": {
     "16": "icons/icon-16.png",

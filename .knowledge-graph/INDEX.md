@@ -4,10 +4,12 @@
 <!-- Lookup: Grep this file for your topic, then open the entity in graph.json. -->
 <!-- Never read graph.json whole for a lookup.   -->
 
+## Feature (3)
+
+- DoxaEngageSidePanel — v0.3.0 (PR #13): Chrome Side Panel API (chrome.sidePanel) for persistent Doxa Engage chat alongside browsing.…
+- DoxaForChromeExtension — Retrospective backfill of PRs #1-#9 and the repo scaffold, all of which landed on 2026-08-14/15 BEFORE this r…
+- SelectionBubbleContentScript — v0.3.0 (PR #13): content script src/content/selection-bubble.ts injected on all pages via manifest content_sc…
+
 ## Decision (1)
 
 - DoxaBrowserExtensionBankingGates — doxa-browser-extension had NO CI, NO .knowledge-graph/ and NO .claude/hooks/ while taking autonomous work: PR…
-
-## Feature (1)
-
-- DoxaForChromeExtension — Retrospective backfill of PRs #1-#9 and the repo scaffold, all of which landed on 2026-08-14/15 BEFORE this r…

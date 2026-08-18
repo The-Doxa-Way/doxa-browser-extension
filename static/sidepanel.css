@@ -10,6 +10,11 @@
   padding: 0;
 }
 
+/* Ensure [hidden] works even when a class sets display: flex */
+[hidden] {
+  display: none !important;
+}
+
 html, body {
   width: 100%;
   height: 100%;
@@ -209,6 +214,29 @@ body {
   background-color: rgba(255, 149, 0, 0.16);
 }
 
+/* Action link (e.g. "See plans" on trial exhaustion) */
+
+.sp-action-link {
+  margin-top: 10px;
+}
+
+.sp-action-link a {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FF4500;
+  background: transparent;
+  border: 1px solid #FF4500;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.sp-action-link a:hover {
+  background-color: rgba(255, 69, 0, 0.08);
+}
+
 /* Loading indicator */
 
 .sp-loading {
@@ -318,4 +346,12 @@ body {
 
 .sp-messages::-webkit-scrollbar-thumb:hover {
   background: #707070;
+}
+
+/* A11y: respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .sp-msg,
+  .sp-loading-dots::after {
+    animation: none !important;
+  }
 }

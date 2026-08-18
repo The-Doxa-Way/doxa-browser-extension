@@ -77,7 +77,7 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 - `identity` — powers the Sign in with Doxa flow (chrome.identity.launchWebAuthFlow to doxa.app). No Google account data is read.
 - `sidePanel` — opens a persistent side panel for multi-turn Scripture-based Engage sessions alongside browsing.
 - Host permission `https://doxa.app/*` — the single API endpoint (doxa.app/mcp/v1) every request goes to.
-- Host permission `<all_urls>` — content script that shows a small selection bubble (Doxa icon) when the user selects text. The script reads only the user's text selection on click; no page content is read passively.
+- Content script match `<all_urls>` — declared in `content_scripts` (not `host_permissions`) to show a small selection bubble (Doxa icon) when the user selects text. The script reads only the user's text selection on explicit click; no page content is read passively.
 
 **Remote code:** No. All code ships in the package; the only network traffic is JSON to doxa.app.
 

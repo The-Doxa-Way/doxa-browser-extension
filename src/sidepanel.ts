@@ -1,9 +1,9 @@
 /**
  * Doxa Engage side panel.
  *
- * Persistent chat-like interface for multi-turn Engage sessions. The panel
- * stays open alongside any page and receives text from the selection bubble,
- * context menus, or direct user input.
+ * Persistent interface for multi-turn Engage sessions. The panel stays open
+ * alongside any page and receives text from the selection bubble, context
+ * menus, or direct user input.
  *
  * Multi-turn is simulated client-side: the MCP doxa_encourage tool is single-
  * turn, so we compose a richer `situation` string with abbreviated context
@@ -14,6 +14,16 @@ import { encourage, type DoxaEncourageResult } from './utils/doxa.js';
 import { stripMarkdownLinks } from './lib/strip-markdown-links.js';
 import { errorToToast } from './lib/error-toast.js';
 import { isSignedIn } from './utils/auth.js';
+
+// --- Liveness port ---
+// The background service worker tracks whether the side panel is open via a
+// long-lived port. We open it immediately on load; the SW sees onConnect and
+// sets sidePanelPort. When the panel closes, onDisconnect fires automatically.
+
+// Keep port alive for the lifetime of the panel. The variable itself is
+// unused (the SW tracks the connection) but must stay in scope.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _panelPort: chrome.runtime.Port = chrome.runtime.connect({ name: 'doxa-sidepanel' });
 
 // --- DOM elements ---
 
@@ -33,6 +43,8 @@ interface Message {
   text: string;
   movement?: string;
   scriptures?: Array<{ ref: string; link: string }>;
+  link?: string;
+  linkLabel?: string;
   timestamp: number;
 }
 
@@ -43,9 +55,11 @@ interface Session {
 
 const MAX_SITUATION_LENGTH = 2000;
 const MAX_CONTEXT_TURNS = 3;
+const MAX_SESSION_MESSAGES = 100;
 const SESSION_STORAGE_KEY = 'doxa_engage_session';
 
 let currentSession: Session = createSession();
+let engaging = false; // Busy flag to prevent re-entrancy (High #4).
 
 function createSession(): Session {
   return {
@@ -57,6 +71,10 @@ function createSession(): Session {
 // --- Persistence ---
 
 async function saveSession(): Promise<void> {
+  // Cap stored messages to prevent unbounded storage growth.
+  if (currentSession.messages.length > MAX_SESSION_MESSAGES) {
+    currentSession.messages = currentSession.messages.slice(-MAX_SESSION_MESSAGES);
+  }
   await chrome.storage.local.set({
     [SESSION_STORAGE_KEY]: currentSession,
   });
@@ -97,6 +115,18 @@ function composeSituation(userText: string): string {
   const composed = `[Session context]\n${context}\n\n[Now]\n${userText}`;
 
   return composed.slice(0, MAX_SITUATION_LENGTH);
+}
+
+// --- Helpers ---
+
+/** Validate that a URL is safe to assign to an anchor href. */
+function isSafeHref(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+  } catch {
+    return false;
+  }
 }
 
 // --- Rendering ---
@@ -150,13 +180,29 @@ function appendMessageEl(msg: Message, animate: boolean): void {
       refs.className = 'sp-scriptures';
       for (const s of msg.scriptures) {
         const a = document.createElement('a');
-        a.href = s.link;
+        // Validate hrefs before assigning (Security #9).
+        if (isSafeHref(s.link)) {
+          a.href = s.link;
+        }
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
         a.textContent = s.ref;
         refs.appendChild(a);
       }
       bubble.appendChild(refs);
+    }
+
+    // Show upgrade/action link if present (High #5).
+    if (msg.link && msg.linkLabel && isSafeHref(msg.link)) {
+      const linkWrapper = document.createElement('div');
+      linkWrapper.className = 'sp-action-link';
+      const a = document.createElement('a');
+      a.href = msg.link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = msg.linkLabel;
+      linkWrapper.appendChild(a);
+      bubble.appendChild(linkWrapper);
     }
   } else {
     const text = document.createElement('div');
@@ -213,7 +259,9 @@ function renderQuota(tier: string, used: number, limit: number): void {
 
 async function handleEngage(userText: string): Promise<void> {
   const trimmed = userText.trim();
-  if (!trimmed) return;
+  if (!trimmed || engaging) return; // Busy guard (High #4).
+
+  engaging = true;
 
   // Add user message.
   const userMsg: Message = { role: 'user', text: trimmed, timestamp: Date.now() };
@@ -251,9 +299,15 @@ async function handleEngage(userText: string): Promise<void> {
     removeLoadingEl();
 
     const toast = errorToToast(err, { signedIn: await isSignedIn() });
+    // Surface upgrade link in the panel (High #5) — errorToToast returns
+    // link/linkLabel for trial exhaustion on the 'error' state variant.
+    const link = toast.state === 'error' ? toast.link : undefined;
+    const linkLabel = toast.state === 'error' ? toast.linkLabel : undefined;
     const errorMsg: Message = {
       role: 'doxa',
       text: toast.text,
+      link,
+      linkLabel,
       timestamp: Date.now(),
     };
     currentSession.messages.push(errorMsg);
@@ -262,6 +316,7 @@ async function handleEngage(userText: string): Promise<void> {
 
     await saveSession();
   } finally {
+    engaging = false;
     submitBtn.disabled = false;
     submitBtn.textContent = 'ENGAGE';
   }
@@ -298,9 +353,20 @@ openOptionsLink.addEventListener('click', (e) => {
 
 // Listen for messages from the background (selection bubble / context menu).
 chrome.runtime.onMessage.addListener((msg: { action: string; text?: string }) => {
-  if (msg.action === 'encourage-in-panel' && msg.text) {
-    // Auto-fill and auto-submit.
+  if (msg.action === 'encourage-in-panel' && typeof msg.text === 'string') {
+    // Auto-fill and auto-submit. The busy flag prevents duplicate calls.
     void handleEngage(msg.text);
+  }
+});
+
+// Clear session data on sign-out so personal Engage content doesn't outlive
+// the account session.
+chrome.storage.onChanged.addListener((changes) => {
+  if (changes['doxa_session']?.newValue === undefined) {
+    // User signed out — clear the engage session too.
+    currentSession = createSession();
+    renderAllMessages();
+    quotaEl.hidden = true;
   }
 });
 

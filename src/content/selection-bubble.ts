@@ -35,8 +35,9 @@ function isEditableTarget(el: Element | null): boolean {
   if (!el) return false;
   const tag = el.tagName.toLowerCase();
   if (tag === 'textarea' || tag === 'input') return true;
-  if (el.getAttribute('contenteditable') === 'true') return true;
-  if (el.closest('[contenteditable="true"]')) return true;
+  // isContentEditable covers contenteditable="" (empty string = true per spec),
+  // bare contenteditable attribute, and inherited contenteditable from ancestors.
+  if ((el as HTMLElement).isContentEditable) return true;
   return false;
 }
 
@@ -66,8 +67,25 @@ function showBubble(selectionText: string): void {
 
   const host = document.createElement('div');
   host.id = BUBBLE_HOST_ID;
+
+  // Position: 8px above the end of the selection, or below if near top.
+  const bubbleSize = 32;
+  const gap = 8;
+  let top = rect.top - bubbleSize - gap;
+  if (top < 8) {
+    top = rect.bottom + gap;
+  }
+  let left = rect.right - bubbleSize / 2;
+  // Clamp to viewport.
+  left = Math.max(8, Math.min(left, window.innerWidth - bubbleSize - 8));
+
+  // Set position BEFORE appending to avoid a one-frame flash at 0,0.
+  // all:initial resets any inherited styles from the host page.
   host.style.cssText = [
+    'all: initial',
     'position: fixed',
+    `top: ${top}px`,
+    `left: ${left}px`,
     'z-index: 2147483646',
     'pointer-events: none',
   ].join(';');
@@ -100,6 +118,9 @@ function showBubble(selectionText: string): void {
       from { transform: scale(0.6); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      .doxa-bubble { animation: none !important; }
+    }
   `;
   shadow.appendChild(style);
 
@@ -116,25 +137,11 @@ function showBubble(selectionText: string): void {
     chrome.runtime.sendMessage({
       action: 'encourage-selection',
       text: currentSel,
-    });
+    }).catch(() => {}); // SW may be mid-restart; swallow to avoid unhandled rejection in page console.
     removeBubble();
   });
 
   shadow.appendChild(btn);
-
-  // Position: 8px above the end of the selection, or below if near top.
-  const bubbleSize = 32;
-  const gap = 8;
-  let top = rect.top - bubbleSize - gap;
-  if (top < 8) {
-    top = rect.bottom + gap;
-  }
-  let left = rect.right - bubbleSize / 2;
-  // Clamp to viewport.
-  left = Math.max(8, Math.min(left, window.innerWidth - bubbleSize - 8));
-
-  host.style.top = `${top}px`;
-  host.style.left = `${left}px`;
 
   // Auto-dismiss after timeout.
   dismissTimer = setTimeout(removeBubble, AUTO_DISMISS_MS);
@@ -143,6 +150,9 @@ function showBubble(selectionText: string): void {
 // --- Event listeners ---
 
 document.addEventListener('mouseup', (e: MouseEvent) => {
+  // Only show on primary (left) click, not right-click (which opens context menu).
+  if (e.button !== 0) return;
+
   // Small delay so the selection is finalized.
   setTimeout(() => {
     const target = e.target as Element | null;

@@ -15,8 +15,7 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://doxa.app/*",
-    "<all_urls>"
+    "https://doxa.app/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -24,7 +23,6 @@
   },
   "action": {
     "default_title": "Doxa",
-    "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",

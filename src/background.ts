@@ -24,6 +24,26 @@ const MENU_SCRIPTURE = 'doxa-scripture';
 // enforces the same limit via textarea maxlength.
 const MAX_SITUATION_LENGTH = 2000;
 
+// --- Side panel liveness tracking ---
+// chrome.extension.getViews() is foreground-only and unavailable in an MV3
+// service worker. Instead, the side panel opens a long-lived port on load;
+// we track connect/disconnect to know whether it is open.
+
+let sidePanelPort: chrome.runtime.Port | null = null;
+
+chrome.runtime.onConnect.addListener((port) => {
+  if (port.name === 'doxa-sidepanel') {
+    sidePanelPort = port;
+    port.onDisconnect.addListener(() => {
+      if (sidePanelPort === port) sidePanelPort = null;
+    });
+  }
+});
+
+function isSidePanelOpen(): boolean {
+  return sidePanelPort !== null;
+}
+
 // --- Setup ---
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -45,12 +65,13 @@ chrome.runtime.onInstalled.addListener(() => {
       contexts: ['selection'],
     });
   });
-});
 
-// Make the toolbar icon open the side panel instead of the popup.
-chrome.sidePanel
-  .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch(console.error);
+  // Make the toolbar icon open the side panel instead of the popup.
+  // Runs in onInstalled (not top-level) to avoid re-running on every SW wake.
+  chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: true })
+    .catch(console.error);
+});
 
 // --- Context menu handler ---
 
@@ -91,8 +112,14 @@ async function handleMenuClick(
 
 // --- Selection bubble handler ---
 
-chrome.runtime.onMessage.addListener((msg, _sender, _sendResponse) => {
-  if (msg.action === 'encourage-selection' && msg.text) {
+chrome.runtime.onMessage.addListener((msg, sender, _sendResponse) => {
+  // Validate: only accept messages from our own content scripts (sender.tab
+  // is set for content-script origins) with the expected shape.
+  if (
+    msg?.action === 'encourage-selection' &&
+    typeof msg.text === 'string' &&
+    sender.tab
+  ) {
     void handleBubbleClick(msg.text);
   }
 });
@@ -114,9 +141,7 @@ async function encourageAndRoute(
   if (!trimmed) return;
 
   // Try to route to the side panel first.
-  const panelOpen = await isSidePanelOpen();
-
-  if (panelOpen) {
+  if (isSidePanelOpen()) {
     // Send the text to the side panel for the Engage session flow.
     try {
       await chrome.runtime.sendMessage({
@@ -141,27 +166,6 @@ async function encourageAndRoute(
     });
   } catch (err) {
     await showToast(tabId, errorToToast(err, { signedIn: await isSignedIn() }));
-  }
-}
-
-/**
- * Check if the side panel is currently open by trying to get all extension
- * views. The side panel registers as a "tab" view with url containing
- * "sidepanel.html".
- */
-async function isSidePanelOpen(): Promise<boolean> {
-  try {
-    // Side panel views don't always show as type 'tab'. Check all views.
-    const allViews = chrome.extension.getViews();
-    return allViews.some((v) => {
-      try {
-        return v.location.pathname.endsWith('sidepanel.html');
-      } catch {
-        return false;
-      }
-    });
-  } catch {
-    return false;
   }
 }
 

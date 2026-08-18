@@ -50,7 +50,7 @@ export function errorToToast(err: unknown, opts?: { signedIn?: boolean }): Toast
     }
     return {
       state: 'error',
-      text: 'Your free encouragements are used. To keep going, click the Doxa icon in your toolbar, open Settings, and sign in with your Doxa account.',
+      text: 'Your free encouragements are used. To keep going, open Settings and sign in with your Doxa account.',
     };
   }
   if (err instanceof DoxaError) {

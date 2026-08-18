@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "b27c1f8358c82b4659572d4f65ef4eab38284c05aabb9e0bba93593b7fcdd654",
+  "merkleRoot": "e95e4e599d96d14ee52779a4df72f7ddd7c7121fa0b5a7561602f8994edd0cc2",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -48,9 +48,60 @@
         "entityType": "Feature"
       },
       "timestamp": "2026-08-15T22:03:58.534Z"
+    },
+    {
+      "hash": "846220bcd7db212c9d7f20051dbf8b55a9ea80037bcf47076011da1af2ed2168",
+      "entityName": "SelectionBubbleContentScript",
+      "content": "v0.3.0 (PR #13): content script src/content/selection-bubble.ts injected on all pages via manifest content_scripts + <all_urls> host_permissions. On mouseup, if selection >= 3 chars and NOT in an editable target (textarea/input/contenteditable), shows a 32x32px Doxa flame bubble 8px above selection end (or below near viewport top). Shadow DOM isolation (doxa-bubble-host, separate from doxa-toast-host) prevents CSS conflicts. Dismissed on mousedown/scroll/click-outside/8s-timeout/selection-cleared. On click sends chrome.runtime.sendMessage({action: encourage-selection, text}) to background. Self-contained, no ES module imports. The Mac-smooth alternative to right-click context menus.",
+      "provenance": {
+        "sourceFile": "src/content/selection-bubble.ts",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "aa332e54aa306f18ee29d82a02b0f48286615a78b73a599c9b10f029f67233d7",
+        "totalLines": 180,
+        "extractedAt": "2026-08-18T16:50:08.466Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Feature"
+      },
+      "timestamp": "2026-08-18T16:50:08.466Z"
+    },
+    {
+      "hash": "4bbe47b305f04b1a8adb7de873f4ca325d200c879639ed6440df83220714c0ba",
+      "entityName": "DoxaEngageSidePanel",
+      "content": "v0.3.0 (PR #13): Chrome Side Panel API (chrome.sidePanel) for persistent Doxa Engage chat alongside browsing. Files: static/sidepanel.html + sidepanel.css, src/sidepanel.ts. openPanelOnActionClick:true makes toolbar icon toggle the side panel (primary surface; popup demoted to right-click). Multi-turn sessions simulated client-side: composeSituation() builds context from last 3 exchange pairs within 2000-char limit for the single-turn MCP doxa_encourage tool. Session persistence via chrome.storage.local keyed by session ID. Listens for chrome.runtime.onMessage action:encourage-in-panel from background (selection bubble route). ENGAGE button outline-only (transparent bg, FF4500 border+text). Dark theme. New Session button clears thread.",
+      "provenance": {
+        "sourceFile": "src/sidepanel.ts",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "d6e7dfd2a7ae52de2e3bf078d5c9696d4c2cea37f8c3cb574738680766e9921a",
+        "totalLines": 311,
+        "extractedAt": "2026-08-18T16:50:15.668Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Feature"
+      },
+      "timestamp": "2026-08-18T16:50:15.669Z"
+    },
+    {
+      "hash": "0907cc161845ad95509bc5a3d9f7d687a9b7ca52ef0e2bf6fc07cf79e2072ecd",
+      "entityName": "DoxaForChromeExtension",
+      "content": "v0.3.0 (PR #13): three changes — (1) CTA copy Know the God who speaks replaced with Engage Scripture with Doxa across all surfaces: manifest description, popup.html, options.html, store/listing.md, all 4 store/assets-src templates, package.json description. (2) Selection bubble content script (see SelectionBubbleContentScript). (3) Side panel chat (see DoxaEngageSidePanel). Background.ts rewritten with encourageAndRoute() routing to side panel or toast fallback via isSidePanelOpen(). New permissions: sidePanel + all_urls (content script). Version bumped to 0.3.0. Extension NOT yet published to Chrome Web Store. 30/30 tests pass.",
+      "provenance": {
+        "sourceFile": "static/manifest.json",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "1086e98bab4eeae38de8aea8c927d2de29435a42a651bf3d7b48eb5ea3ee2805",
+        "totalLines": 53,
+        "extractedAt": "2026-08-18T16:50:18.094Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Feature"
+      },
+      "timestamp": "2026-08-18T16:50:18.095Z"
     }
   ],
   "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-08-15T22:04:11.646Z"
+  "lastModified": "2026-08-18T16:50:18.100Z"
 }

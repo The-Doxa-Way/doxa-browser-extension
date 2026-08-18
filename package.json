@@ -1,7 +1,7 @@
 {
   "name": "doxa-browser-extension",
-  "version": "0.2.0",
-  "description": "Doxa for Chrome (and Edge). Encouragement from Scripture on any webpage.",
+  "version": "0.3.0",
+  "description": "Doxa for Chrome (and Edge). Engage Scripture with Doxa.",
   "private": true,
   "type": "module",
   "license": "MIT",

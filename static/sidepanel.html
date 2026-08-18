@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Doxa Engage</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header class="sp-header">
+    <div class="sp-brand">
+      <img src="icons/icon-32.png" alt="" class="sp-logo" />
+      <span class="sp-title">Doxa Engage</span>
+    </div>
+    <div class="sp-actions">
+      <button id="new-session-btn" class="sp-icon-btn" aria-label="New session" title="New session">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M8 3v10M3 8h10"/>
+        </svg>
+      </button>
+      <a href="#" id="open-options" class="sp-icon-btn" aria-label="Settings" title="Settings">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="2.5"/>
+          <path d="M13.4 10a1.2 1.2 0 0 0 .2 1.3l.04.04a1.45 1.45 0 1 1-2.06 2.06l-.04-.04a1.2 1.2 0 0 0-1.3-.2 1.2 1.2 0 0 0-.73 1.1v.11a1.45 1.45 0 0 1-2.9 0v-.06a1.2 1.2 0 0 0-.79-1.1 1.2 1.2 0 0 0-1.3.2l-.04.04a1.45 1.45 0 1 1-2.06-2.06l.04-.04a1.2 1.2 0 0 0 .2-1.3 1.2 1.2 0 0 0-1.1-.73H2.35a1.45 1.45 0 0 1 0-2.9h.06a1.2 1.2 0 0 0 1.1-.79 1.2 1.2 0 0 0-.2-1.3l-.04-.04a1.45 1.45 0 1 1 2.06-2.06l.04.04a1.2 1.2 0 0 0 1.3.2h.06a1.2 1.2 0 0 0 .73-1.1V2.35a1.45 1.45 0 0 1 2.9 0v.06a1.2 1.2 0 0 0 .73 1.1 1.2 1.2 0 0 0 1.3-.2l.04-.04a1.45 1.45 0 1 1 2.06 2.06l-.04.04a1.2 1.2 0 0 0-.2 1.3v.06a1.2 1.2 0 0 0 1.1.73h.11a1.45 1.45 0 0 1 0 2.9h-.06a1.2 1.2 0 0 0-1.1.73z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="messages" class="sp-messages">
+    <div id="empty-state" class="sp-empty">
+      <p class="sp-empty-tagline">Engage Scripture with Doxa.</p>
+      <p class="sp-empty-hint">Describe what you are facing, or select text on any page and click the Doxa icon.</p>
+    </div>
+  </main>
+
+  <footer class="sp-input-area">
+    <form id="engage-form" class="sp-form">
+      <textarea
+        id="situation"
+        name="situation"
+        placeholder="What are you facing?"
+        rows="3"
+        maxlength="2000"
+        required
+      ></textarea>
+      <div class="sp-form-footer">
+        <button type="submit" id="submit-btn" class="sp-cta">ENGAGE</button>
+        <span id="quota" class="sp-quota" hidden></span>
+      </div>
+    </form>
+  </footer>
+
+  <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

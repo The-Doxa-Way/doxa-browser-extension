@@ -8,7 +8,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { inflateSync } from 'node:zlib';
 
 const root = new URL('../', import.meta.url);
@@ -76,8 +76,13 @@ test('manifest summary leads with the master line and fits the store limit', () 
 });
 
 test('shipped UI uses no amber accent (reserved for "Record a prophecy")', () => {
-  for (const file of ['src/background.ts', 'static/popup.css', 'static/sidepanel.css', 'static/options.html', 'static/popup.html', 'static/sidepanel.html']) {
+  const files = [
+    ...readdirSync(new URL('src/', root), { recursive: true }).filter((f) => f.endsWith('.ts')).map((f) => `src/${f}`),
+    ...readdirSync(new URL('static/', root)).map((f) => `static/${f}`),
+  ];
+  assert.ok(files.length > 10, `scanned ${files.length} files`);
+  for (const file of files) {
     const src = read(file).toString();
-    assert.doesNotMatch(src, /#FF9500\s*;|rgba\(\s*255\s*,\s*149\s*,\s*0/i, `${file} carries an amber accent`);
+    assert.doesNotMatch(src, /#FF9500\b|rgba?\(\s*255\s*,\s*149\s*,\s*0/i, `${file} carries an amber accent`);
   }
 });

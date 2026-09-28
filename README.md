@@ -93,12 +93,12 @@ dist/                    build output (gitignored)
 
 ## Regenerating icons
 
-The icons come from `src/icons/doxa-logo.svg` (the Doxa mountains logo, dark background, white mountains). To regenerate at the four required sizes:
+The icons come from `src/icons/doxa-logo.svg` (the Doxa app icon: white mountains mark on #FF4500, the doxa.app favicon geometry). To regenerate at the four required sizes:
 
 ```bash
 cd src/icons
 for size in 16 32 48 128; do
-  magick -background none -density 600 doxa-logo.svg -resize ${size}x${size} icon-${size}.png
+  magick -background none -density 600 doxa-logo.svg -resize ${size}x${size} -depth 8 PNG32:icon-${size}.png
 done
 ```
 

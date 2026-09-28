@@ -30,7 +30,8 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 Aligned to the knowing-God re-tier (doxa-shared PR #26, merged 2026-08-15):
 the promise leads, record-and-remember is the practice that serves it. Opens
-with the canonical elevator pitch verbatim and closes on the master line. No
+on the master line (website canon, brand audit 2026-09-28) and closes on the
+action line "Engage Scripture with Doxa." No
 em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 
 > Know the God who speaks. Doxa helps you remember on purpose what God has said and done, so you can know Him more deeply for your whole journey.

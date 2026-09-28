@@ -37,6 +37,14 @@
         "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation).",
         "Follow-up the same day: store tile, marquee and screenshots re-rendered with NO blue dot field, because Garth removed the dot grid site-wide on 2026-09-28 ('they don't work', doxa-app #2463). The look is now night + one cool blue top-left radial + faint white watermark. Uploaded assets must be these versions."
       ]
+    },
+    {
+      "name": "ExtensionBrandNightTokens",
+      "entityType": "DesignSystem",
+      "observations": [
+        "popup/sidepanel/options/toast/bubble surfaces moved from neutral charcoal (#1A1A1A/#242424/#2C2C2C/#3C3C3C) to website brand night tokens night #0F1B20, charcoal #192428, ash #293A41 (cards/borders); defined as CSS custom properties in static/popup.css and static/sidepanel.css :root; store/assets-src/brand.css UI mock tokens updated to match; version bumped 0.3.1 -> 0.3.2",
+        "Fix round (opus-reviewer, PR #16): borders/dividers moved from flat charcoal #192428 (near-invisible on night, ~1.1:1 contrast) to a white-alpha --doxa-line: rgba(255,255,255,0.10) token, matching the website's own --color-border-dark border token; scrollbar-thumb/icon-hover moved to ash; store mock .me bubble corrected from charcoal to ash; brand-night regression test now matches an actual declaration (--doxa-night:/background:) instead of any text occurrence"
+      ]
     }
   ],
   "relations": []

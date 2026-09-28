@@ -86,3 +86,27 @@ test('shipped UI uses no amber accent (reserved for "Record a prophecy")', () =>
     assert.doesNotMatch(src, /#FF9500\b|rgba?\(\s*255\s*,\s*149\s*,\s*0/i, `${file} carries an amber accent`);
   }
 });
+
+test('shipped UI carries the brand night surfaces, never the old charcoal greys (Garth 2026-09-28)', () => {
+  const files = [
+    ...readdirSync(new URL('src/', root), { recursive: true }).filter((f) => f.endsWith('.ts')).map((f) => `src/${f}`),
+    ...readdirSync(new URL('static/', root)).map((f) => `static/${f}`),
+  ];
+  assert.ok(files.length > 10, `scanned ${files.length} files`);
+  // Old neutral-charcoal surfaces (pre brand-night-tokens): plain charcoal
+  // #1A1A1A, near-black #121212/#2A2A2A, and the old smoke/ash/ember greys
+  // #242424/#2C2C2C/#3C3C3C. The muted foreground grey #707070 is unrestricted.
+  const oldCharcoal = /#(1A1A1A|121212|2A2A2A|242424|2C2C2C|3C3C3C)\b/i;
+  for (const file of files) {
+    const src = read(file).toString();
+    assert.doesNotMatch(src, oldCharcoal, `${file} still carries an old charcoal surface hex`);
+  }
+  // The brand night hex must appear as an actual declaration (a CSS custom
+  // property or a background/border value) in each surface that owns one,
+  // not merely somewhere in a comment — a doc-only mention must not let a
+  // regressed surface (e.g. a deleted :root block) pass this guard.
+  const nightDeclaration = /(?:--doxa-night|background)\s*:\s*#0F1B20\b/i;
+  for (const file of ['static/popup.css', 'static/sidepanel.css', 'src/background.ts', 'src/content/selection-bubble.ts']) {
+    assert.match(read(file).toString(), nightDeclaration, `${file} is missing a brand-night (#0F1B20) declaration`);
+  }
+});

@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "65195f059c5aa80ea2377d70c10a521314c97b87d4ea924b103dbf2831f356e1",
+  "merkleRoot": "1debd35f464b512db9ec8d6812adaf54dda58a72306c99895713ddfae03564e1",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -133,9 +133,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-09-28T08:07:42.569Z"
+    },
+    {
+      "hash": "3c0ca0ae1e64fb4e6103a4c6002b002842e5e9b9fb9e879c755a3d0d2e17e798",
+      "entityName": "ExtensionBrandNightTokens",
+      "content": "popup/sidepanel/options/toast/bubble surfaces moved from neutral charcoal (#1A1A1A/#242424/#2C2C2C/#3C3C3C) to website brand night tokens night #0F1B20, charcoal #192428, ash #293A41 (cards/borders); defined as CSS custom properties in static/popup.css and static/sidepanel.css :root; store/assets-src/brand.css UI mock tokens updated to match; version bumped 0.3.1 -> 0.3.2",
+      "provenance": {
+        "sourceFile": "static/popup.css",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "bc2fea93944f962ff7c0046b2e0e0f45fda69fa85aacfb8e1f39d5bb5d1117e6",
+        "totalLines": 227,
+        "extractedAt": "2026-09-28T17:02:55.891Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "DesignSystem"
+      },
+      "timestamp": "2026-09-28T17:02:55.894Z"
     }
   ],
   "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-09-28T08:07:42.591Z"
+  "lastModified": "2026-09-28T17:02:55.906Z"
 }

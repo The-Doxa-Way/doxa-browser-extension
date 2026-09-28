@@ -100,8 +100,8 @@ function showBubble(selectionText: string): void {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #1A1A1A;
-      border: 1px solid #3C3C3C;
+      background: #0F1B20; /* doxa-night */
+      border: 1px solid #192428; /* doxa-charcoal */
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       display: flex;
       align-items: center;

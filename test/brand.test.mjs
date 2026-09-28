@@ -86,3 +86,24 @@ test('shipped UI uses no amber accent (reserved for "Record a prophecy")', () =>
     assert.doesNotMatch(src, /#FF9500\b|rgba?\(\s*255\s*,\s*149\s*,\s*0/i, `${file} carries an amber accent`);
   }
 });
+
+test('shipped UI carries the brand night surfaces, never the old charcoal greys (Garth 2026-09-28)', () => {
+  const files = [
+    ...readdirSync(new URL('src/', root), { recursive: true }).filter((f) => f.endsWith('.ts')).map((f) => `src/${f}`),
+    ...readdirSync(new URL('static/', root)).map((f) => `static/${f}`),
+  ];
+  assert.ok(files.length > 10, `scanned ${files.length} files`);
+  // Old neutral-charcoal surfaces (pre brand-night-tokens): plain charcoal
+  // #1A1A1A, near-black #121212/#2A2A2A, and the old smoke/ash/ember greys
+  // #242424/#2C2C2C/#3C3C3C. The muted foreground grey #707070 is unrestricted.
+  const oldCharcoal = /#(1A1A1A|121212|2A2A2A|242424|2C2C2C|3C3C3C)\b/i;
+  for (const file of files) {
+    const src = read(file).toString();
+    assert.doesNotMatch(src, oldCharcoal, `${file} still carries an old charcoal surface hex`);
+  }
+  // The brand night/charcoal/ash tokens must actually be present somewhere
+  // (as literals or CSS custom properties), so this guard cannot pass by
+  // simply deleting all colour from the UI.
+  const all = files.map((f) => read(f).toString()).join('\n');
+  assert.match(all, /#0F1B20/i, 'brand night (#0F1B20) is missing from the shipped UI');
+});

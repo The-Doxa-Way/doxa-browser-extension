@@ -17,8 +17,8 @@
   --sacred: #FF4500; --blue: #0EA5E9; --blue-ink: #6AC7F1;
   --muted: rgba(255,255,255,0.84); --hairline: rgba(14,165,233,0.34);
   --flame: linear-gradient(100deg, #FF9500 0%, #FF4500 45%, #FF4500 60%, #FF9500 100%);
-  /* Extension UI greys (the app's dark theme). */
-  --ui-bg: #1A1A1A; --ui-raised: #242424; --ui-line: #3C3C3C; --ui-dim: #707070;
+  /* Extension UI greys (the app's dark theme, brand night tokens 2026-09-28). */
+  --ui-bg: #0F1B20; --ui-raised: #293A41; --ui-line: #192428; --ui-dim: #707070;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { overflow: hidden; background: var(--night); }

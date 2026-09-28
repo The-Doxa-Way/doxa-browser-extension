@@ -101,9 +101,12 @@ test('shipped UI carries the brand night surfaces, never the old charcoal greys 
     const src = read(file).toString();
     assert.doesNotMatch(src, oldCharcoal, `${file} still carries an old charcoal surface hex`);
   }
-  // The brand night/charcoal/ash tokens must actually be present somewhere
-  // (as literals or CSS custom properties), so this guard cannot pass by
-  // simply deleting all colour from the UI.
-  const all = files.map((f) => read(f).toString()).join('\n');
-  assert.match(all, /#0F1B20/i, 'brand night (#0F1B20) is missing from the shipped UI');
+  // The brand night hex must appear as an actual declaration (a CSS custom
+  // property or a background/border value) in each surface that owns one,
+  // not merely somewhere in a comment — a doc-only mention must not let a
+  // regressed surface (e.g. a deleted :root block) pass this guard.
+  const nightDeclaration = /(?:--doxa-night|background)\s*:\s*#0F1B20\b/i;
+  for (const file of ['static/popup.css', 'static/sidepanel.css', 'src/background.ts', 'src/content/selection-bubble.ts']) {
+    assert.match(read(file).toString(), nightDeclaration, `${file} is missing a brand-night (#0F1B20) declaration`);
+  }
 });

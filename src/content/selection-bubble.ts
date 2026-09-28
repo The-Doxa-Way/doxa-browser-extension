@@ -101,7 +101,7 @@ function showBubble(selectionText: string): void {
       height: 32px;
       border-radius: 50%;
       background: #0F1B20; /* doxa-night */
-      border: 1px solid #192428; /* doxa-charcoal */
+      border: 1px solid rgba(255,255,255,0.10); /* doxa-line */
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       display: flex;
       align-items: center;

@@ -3,14 +3,17 @@
  * Doxa palette (website doxa.app canon, Garth 2026-09-28): sacredFlame
  * #FF4500, blue #0EA5E9 / blueInk #6AC7F1 (accents; amber is reserved for
  * "Record a prophecy" in the app), night #0F1B20 (page), charcoal #192428
- * (borders/dividers), ash #293A41 (cards/inputs), coolAsh #707070 (muted
- * text), pureHeat #FFFFFF.
+ * (secondary surfaces), ash #293A41 (cards/inputs), coolAsh #707070 (muted
+ * text), pureHeat #FFFFFF. Borders/dividers use a white-alpha line (the
+ * website's own --color-border-dark token, doxa-app design-tokens/tokens.css)
+ * rather than a flat charcoal hex, which nearly vanished against night.
  */
 
 :root {
   --doxa-night: #0F1B20;
   --doxa-charcoal: #192428;
   --doxa-ash: #293A41;
+  --doxa-line: rgba(255, 255, 255, 0.10);
 }
 
 * {
@@ -38,7 +41,7 @@ body {
   gap: 12px;
   margin-bottom: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--doxa-charcoal);
+  border-bottom: 1px solid var(--doxa-line);
 }
 
 .doxa-logo {
@@ -76,7 +79,7 @@ textarea {
   width: 100%;
   background-color: var(--doxa-ash);
   color: #FFFFFF;
-  border: 1px solid var(--doxa-charcoal);
+  border: 1px solid var(--doxa-line);
   border-radius: 12px;
   padding: 12px;
   font-family: inherit;
@@ -123,7 +126,7 @@ textarea:focus {
   padding: 16px;
   background-color: var(--doxa-ash);
   border-radius: 16px;
-  border: 1px solid var(--doxa-charcoal);
+  border: 1px solid var(--doxa-line);
 }
 
 .doxa-movement {
@@ -204,7 +207,7 @@ textarea:focus {
 .doxa-footer {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px solid var(--doxa-charcoal);
+  border-top: 1px solid var(--doxa-line);
   font-size: 12px;
   color: #707070;
   text-align: center;
@@ -222,5 +225,5 @@ textarea:focus {
 
 .doxa-sep {
   margin: 0 8px;
-  color: var(--doxa-charcoal);
+  color: var(--doxa-line);
 }

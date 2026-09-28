@@ -214,7 +214,7 @@ function renderToast(payload: ToastPayload): void {
       max-width: calc(100vw - 32px);
       background: #0F1B20; /* doxa-night */
       color: #FFFFFF;
-      border: 1px solid #192428; /* doxa-charcoal */
+      border: 1px solid rgba(255,255,255,0.10); /* doxa-line */
       border-radius: 16px;
       padding: 16px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

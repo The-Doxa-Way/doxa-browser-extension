@@ -65,8 +65,8 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 - Small promo tile (440x280): `store/promo/tile-440x280.png`
 - Marquee (1400x560): `store/promo/marquee-1400x560.png`
 
-All assets use the doxa.app look (brand presence audit 2026-09-28): night background, blue dot
-field, white mountains mark with no glow, Satoshi type, flame-gradient key phrase, blue accents.
+All assets use the doxa.app look (brand presence audit 2026-09-28): night background with a
+cool blue radial (no dot grid, doxa-app #2463), white mountains mark with no glow, Satoshi type, flame-gradient key phrase, blue accents.
 The icon is the Doxa app icon (white mark on #FF4500). Sources: `store/assets-src/`.
 
 ## Privacy tab answers

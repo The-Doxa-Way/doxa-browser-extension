@@ -1,7 +1,8 @@
 /*
  * Store asset look: the doxa.app "Glory Rising" hero (the design canon).
- * Night background, blue dot field at the top, a faint white mountains
- * watermark (no glow at the base), Satoshi display type, a flame-gradient key
+ * Night background with one cool blue top-left radial, a faint white
+ * mountains watermark (no glow at the base; no dot grid: Garth 2026-09-28,
+ * removed site-wide in doxa-app #2463), Satoshi display type, a flame-gradient key
  * phrase, blue accents, and the white mark beside doxa.app as the sign-off.
  * Amber is reserved for "Record a prophecy" in the app, so it is not used here.
  * Tokens: openclaw workspaces/selah/production/shared/brand-kit/tokens.json.
@@ -25,9 +26,6 @@ body { position: relative; color: #FFFFFF; font-family: 'Plus Jakarta Sans', san
   background:
     radial-gradient(ellipse 80% 40% at 0% 0%, rgba(14,165,233,0.16), transparent 70%),
     linear-gradient(180deg, var(--night) 0%, var(--charcoal) 50%, var(--night) 100%); }
-.dots { position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(rgba(110,190,230,0.42) 1.2px, transparent 1.4px); background-size: 30px 30px;
-  -webkit-mask-image: radial-gradient(ellipse 85% 38% at 50% 0%, black 0%, transparent 80%); }
 .watermark { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); width: 92%; opacity: 0.045; pointer-events: none; }
 .watermark svg, .signoff svg { display: block; width: 100%; height: auto; }
 .display { font-family: 'Satoshi', sans-serif; font-weight: 900; letter-spacing: -0.035em; line-height: 1.04; }

@@ -1,40 +1,27 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 1400px; height: 560px; overflow: hidden; }
-  body { background: #0F0F0F; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-         display: flex; align-items: center; gap: 64px; padding: 0 80px; }
-  .left { width: 700px; flex: none; }
-  .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
-  .kicker img { width: 44px; height: 44px; border-radius: 10px; }
-  .kicker span { color: #FF9500; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-  h1 { color: #FFFFFF; font-size: 68px; font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; }
-  .sub { color: #B0B0B0; font-size: 22px; line-height: 1.55; margin-top: 24px; max-width: 620px; }
-  .foot { margin-top: 34px; color: #6E6E6E; font-size: 16px; letter-spacing: 0.01em; }
-  .toast { width: 456px; flex: none; background: #1A1A1A; border: 1px solid #3C3C3C; border-radius: 18px;
-           padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.55); }
-  .thead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #FF9500; }
-  .close { color: #707070; font-size: 18px; line-height: 1; }
-  .tbody { color: #FFFFFF; font-size: 16px; line-height: 1.62; }
-  .attrib { color: #808080; font-size: 14px; margin-top: 14px; }
-  .pills { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill { display: inline-block; padding: 7px 14px; font-size: 13px; color: #FF9500; background: rgba(255,149,0,0.08);
-          border: 1px solid rgba(255,149,0,0.3); border-radius: 999px; }
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="brand.css"><style>
+  html, body { width: 1400px; height: 560px; }
+  body { display: flex; align-items: center; justify-content: space-between; padding: 0 96px; }
+  .left { width: 720px; position: relative; }
+  .kicker { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+  .kicker .appicon { width: 48px; height: 48px; }
+  h1 { font-size: 84px; }
+  .sub { font-size: 22px; margin-top: 26px; max-width: 600px; }
+  .left .signoff { margin-top: 38px; }
+  .toast { width: 456px; flex: none; position: relative; font-size: 16px; padding: 24px; }
 </style></head>
 <body>
+  <div class="dots"></div>
+  <div class="watermark"><svg viewBox="0 0 985.41 483.47" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFFFF" d="M580.19,483.47c-50.89-53.63-100.7-106.11-150.84-158.95c21.25-21.83,41.84-42.97,63.09-64.8c-31.23-32.43-61.99-64.36-93.17-96.75c31.07-32.46,61.72-64.48,92.7-96.86c31.41,32.66,62.34,64.83,93.53,97.27c-26.53,27.58-52.64,54.72-78.95,82.08c11.63,10.76,21.08,22.43,32.27,32.28c48.72-50.41,97.01-100.36,145.79-150.83c63.02,65.53,126.38,129.88,189.65,196.71c-136.79,0-271.98,0-409.07,0c15.98,16.84,30.63,32.28,44.71,47.12c158.6,0,316.28,0,475.53,0C884.38,266.48,784.5,163.39,684.73,60.43c-22.49,23.32-44.63,46.28-67,69.48C575.76,86.16,534.54,42.92,491.7,0c-41.64,43.35-83.13,86.54-124.97,130.1c-22.63-23.55-44.75-46.57-67.28-70.02C200.51,164.31,99.16,265.77,0,370.92c17.55,1.64,355.69,0.68,363.29-1.09c-14.86-15.65-29.35-30.92-44.24-46.6c-69.39,0-138.75,0-209.74,0c64.03-66.11,126.85-130.99,190.19-196.38c42.96,44.48,85.32,88.33,128.22,132.75c-21.11,21.9-41.61,43.16-62.64,64.97c50.58,53.09,101.06,106.08,151.38,158.9C537.53,483.47,558.13,483.47,580.19,483.47z"/></svg></div>
   <div class="left">
-    <div class="kicker">
-      <img src="../../src/icons/icon-128.png" alt="">
-      <span>Your prophetic encouragement app</span>
-    </div>
-    <h1>Engage Scripture<br>with Doxa.</h1>
-    <div class="sub">Select any text on any page, right-click, and receive a word anchored in Scripture.</div>
-    <div class="foot">Doxa for Chrome · doxa.app</div>
+    <div class="kicker"><div class="appicon"><svg viewBox="0 0 985.41 483.47" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFFFF" d="M580.19,483.47c-50.89-53.63-100.7-106.11-150.84-158.95c21.25-21.83,41.84-42.97,63.09-64.8c-31.23-32.43-61.99-64.36-93.17-96.75c31.07-32.46,61.72-64.48,92.7-96.86c31.41,32.66,62.34,64.83,93.53,97.27c-26.53,27.58-52.64,54.72-78.95,82.08c11.63,10.76,21.08,22.43,32.27,32.28c48.72-50.41,97.01-100.36,145.79-150.83c63.02,65.53,126.38,129.88,189.65,196.71c-136.79,0-271.98,0-409.07,0c15.98,16.84,30.63,32.28,44.71,47.12c158.6,0,316.28,0,475.53,0C884.38,266.48,784.5,163.39,684.73,60.43c-22.49,23.32-44.63,46.28-67,69.48C575.76,86.16,534.54,42.92,491.7,0c-41.64,43.35-83.13,86.54-124.97,130.1c-22.63-23.55-44.75-46.57-67.28-70.02C200.51,164.31,99.16,265.77,0,370.92c17.55,1.64,355.69,0.68,363.29-1.09c-14.86-15.65-29.35-30.92-44.24-46.6c-69.39,0-138.75,0-209.74,0c64.03-66.11,126.85-130.99,190.19-196.38c42.96,44.48,85.32,88.33,128.22,132.75c-21.11,21.9-41.61,43.16-62.64,64.97c50.58,53.09,101.06,106.08,151.38,158.9C537.53,483.47,558.13,483.47,580.19,483.47z"/></svg></div><span class="eyebrow">Doxa for Chrome</span></div>
+    <h1 class="display">Know the God<br><span class="flame">who speaks.</span></h1>
+    <div class="sub">Select any text on any page and receive a word anchored in Scripture.</div>
+    <div class="signoff"><svg viewBox="0 0 985.41 483.47" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFFFF" d="M580.19,483.47c-50.89-53.63-100.7-106.11-150.84-158.95c21.25-21.83,41.84-42.97,63.09-64.8c-31.23-32.43-61.99-64.36-93.17-96.75c31.07-32.46,61.72-64.48,92.7-96.86c31.41,32.66,62.34,64.83,93.53,97.27c-26.53,27.58-52.64,54.72-78.95,82.08c11.63,10.76,21.08,22.43,32.27,32.28c48.72-50.41,97.01-100.36,145.79-150.83c63.02,65.53,126.38,129.88,189.65,196.71c-136.79,0-271.98,0-409.07,0c15.98,16.84,30.63,32.28,44.71,47.12c158.6,0,316.28,0,475.53,0C884.38,266.48,784.5,163.39,684.73,60.43c-22.49,23.32-44.63,46.28-67,69.48C575.76,86.16,534.54,42.92,491.7,0c-41.64,43.35-83.13,86.54-124.97,130.1c-22.63-23.55-44.75-46.57-67.28-70.02C200.51,164.31,99.16,265.77,0,370.92c17.55,1.64,355.69,0.68,363.29-1.09c-14.86-15.65-29.35-30.92-44.24-46.6c-69.39,0-138.75,0-209.74,0c64.03-66.11,126.85-130.99,190.19-196.38c42.96,44.48,85.32,88.33,128.22,132.75c-21.11,21.9-41.61,43.16-62.64,64.97c50.58,53.09,101.06,106.08,151.38,158.9C537.53,483.47,558.13,483.47,580.19,483.47z"/></svg><span>DOXA.APP</span></div>
   </div>
   <div class="toast">
     <div class="thead"><span class="badge">Remember</span><span class="close">×</span></div>
-    <div class="tbody">Israel built stone memorials at the Jordan River because they knew they would forget what God had done there. Joshua 4:6-7 puts it plainly: those stones were a sign, so that when your children ask, you can tell them what God did. Write down one thing God has done for you, so that when the fog rolls in, you have something concrete to return to.</div>
+    <div>Israel built stone memorials at the Jordan River so they would remember what God had done there. Joshua 4:6-7 says the stones were a sign: when your children ask, you can tell them what God did. Write down one thing God has done for you, and keep it for the day you need it.</div>
     <div class="attrib">Doxa · doxa.app</div>
     <div class="pills"><span class="pill">Joshua 4:6-7</span></div>
   </div>

@@ -230,7 +230,7 @@ function renderToast(payload: ToastPayload): void {
     .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
     .badge {
       font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #FF9500;
+      letter-spacing: 0.1em; color: #6AC7F1;
     }
     .close {
       background: transparent; border: 0; color: #707070; cursor: pointer;
@@ -242,11 +242,11 @@ function renderToast(payload: ToastPayload): void {
     .scriptures { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
     .scriptures a, .link {
       display: inline-block; padding: 6px 12px; font-size: 12px;
-      color: #FF9500; background: rgba(255,149,0,0.08);
-      border: 1px solid rgba(255,149,0,0.3); border-radius: 999px;
+      color: #6AC7F1; background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.34); border-radius: 999px;
       text-decoration: none;
     }
-    .scriptures a:hover, .link:hover { background: rgba(255,149,0,0.16); }
+    .scriptures a:hover, .link:hover { background: rgba(14,165,233,0.16); }
     .footer-link { margin-top: 12px; }
   `;
   shadow.appendChild(style);

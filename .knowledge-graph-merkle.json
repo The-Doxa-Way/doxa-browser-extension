@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "e95e4e599d96d14ee52779a4df72f7ddd7c7121fa0b5a7561602f8994edd0cc2",
+  "merkleRoot": "e1241c5a2a43537e89e4bb347d3ceb68e9b8fafbb62fea1ee8414602a2b4aad3",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -99,9 +99,26 @@
         "entityType": "Feature"
       },
       "timestamp": "2026-08-18T16:50:18.095Z"
+    },
+    {
+      "hash": "137eeafa0633335f5895996e519149a4b2428722eac5b1250e5db963af1056f4",
+      "entityName": "BrandPresenceAudit0928",
+      "content": "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation).",
+      "provenance": {
+        "sourceFile": "store/listing.md",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "41c3373c12d4f2a898f6b393979b395d4db75d4bdcb2b7e558dcffcc7997fd58",
+        "totalLines": 107,
+        "extractedAt": "2026-09-28T07:48:28.569Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-28T07:48:28.575Z"
     }
   ],
   "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-08-18T16:50:18.100Z"
+  "lastModified": "2026-09-28T07:48:28.606Z"
 }

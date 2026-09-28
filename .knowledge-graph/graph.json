@@ -29,6 +29,13 @@
       "observations": [
         "v0.3.0 (PR #13): Chrome Side Panel API (chrome.sidePanel) for persistent Doxa Engage chat alongside browsing. Files: static/sidepanel.html + sidepanel.css, src/sidepanel.ts. openPanelOnActionClick:true makes toolbar icon toggle the side panel (primary surface; popup demoted to right-click). Multi-turn sessions simulated client-side: composeSituation() builds context from last 3 exchange pairs within 2000-char limit for the single-turn MCP doxa_encourage tool. Session persistence via chrome.storage.local keyed by session ID. Listens for chrome.runtime.onMessage action:encourage-in-panel from background (selection bubble route). ENGAGE button outline-only (transparent bg, FF4500 border+text). Dark theme. New Session button clears thread."
       ]
+    },
+    {
+      "name": "BrandPresenceAudit0928",
+      "entityType": "Decision",
+      "observations": [
+        "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation)."
+      ]
     }
   ],
   "relations": []

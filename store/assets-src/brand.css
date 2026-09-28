@@ -1,0 +1,55 @@
+/*
+ * Store asset look: the doxa.app "Glory Rising" hero (the design canon).
+ * Night background, blue dot field at the top, a faint white mountains
+ * watermark (no glow at the base), Satoshi display type, a flame-gradient key
+ * phrase, blue accents, and the white mark beside doxa.app as the sign-off.
+ * Amber is reserved for "Record a prophecy" in the app, so it is not used here.
+ * Tokens: openclaw workspaces/selah/production/shared/brand-kit/tokens.json.
+ * Render: open each HTML in headless Chrome at the size in its name (screenshots
+ * 1280x800) after the web fonts load, and save a PNG to store/promo or store/screenshots.
+ */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=block');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=block');
+
+:root {
+  --night: #0F1B20; --charcoal: #192428; --ash: #293A41;
+  --sacred: #FF4500; --blue: #0EA5E9; --blue-ink: #6AC7F1;
+  --muted: rgba(255,255,255,0.84); --hairline: rgba(14,165,233,0.34);
+  --flame: linear-gradient(100deg, #FF9500 0%, #FF4500 45%, #FF4500 60%, #FF9500 100%);
+  /* Extension UI greys (the app's dark theme). */
+  --ui-bg: #1A1A1A; --ui-raised: #242424; --ui-line: #3C3C3C; --ui-dim: #707070;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; background: var(--night); }
+body { position: relative; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500;
+  background:
+    radial-gradient(ellipse 80% 40% at 0% 0%, rgba(14,165,233,0.16), transparent 70%),
+    linear-gradient(180deg, var(--night) 0%, var(--charcoal) 50%, var(--night) 100%); }
+.dots { position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(110,190,230,0.42) 1.2px, transparent 1.4px); background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 38% at 50% 0%, black 0%, transparent 80%); }
+.watermark { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); width: 92%; opacity: 0.045; pointer-events: none; }
+.watermark svg, .signoff svg { display: block; width: 100%; height: auto; }
+.display { font-family: 'Satoshi', sans-serif; font-weight: 900; letter-spacing: -0.035em; line-height: 1.04; }
+.flame { background: var(--flame); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.sub { color: var(--muted); line-height: 1.55; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px 8px 14px; border-radius: 999px;
+  border: 1.5px solid var(--hairline); background: rgba(14,165,233,0.07);
+  font-family: 'Satoshi', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-ink); }
+.eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: var(--blue); box-shadow: 0 0 10px 2px rgba(14,165,233,0.6); }
+.signoff { display: flex; align-items: center; gap: 12px; font-family: 'Satoshi', sans-serif; font-weight: 700;
+  font-size: 15px; letter-spacing: 0.08em; color: rgba(255,255,255,0.86); }
+.signoff svg { width: 40px; }
+.appicon { border-radius: 22%; background: var(--sacred); display: flex; align-items: center; justify-content: center; }
+.appicon svg { width: 78%; height: auto; }
+
+/* Extension UI mock-ups (colours match the shipped toast and side panel). */
+.toast { background: var(--ui-bg); color: #FFFFFF; border: 1px solid var(--ui-line); border-radius: 16px;
+  padding: 20px; font-size: 14.5px; line-height: 1.6; box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+.thead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.badge { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue-ink); }
+.close { color: var(--ui-dim); font-size: 18px; line-height: 1; }
+.attrib { color: #9A9A9A; font-size: 13px; margin-top: 12px; }
+.pills { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { display: inline-block; padding: 6px 12px; font-size: 12px; color: var(--blue-ink); background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.34); border-radius: 999px; }

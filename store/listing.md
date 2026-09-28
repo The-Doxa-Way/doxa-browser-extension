@@ -20,7 +20,7 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 **Summary** (132 chars max):
 
-> Engage Scripture with Doxa. Select text on any webpage and receive encouragement grounded in the Word.
+> Know the God who speaks. Select text on any webpage and engage Scripture with Doxa: encouragement grounded in the Word.
 
 **Category:** Lifestyle (pick the closest religion/well-being subcategory the console offers)
 
@@ -33,17 +33,17 @@ the promise leads, record-and-remember is the practice that serves it. Opens
 with the canonical elevator pitch verbatim and closes on the master line. No
 em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 
-> Engage Scripture with Doxa. Remembering on purpose what God has said and done, so you can know Him more deeply for your whole journey.
+> Know the God who speaks. Doxa helps you remember on purpose what God has said and done, so you can know Him more deeply for your whole journey.
 >
 > Doxa for Chrome brings Scripture and God's encouragement to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done. This extension is Doxa meeting you in the middle of your day.
 >
 > HOW IT WORKS
 >
-> Select any text on any page: a hard email, a discouraging headline, a message from a friend. A small Doxa icon appears near your selection. Click it and receive a word of encouragement anchored in Scripture. You can also right-click and choose "Encourage me with this".
+> Select any text on any page: a hard email, a discouraging headline, a message from a friend. A small Doxa icon appears right by your selection. Click it and receive a word of encouragement anchored in Scripture. You can also right-click and choose "Encourage me with this".
 >
 > Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly (Berean Standard Bible), with a link to keep reading in Doxa's Bible reader.
 >
-> Click the Doxa icon in your toolbar to open the Engage panel. A persistent sidebar where you can have an ongoing Engage session while you browse. Describe what you are facing in your own words and receive Scripture that speaks to it.
+> Click the Doxa icon in your toolbar to open the Engage panel: a side panel that stays with you while you browse. Describe what you are facing in your own words and keep an ongoing Engage session going, receiving Scripture that speaks to it.
 >
 > Every response is tagged to one of nine movements of the journey: hear, discern, test, record, remember, engage, trust, fight, endure. A simple map for holding on to what God has said and done.
 >
@@ -55,14 +55,18 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 >
 > The extension talks to exactly one server: doxa.app. No analytics, no tracking, no ads, no data sold. Only the text you select or type is sent, and only when you ask. Full details: https://doxa.app/privacy
 >
-> Doxa for Chrome is made by Doxa (https://doxa.app). Engage Scripture with Doxa.
+> Doxa for Chrome is made by The Doxa Way (https://doxa.app). Engage Scripture with Doxa.
 
 ## Graphic assets
 
 - Store icon 128x128: `src/icons/icon-128.png`
-- Screenshots (1280x800, at least 1, up to 5): `store/screenshots/`
+- Screenshots (1280x800, at least 1, up to 5): `store/screenshots/screenshot-1.png` (selection bubble), `-2` (verse lookup), `-3` (Engage side panel), in that order
 - Small promo tile (440x280): `store/promo/tile-440x280.png`
-- Marquee (1400x560, optional): skip for v1
+- Marquee (1400x560): `store/promo/marquee-1400x560.png`
+
+All assets use the doxa.app look (brand presence audit 2026-09-28): night background, blue dot
+field, white mountains mark with no glow, Satoshi type, flame-gradient key phrase, blue accents.
+The icon is the Doxa app icon (white mark on #FF4500). Sources: `store/assets-src/`.
 
 ## Privacy tab answers
 

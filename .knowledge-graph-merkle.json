@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "e1241c5a2a43537e89e4bb347d3ceb68e9b8fafbb62fea1ee8414602a2b4aad3",
+  "merkleRoot": "65195f059c5aa80ea2377d70c10a521314c97b87d4ea924b103dbf2831f356e1",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -116,9 +116,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-09-28T07:48:28.575Z"
+    },
+    {
+      "hash": "af048de3172aab15fd2aaaa7990ecf04f3e25b0e097f9a963df3299b6c1f2116",
+      "entityName": "BrandPresenceAudit0928",
+      "content": "Follow-up the same day: store tile, marquee and screenshots re-rendered with NO blue dot field, because Garth removed the dot grid site-wide on 2026-09-28 ('they don't work', doxa-app #2463). The look is now night + one cool blue top-left radial + faint white watermark. Uploaded assets must be these versions.",
+      "provenance": {
+        "sourceFile": "store/assets-src/brand.css",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "f0d848b0cbf03f5859e96ff39dd76fb34f641aa2e9050597f9567d8f417cb192",
+        "totalLines": 54,
+        "extractedAt": "2026-09-28T08:07:42.566Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-28T08:07:42.569Z"
     }
   ],
   "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-09-28T07:48:28.606Z"
+  "lastModified": "2026-09-28T08:07:42.591Z"
 }

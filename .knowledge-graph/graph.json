@@ -50,7 +50,8 @@
       "name": "OfficialLogoLockupOnly",
       "entityType": "Decision",
       "observations": [
-        "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons."
+        "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
+        "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused."
       ]
     }
   ],

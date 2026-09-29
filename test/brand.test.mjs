@@ -119,8 +119,9 @@ test('headers use the official Doxa lockup file, never a typed "Doxa" word mark 
   assert.match(read('static/popup.html').toString(), /<img src="icons\/doxa-full-logo\.png"/);
 
   // A bare "Doxa" text node as a heading, eyebrow, logo, or beside an icon image
-  // is a made-up word mark. "Doxa" inside a longer title or prose is fine.
-  const wordmark = /(<(?:h[1-6]|span|div|p|a)\b[^<>]*>)\s*(Doxa|doxa|DOXA)\.?\s*<\//g;
+  // is a made-up word mark. Decision: a product title that only starts with
+  // the name ("Doxa Engage", "Doxa for Chrome") is a title, not a word mark.
+  const wordmark = /(<(?:h[1-6]|span|div|p|a)\b[^<]*?>)\s*(Doxa|doxa|DOXA)\.?\s*<\//g;
   const files = readdirSync(new URL('static/', root)).filter((f) => f.endsWith('.html')).map((f) => `static/${f}`);
   assert.ok(files.length >= 3, `scanned ${files.length} files`);
   for (const file of files) {

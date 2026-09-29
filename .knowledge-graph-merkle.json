@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "454e0bd05b77ffcf6f3e4abfb3f888a17d06874e0191e5253e6ead60319e37de",
+  "merkleRoot": "f8999cc840d3a4c7a395c6792b2d0f461db670a10ebd45dc4d4e20b87a9526c3",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -167,9 +167,42 @@
         "entityType": "DesignSystem"
       },
       "timestamp": "2026-09-28T17:07:49.875Z"
+    },
+    {
+      "hash": "f5b1724fb51e6a44674c892e1f3bb38bb67fd24d9b2900a72e88fead5c912cad",
+      "entityName": "OfficialLogoLockupOnly",
+      "content": "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
+      "provenance": {
+        "sourceFile": "static/popup.html",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "b3d470a27a3b2e49737082a72f41a143ec7cdb858482dd7255e33154278b43a5",
+        "totalLines": 55,
+        "extractedAt": "2026-09-29T07:19:26.387Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-29T07:19:26.388Z"
+    },
+    {
+      "hash": "fcc0b90996a3e4f62ea5cc1bd60b90433952aa7a0ba6bc807e8e994dbfd206a7",
+      "entityName": "OfficialLogoLockupOnly",
+      "content": "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused.",
+      "provenance": {
+        "sourceFile": "test/brand.test.mjs",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "36f53d002fb475d0e5e25a929eb16ce14609f406d3ee145656c08cd3516ec752",
+        "totalLines": 142,
+        "extractedAt": "2026-09-29T07:32:28.991Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs"
+      },
+      "timestamp": "2026-09-29T07:32:28.991Z"
     }
   ],
   "lastVerified": "2026-08-15T22:04:11.645Z",
   "version": 1,
-  "lastModified": "2026-09-28T17:07:49.887Z"
+  "lastModified": "2026-09-29T07:32:28.992Z"
 }

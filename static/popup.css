@@ -50,6 +50,12 @@ body {
   border-radius: 8px;
 }
 
+.doxa-lockup {
+  display: block;
+  width: 51px;
+  height: 32px;
+}
+
 .doxa-title h1 {
   font-size: 16px;
   font-weight: 700;

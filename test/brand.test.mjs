@@ -110,3 +110,32 @@ test('shipped UI carries the brand night surfaces, never the old charcoal greys 
     assert.match(read(file).toString(), nightDeclaration, `${file} is missing a brand-night (#0F1B20) declaration`);
   }
 });
+
+test('headers use the official Doxa lockup file, never a typed "Doxa" word mark (Garth 2026-09-29)', async () => {
+  const { createHash } = await import('node:crypto');
+  // sha256 of doxa.app/images/doxa-full-logo.png: the website header lockup.
+  const CANON_LOCKUP_SHA = 'dbd3c11ceccf9041b730e28c114ffe33643713f626f7132801444c8848f1923e';
+  assert.equal(createHash('sha256').update(read('src/icons/doxa-full-logo.png')).digest('hex'), CANON_LOCKUP_SHA);
+  assert.match(read('static/popup.html').toString(), /<img src="icons\/doxa-full-logo\.png"/);
+
+  // A bare "Doxa" text node as a heading, eyebrow, logo, or beside an icon image
+  // is a made-up word mark. Decision: a product title that only starts with
+  // the name ("Doxa Engage", "Doxa for Chrome") is a title, not a word mark.
+  const wordmark = /(<(?:h[1-6]|span|div|p|a)\b[^<]*?>)\s*(Doxa|doxa|DOXA)\.?\s*<\//g;
+  const files = readdirSync(new URL('static/', root)).filter((f) => f.endsWith('.html')).map((f) => `static/${f}`);
+  assert.ok(files.length >= 3, `scanned ${files.length} files`);
+  for (const file of files) {
+    const src = read(file).toString();
+    for (const m of src.matchAll(wordmark)) {
+      const around = src.slice(Math.max(0, m.index - 400), m.index + m[0].length + 400);
+      assert.ok(
+        !/^<h[1-6]\b|eyebrow|logo|brand|title/i.test(m[1]) && !/<img\b|<svg\b/.test(around),
+        `${file}: "${m[0]}" is a made-up word mark; use icons/doxa-full-logo.png`,
+      );
+    }
+  }
+  // The retired thin word mark and non-canon lockups never ship.
+  for (const f of readdirSync(new URL('src/icons/', root))) {
+    assert.ok(/^(icon-\d+\.png|doxa-logo\.svg|doxa-full-logo\.png)$/.test(f), `unexpected logo file src/icons/${f}`);
+  }
+});

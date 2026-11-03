@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "f8999cc840d3a4c7a395c6792b2d0f461db670a10ebd45dc4d4e20b87a9526c3",
+  "merkleRoot": "0cc06915f2bb7a3d9d6ad7141589ed2b9a28571a1e55c8fa9b38c7793670e3e6",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -200,9 +200,26 @@
         "extractedBy": "knowledge-graph-merkle.cjs"
       },
       "timestamp": "2026-09-29T07:32:28.991Z"
+    },
+    {
+      "hash": "691f1c000adba689aea8edf7c0e9f2e40a5f62222126a49c2f72b428cc8b36ab",
+      "entityName": "FleetSecurityBaseline20261103",
+      "content": "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint.",
+      "provenance": {
+        "sourceFile": ".github/workflows/secret-scan.yml",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "af9088771b015861fed3514c1feab7e06a2e0b4710f35f9eee8c0557d19b2b51",
+        "totalLines": 80,
+        "extractedAt": "2026-11-03T09:12:33.346Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-03T09:12:33.347Z"
     }
   ],
-  "lastVerified": "2026-08-15T22:04:11.645Z",
+  "lastVerified": "2026-11-03T09:12:53.873Z",
   "version": 1,
-  "lastModified": "2026-09-29T07:32:28.992Z"
+  "lastModified": "2026-11-03T09:12:53.874Z"
 }

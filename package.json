@@ -25,7 +25,7 @@
     "@thedoxaway/mcp-client": "^0.2.4"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.270",
+    "@types/chrome": "^0.3.7",
     "typescript": "^5.4.0"
   }
 }

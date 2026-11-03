@@ -1,0 +1,9 @@
+# Full-history gitleaks findings, classified one by one (2026-11-03). None is a secret.
+# Format: one fingerprint per line, each pinned to its commit, with the reason above it.
+
+# Chrome manifest "key": the extension's RSA PUBLIC key (SPKI), which pins the extension ID. Public by design.
+170eb1d57021078c1be241e4100f1e2c101c0ff0:static/manifest.json:generic-api-key:6
+# Chrome manifest "key": the extension's RSA PUBLIC key (SPKI), which pins the extension ID. Public by design.
+a29e63b0776fd03d6be397573779446f92b3c2ab:static/manifest.json:generic-api-key:6
+# Supabase anon key (JWT role "anon"): public client config shipped in every Doxa client bundle.
+6afdf5d2f0d3de826585a4f7c9af570019f32017:src/utils/auth.ts:jwt:17

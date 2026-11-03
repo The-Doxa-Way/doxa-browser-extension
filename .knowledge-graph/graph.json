@@ -53,6 +53,13 @@
         "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
         "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused."
       ]
+    },
+    {
+      "name": "FleetSecurityBaseline20261103",
+      "entityType": "Decision",
+      "observations": [
+        "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint."
+      ]
     }
   ],
   "relations": []

@@ -85,22 +85,35 @@ cmd="$(printf '%s' "$payload" | jq -r '.tool_input.command // empty' 2>/dev/null
 # triple, not the first `merge` word: `git merge x && gh pr merge 5` must
 # resolve PR 5, never branch x.
 rg_pr_ref="$(printf '%s' "$payload" | jq -r '(.tool_input.pullNumber // .tool_input.pull_number // empty) | if type == "number" then floor else . end | tostring' 2>/dev/null)"
-if [ -z "$rg_pr_ref" ] && [ -n "$cmd" ]; then
-  rg_cmd="$(printf '%s' "$cmd" | tr -d "\"'(){}\`")"
-  set -f
-  # shellcheck disable=SC2086
-  set -- $rg_cmd
-  set +f
-  while [ $# -ge 3 ] && ! { [ "$1" = "gh" ] && [ "$2" = "pr" ] && [ "$3" = "merge" ]; }; do shift; done
-  if [ $# -ge 3 ]; then shift 3; else set --; fi   # no `gh pr merge` → no ref
+# first_merge_ref <tokens…>: the first positional after `gh pr merge` (flags
+# and their values skipped), or nothing. A leading `(`/`{`/backtick on `gh` is
+# allowed, so a subshell or substitution still finds the merge.
+first_merge_ref() {
+  while [ $# -ge 3 ] && ! { [ "${1##*[(\{\`]}" = "gh" ] && [ "$2" = "pr" ] && [ "$3" = "merge" ]; }; do shift; done
+  if [ $# -ge 3 ]; then shift 3; else return 0; fi   # no `gh pr merge` → no ref
   while [ $# -gt 0 ]; do
     case "$1" in
       --repo|-R|--body|-b|--body-file|-F|--subject|-t|--match-head-commit|--author-email|-A) shift; [ $# -gt 0 ] && shift ;;
       -*) shift ;;
-      '&&'|';'|'|'|'||') break ;;
-      *) rg_pr_ref="${1%%[;&|]*}"; break ;;
+      '&&'|';'|'|'|'||') return 0 ;;
+      *) printf '%s' "${1%%[;&|]*}"; return 0 ;;
     esac
   done
+}
+rg_ref_altered=0
+if [ -z "$rg_pr_ref" ] && [ -n "$cmd" ]; then
+  set -f
+  # shellcheck disable=SC2046
+  rg_pr_ref="$(first_merge_ref $(printf '%s' "$cmd" | tr -d "\"'(){}\`"))"
+  # The ref must be the merge's own argument exactly as written. Deleting
+  # (){}` turns a branch `a{b}` into `ab`, another PR whose attestation would
+  # then pass for this merge (Vercel Security Review, 2026-11-05). Acted on
+  # below, once the command is known to land in this repo.
+  # Every ref, numbers and URLs too: `1{2}` strips to the number 12. A real
+  # number or URL has none of those characters, so it compares equal.
+  # shellcheck disable=SC2046
+  [ -z "$rg_pr_ref" ] || [ "$(first_merge_ref $(printf '%s' "$cmd" | tr -d "\"'"))" = "$rg_pr_ref" ] || rg_ref_altered=1
+  set +f
 fi
 
 dir="${CLAUDE_PROJECT_DIR:-$PWD}"
@@ -159,6 +172,11 @@ elif [ -n "$cmd" ]; then
   fi
 else
   exit 0
+fi
+
+if [ "$rg_ref_altered" = 1 ]; then
+  echo "review-gate: cannot read the branch ref of this \`gh pr merge\` exactly — merge by PR number." >&2
+  exit 2
 fi
 
 cd "$dir" 2>/dev/null || exit 0

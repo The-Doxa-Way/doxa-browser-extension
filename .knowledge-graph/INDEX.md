@@ -20,3 +20,7 @@
 ## DesignSystem (1)
 
 - ExtensionBrandNightTokens — popup/sidepanel/options/toast/bubble surfaces moved from neutral charcoal (#1A1A1A/#242424/#2C2C2C/#3C3C3C) t…
+
+## Workflow (1)
+
+- CanonicalFleetGates — 2026-11-05: this repo's five fleet gates (kg-save-gate.sh, review-gate.sh, test-gate.sh, scripts/attest-revie…

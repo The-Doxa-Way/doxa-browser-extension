@@ -60,6 +60,13 @@
       "observations": [
         "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint."
       ]
+    },
+    {
+      "name": "CanonicalFleetGates",
+      "entityType": "Workflow",
+      "observations": [
+        "2026-11-05: this repo's five fleet gates (kg-save-gate.sh, review-gate.sh, test-gate.sh, scripts/attest-review.sh, kg-guard.yml) are now GENERATED from The-Doxa-Way-CNS fleet/gates/*.tmpl by scripts/generate-fleet-gates.mjs --repo doxa-browser-extension (decision docs/decisions/2026-11-05-canonical-fleet-gates.md; template fix PR #2379). Never hand-edit them here: fix the template and regenerate; check-hook-drift.mjs compares this copy on main daily. What the old copy lacked: kg-save-gate.sh called check-kg-merge-integrity.cjs --remote-pr, a mode the script lacks (exit 0: MCP merges were never integrity-checked) and had a .cjson typo in the merkle path; the canonical gate detects the mode and falls back to the local check (pinned in scripts/kg-save-gate-merge-integrity.test.cjs); testRe now counts scripts/*.test.cjs as tests. Carries Wamemba me's no-re-review-of-a-blocked-commit rule: attest-review.sh 'blocked: <findings>' records SHA+tree and that code can never be attested."
+      ]
     }
   ],
   "relations": []

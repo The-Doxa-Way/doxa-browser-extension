@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "0cc06915f2bb7a3d9d6ad7141589ed2b9a28571a1e55c8fa9b38c7793670e3e6",
+  "merkleRoot": "e923bf74f33bd1584c06d010a304fac617f6d5d34d034762d3dff04453238381",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -217,9 +217,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-11-03T09:12:33.347Z"
+    },
+    {
+      "hash": "448ca5add5e7a235899dbbbd9c2ce24a58ce7d53a3842212c9767efac677885b",
+      "entityName": "CanonicalFleetGates",
+      "content": "2026-11-05: this repo's five fleet gates (kg-save-gate.sh, review-gate.sh, test-gate.sh, scripts/attest-review.sh, kg-guard.yml) are now GENERATED from The-Doxa-Way-CNS fleet/gates/*.tmpl by scripts/generate-fleet-gates.mjs --repo doxa-browser-extension (decision docs/decisions/2026-11-05-canonical-fleet-gates.md; template fix PR #2379). Never hand-edit them here: fix the template and regenerate; check-hook-drift.mjs compares this copy on main daily. What the old copy lacked: kg-save-gate.sh called check-kg-merge-integrity.cjs --remote-pr, a mode the script lacks (exit 0: MCP merges were never integrity-checked) and had a .cjson typo in the merkle path; the canonical gate detects the mode and falls back to the local check (pinned in scripts/kg-save-gate-merge-integrity.test.cjs); testRe now counts scripts/*.test.cjs as tests. Carries Wamemba me's no-re-review-of-a-blocked-commit rule: attest-review.sh 'blocked: <findings>' records SHA+tree and that code can never be attested.",
+      "provenance": {
+        "sourceFile": ".claude/hooks/kg-save-gate.sh",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "bbeefc4f59bba18027027811491db3ffbe05776be63c7cb8b586b9d2708ebd88",
+        "totalLines": 620,
+        "extractedAt": "2026-11-05T16:05:25.939Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Workflow"
+      },
+      "timestamp": "2026-11-05T16:05:25.941Z"
     }
   ],
   "lastVerified": "2026-11-03T09:12:53.873Z",
   "version": 1,
-  "lastModified": "2026-11-03T09:12:53.874Z"
+  "lastModified": "2026-11-05T16:05:25.948Z"
 }

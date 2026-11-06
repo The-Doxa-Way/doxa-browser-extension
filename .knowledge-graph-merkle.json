@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "66a157cae7ddb9a996745dc36a5b4292a5051648ea5107212328445a49a122d1",
+  "merkleRoot": "4b7b42ca5b3abcbae1db5b63604b2c7719f590d9962481f99c9c67a9bc78a124",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -101,8 +101,8 @@
       "timestamp": "2026-08-18T16:50:18.095Z"
     },
     {
-      "hash": "137eeafa0633335f5895996e519149a4b2428722eac5b1250e5db963af1056f4",
-      "entityName": "BrandPresenceAudit0928",
+      "hash": "069b80fb244eaf9fb90ecb6cc1a973f92a50e7b60df01e3bb87deb0f977ccdaf",
+      "entityName": "DoxaForChromeBrandPresenceAudit0928",
       "content": "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation).",
       "provenance": {
         "sourceFile": "store/listing.md",
@@ -118,8 +118,8 @@
       "timestamp": "2026-09-28T07:48:28.575Z"
     },
     {
-      "hash": "af048de3172aab15fd2aaaa7990ecf04f3e25b0e097f9a963df3299b6c1f2116",
-      "entityName": "BrandPresenceAudit0928",
+      "hash": "f8427688d76501acb4c96367c83901bba282f6928a40296b04e12e46e2650599",
+      "entityName": "DoxaForChromeBrandPresenceAudit0928",
       "content": "Follow-up the same day: store tile, marquee and screenshots re-rendered with NO blue dot field, because Garth removed the dot grid site-wide on 2026-09-28 ('they don't work', doxa-app #2463). The look is now night + one cool blue top-left radial + faint white watermark. Uploaded assets must be these versions.",
       "provenance": {
         "sourceFile": "store/assets-src/brand.css",
@@ -169,8 +169,8 @@
       "timestamp": "2026-09-28T17:07:49.875Z"
     },
     {
-      "hash": "f5b1724fb51e6a44674c892e1f3bb38bb67fd24d9b2900a72e88fead5c912cad",
-      "entityName": "OfficialLogoLockupOnly",
+      "hash": "8b54c507e16ae99696f7781edc0476b6eb4c78b12f9764b9b15810d6eaced576",
+      "entityName": "DoxaForChromeOfficialLogoOnly",
       "content": "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
       "provenance": {
         "sourceFile": "static/popup.html",
@@ -186,8 +186,8 @@
       "timestamp": "2026-09-29T07:19:26.388Z"
     },
     {
-      "hash": "fcc0b90996a3e4f62ea5cc1bd60b90433952aa7a0ba6bc807e8e994dbfd206a7",
-      "entityName": "OfficialLogoLockupOnly",
+      "hash": "81b46d12ebde7c66d7e2de9d3a323695a4f409c7aa038d1d39345bd71e17baf0",
+      "entityName": "DoxaForChromeOfficialLogoOnly",
       "content": "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused.",
       "provenance": {
         "sourceFile": "test/brand.test.mjs",
@@ -202,93 +202,8 @@
       "timestamp": "2026-09-29T07:32:28.991Z"
     },
     {
-      "hash": "691f1c000adba689aea8edf7c0e9f2e40a5f62222126a49c2f72b428cc8b36ab",
-      "entityName": "FleetSecurityBaseline20261103",
-      "content": "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint.",
-      "provenance": {
-        "sourceFile": ".github/workflows/secret-scan.yml",
-        "lineNumber": 1,
-        "lineRange": null,
-        "fileHash": "af9088771b015861fed3514c1feab7e06a2e0b4710f35f9eee8c0557d19b2b51",
-        "totalLines": 80,
-        "extractedAt": "2026-11-03T09:12:33.346Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Decision"
-      },
-      "timestamp": "2026-11-03T09:12:33.347Z"
-    },
-    {
-      "hash": "448ca5add5e7a235899dbbbd9c2ce24a58ce7d53a3842212c9767efac677885b",
-      "entityName": "CanonicalFleetGates",
-      "content": "2026-11-05: this repo's five fleet gates (kg-save-gate.sh, review-gate.sh, test-gate.sh, scripts/attest-review.sh, kg-guard.yml) are now GENERATED from The-Doxa-Way-CNS fleet/gates/*.tmpl by scripts/generate-fleet-gates.mjs --repo doxa-browser-extension (decision docs/decisions/2026-11-05-canonical-fleet-gates.md; template fix PR #2379). Never hand-edit them here: fix the template and regenerate; check-hook-drift.mjs compares this copy on main daily. What the old copy lacked: kg-save-gate.sh called check-kg-merge-integrity.cjs --remote-pr, a mode the script lacks (exit 0: MCP merges were never integrity-checked) and had a .cjson typo in the merkle path; the canonical gate detects the mode and falls back to the local check (pinned in scripts/kg-save-gate-merge-integrity.test.cjs); testRe now counts scripts/*.test.cjs as tests. Carries Wamemba me's no-re-review-of-a-blocked-commit rule: attest-review.sh 'blocked: <findings>' records SHA+tree and that code can never be attested.",
-      "provenance": {
-        "sourceFile": ".claude/hooks/kg-save-gate.sh",
-        "lineNumber": 1,
-        "lineRange": null,
-        "fileHash": "bbeefc4f59bba18027027811491db3ffbe05776be63c7cb8b586b9d2708ebd88",
-        "totalLines": 620,
-        "extractedAt": "2026-11-05T16:05:25.939Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Workflow"
-      },
-      "timestamp": "2026-11-05T16:05:25.941Z"
-    },
-    {
-      "hash": "5d83d74e88dccddbc5776ce1a41eb9f7bbc2ae92846feef4b54a4ec0c35d5291",
-      "entityName": "FleetGates",
-      "content": "2026-11-05: re-rendered kg-save-gate.sh and review-gate.sh from The-Doxa-Way-CNS fleet/gates templates (CNS PR #2391): a GitHub origin is this repo only when the owner is the fleet org; a gh pr merge branch ref must appear verbatim or the merge is refused (merge by PR number).",
-      "provenance": {
-        "sourceFile": ".claude/hooks/kg-save-gate.sh",
-        "lineNumber": 1,
-        "lineRange": null,
-        "fileHash": "5d39825508ad2004c45c084805f92eac2e896163689e40b532da369bb740fdf7",
-        "totalLines": 631,
-        "extractedAt": "2026-11-05T16:37:38.476Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Reference"
-      },
-      "timestamp": "2026-11-05T16:37:38.478Z"
-    },
-    {
-      "hash": "2cd5d2a0d9540f2c001ee661c2f807318f2ec7e33fbc3b638c613628cdbaa5c7",
-      "entityName": "FleetGates",
-      "content": "2026-11-05: re-rendered the gate hooks from The-Doxa-Way-CNS fleet/gates templates at 971d0c9245 (CNS #2417, #2391). Merge-message text is data; the repo of a merge comes only from that merge's own command; any doubt applies this repo's gates.",
-      "provenance": {
-        "sourceFile": ".claude/hooks/review-gate.sh",
-        "lineNumber": null,
-        "lineRange": null,
-        "fileHash": "bee2898899e33c2d7a064b68b63871570a34dfb8b1d45836a078425370899c8e",
-        "totalLines": 364,
-        "extractedAt": "2026-11-05T22:32:25.513Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Reference"
-      },
-      "timestamp": "2026-11-05T22:32:25.522Z"
-    },
-    {
-      "hash": "dee63161d765103009c6b92d85d5c046738b79c3eaa79e80c9392ece5d4e359e",
-      "entityName": "FleetGates",
-      "content": "2026-11-05: gate hooks re-rendered from The-Doxa-Way-CNS@848eaf8860 (#2424): a Bash gh pr merge must name one literal PR number or PR URL in a plain command, anything else blocks; gate hooks never run code from the checkout they judge.",
-      "provenance": {
-        "sourceFile": ".claude/hooks/review-gate.sh",
-        "lineNumber": null,
-        "lineRange": null,
-        "fileHash": "e44ab623f2c8b432ccbce9f4470736f1cd9684cf94dc2a79d594c539d4836b5c",
-        "totalLines": 392,
-        "extractedAt": "2026-11-05T23:13:07.359Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Reference"
-      },
-      "timestamp": "2026-11-05T23:13:07.360Z"
-    },
-    {
-      "hash": "dd262e71ad42900f01396db3075276395567f41bfe2076678a524ec3737d12c6",
-      "entityName": "DoxaForChromeStoreIdentity",
+      "hash": "cce3f310834c56e9344dd50ce6f5326a5958a5280acbf9b97c784d19481988af",
+      "entityName": "DoxaForChromeListingDescriptor",
       "content": "2026-11-05 Dawn listing (Garth: lead every listing with 'Record and hold prophetic encouragement for decades.'): manifest description (= store Summary, 132/132 chars) now leads with the descriptor and ships with the NEXT package upload only; store/listing.md description leads with it and drops 'a word of encouragement'; promo tiles replaced by the Dawn renders from openclaw render-dawn-banners.js. Description and tiles can be submitted without a build, but the devconsole is behind a Google 'Verify it's you' wall (ceo-action chrome-web-store-reverify-google-2026-11). brand.test.mjs now requires the descriptor first and the master line kept.",
       "provenance": {
         "sourceFile": "store/listing.md",
@@ -304,41 +219,24 @@
       "timestamp": "2026-11-06T00:22:31.039Z"
     },
     {
-      "hash": "a177f92f173b3527dd77985360713f0fe8817a26ecf0fc1e862b6736eab47f78",
-      "entityName": "FleetGates",
-      "content": "2026-11-06: gate hooks re-rendered from The-Doxa-Way-CNS@65ff05174b (#2453): stricter merge contract (literal PR ref; no redirection, shell comment or empty quote; every repo flag read) and push prefilter.",
+      "hash": "8f52e8b31feb0b4e5293896228d9d684692126e845d5a4c9fb64ae3bcc2e81bf",
+      "entityName": "DoxaForChromeKgFederation",
+      "content": "2026-11-06 (The-Doxa-Way-CNS spec the-doxa-way-control-tower F6): this repo's KG becomes CNS source doxa-browser-extension (authority/registry.yaml). Fleet-wide facts are held by the CNS meta-KG or by the other CNS sources (doxa-app, openclaw, doxa-shared), so this repo's copies were removed (federated, they opened conflicts; the Decision ones queue for Garth): FleetSecurityBaseline20261103, CanonicalFleetGates, FleetGates. Repo-local facts that shared a name with another source were renamed: OfficialLogoLockupOnly -> DoxaForChromeOfficialLogoOnly (the canon rule stays doxa-app OfficialLogoLockupOnly), DoxaForChromeStoreIdentity -> DoxaForChromeListingDescriptor (the store id fact stays doxa-cns DoxaForChromeStoreIdentity), BrandPresenceAudit0928 -> DoxaForChromeBrandPresenceAudit0928. Rule: kg-save only facts about THIS repo here, under a repo-scoped name. A gate or fleet fact is a kg-save in The-Doxa-Way-CNS; a gate re-render PR here carries no KG change (title it chore(sync): ..., which KG Guard exempts).",
       "provenance": {
-        "sourceFile": ".claude/hooks/review-gate.sh",
-        "lineNumber": null,
+        "sourceFile": "README.md",
+        "lineNumber": 1,
         "lineRange": null,
-        "fileHash": "ce17cf0e8eb1a7e6ed966f529f979fcf279ad68ca66fa2eb513382c7d576fa0d",
-        "totalLines": 400,
-        "extractedAt": "2026-11-06T00:39:33.527Z",
+        "fileHash": "236a72b2a36229da30d6a61c0904083cbeeb68486f89cc13958c04270e85e66c",
+        "totalLines": 110,
+        "extractedAt": "2026-11-06T04:51:08.779Z",
         "verificationStatus": "verified",
         "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Reference"
+        "entityType": "Decision"
       },
-      "timestamp": "2026-11-06T00:39:33.528Z"
-    },
-    {
-      "hash": "83f36cd3830673f084fba3f2f957ea440424bf6e235b4cc1bbd5818fc549570a",
-      "entityName": "FleetGates",
-      "content": "2026-11-06: gate hooks re-rendered from The-Doxa-Way-CNS@46cc70a524 (#2453, #2517): literal-PR merge contract (no redirection at all, shell comment or empty quote; every repo flag read; a masked cd target or a cd/pushd the hook cannot follow blocks) and push prefilter.",
-      "provenance": {
-        "sourceFile": ".claude/hooks/review-gate.sh",
-        "lineNumber": null,
-        "lineRange": null,
-        "fileHash": "89919ae25dd6e57a1ede73ba796904e88dbc8fdf61d80f3ff2b6c08ce94f4990",
-        "totalLines": 404,
-        "extractedAt": "2026-11-06T01:41:31.683Z",
-        "verificationStatus": "verified",
-        "extractedBy": "knowledge-graph-merkle.cjs",
-        "entityType": "Reference"
-      },
-      "timestamp": "2026-11-06T01:41:31.685Z"
+      "timestamp": "2026-11-06T04:51:08.781Z"
     }
   ],
-  "lastVerified": null,
+  "lastVerified": "2026-11-06T04:51:17.709Z",
   "version": 1,
-  "lastModified": "2026-11-06T01:41:31.701Z"
+  "lastModified": "2026-11-06T04:51:17.711Z"
 }

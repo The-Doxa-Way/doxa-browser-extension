@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "e0022972e1636cfb9874320b17eda55f9ea65be6b06370faecaea816cb1e0b2f",
+  "merkleRoot": "2a1839696d564074f0253f75705345c6853443eb51b48ec8df0c751d050672e1",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -302,9 +302,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-11-06T00:22:31.039Z"
+    },
+    {
+      "hash": "a177f92f173b3527dd77985360713f0fe8817a26ecf0fc1e862b6736eab47f78",
+      "entityName": "FleetGates",
+      "content": "2026-11-06: gate hooks re-rendered from The-Doxa-Way-CNS@65ff05174b (#2453): stricter merge contract (literal PR ref; no redirection, shell comment or empty quote; every repo flag read) and push prefilter.",
+      "provenance": {
+        "sourceFile": ".claude/hooks/review-gate.sh",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "ce17cf0e8eb1a7e6ed966f529f979fcf279ad68ca66fa2eb513382c7d576fa0d",
+        "totalLines": 400,
+        "extractedAt": "2026-11-06T00:39:33.527Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Reference"
+      },
+      "timestamp": "2026-11-06T00:39:33.528Z"
     }
   ],
   "lastVerified": null,
   "version": 1,
-  "lastModified": "2026-11-06T00:39:15.010Z"
+  "lastModified": "2026-11-06T00:39:33.537Z"
 }

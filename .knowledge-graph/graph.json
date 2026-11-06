@@ -74,6 +74,13 @@
       "observations": [
         "2026-11-05: re-rendered kg-save-gate.sh and review-gate.sh from The-Doxa-Way-CNS fleet/gates templates (CNS PR #2391): a GitHub origin is this repo only when the owner is the fleet org; a gh pr merge branch ref must appear verbatim or the merge is refused (merge by PR number)."
       ]
+    },
+    {
+      "name": "DoxaForChromeStoreIdentity",
+      "entityType": "Decision",
+      "observations": [
+        "2026-11-05 Dawn listing (Garth: lead every listing with 'Record and hold prophetic encouragement for decades.'): manifest description (= store Summary, 132/132 chars) now leads with the descriptor and ships with the NEXT package upload only; store/listing.md description leads with it and drops 'a word of encouragement'; promo tiles replaced by the Dawn renders from openclaw render-dawn-banners.js. Description and tiles can be submitted without a build, but the devconsole is behind a Google 'Verify it's you' wall (ceo-action chrome-web-store-reverify-google-2026-11). brand.test.mjs now requires the descriptor first and the master line kept."
+      ]
     }
   ],
   "relations": []

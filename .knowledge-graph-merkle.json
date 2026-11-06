@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "3cc08cbe65debb44fcdbf447475a20eeeec8f6d7ba96e88d418dbb05c381568b",
+  "merkleRoot": "21ddec035902a213bccbe8d49bad5390cd61e3b2ff5a61c9f5ce2291eb7913e1",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -251,9 +251,26 @@
         "entityType": "Reference"
       },
       "timestamp": "2026-11-05T16:37:38.478Z"
+    },
+    {
+      "hash": "dd262e71ad42900f01396db3075276395567f41bfe2076678a524ec3737d12c6",
+      "entityName": "DoxaForChromeStoreIdentity",
+      "content": "2026-11-05 Dawn listing (Garth: lead every listing with 'Record and hold prophetic encouragement for decades.'): manifest description (= store Summary, 132/132 chars) now leads with the descriptor and ships with the NEXT package upload only; store/listing.md description leads with it and drops 'a word of encouragement'; promo tiles replaced by the Dawn renders from openclaw render-dawn-banners.js. Description and tiles can be submitted without a build, but the devconsole is behind a Google 'Verify it's you' wall (ceo-action chrome-web-store-reverify-google-2026-11). brand.test.mjs now requires the descriptor first and the master line kept.",
+      "provenance": {
+        "sourceFile": "store/listing.md",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "6fb55c86cf840c1448c6744df7e69c90d969a5324db7f4d08186fb6b4d81913c",
+        "totalLines": 107,
+        "extractedAt": "2026-11-06T00:22:31.038Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-06T00:22:31.039Z"
     }
   ],
   "lastVerified": "2026-11-03T09:12:53.873Z",
   "version": 1,
-  "lastModified": "2026-11-05T16:37:38.543Z"
+  "lastModified": "2026-11-06T00:22:31.060Z"
 }

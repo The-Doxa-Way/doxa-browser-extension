@@ -18,9 +18,9 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 **Name:** Doxa for Chrome
 
-**Summary** (132 chars max):
+**Summary** (132 chars max; the store reads it from `static/manifest.json` `description`, so it changes only with a new package upload):
 
-> Know the God who speaks. Select text on any webpage and engage Scripture with Doxa: encouragement grounded in the Word.
+> Record and hold prophetic encouragement for decades. Select text on any page to engage Scripture with Doxa. Know the God who speaks.
 
 **Category:** Lifestyle (pick the closest religion/well-being subcategory the console offers)
 
@@ -28,19 +28,17 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 ## Description
 
-Aligned to the knowing-God re-tier (doxa-shared PR #26, merged 2026-08-15):
-the promise leads, record-and-remember is the practice that serves it. Opens
-on the master line (website canon, brand audit 2026-09-28) and closes on the
-action line "Engage Scripture with Doxa." No
-em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
+Garth (CEO) 2026-11-05: every listing leads with "Record and hold prophetic
+encouragement for decades.", word for word. The description is edited in the
+developer console without a new package. No em dashes; a prophecy is never "a word".
 
-> Know the God who speaks. Doxa helps you remember on purpose what God has said and done, so you can know Him more deeply for your whole journey.
+> Record and hold prophetic encouragement for decades. Doxa is a free app for keeping the prophecies, verses and answered prayers that matter to you, so you have them to hand when the road gets hard. Know the God who speaks.
 >
 > Doxa for Chrome brings Scripture and God's encouragement to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done. This extension is Doxa meeting you in the middle of your day.
 >
 > HOW IT WORKS
 >
-> Select any text on any page: a hard email, a discouraging headline, a message from a friend. A small Doxa icon appears right by your selection. Click it and receive a word of encouragement anchored in Scripture. You can also right-click and choose "Encourage me with this".
+> Select any text on any page: a hard email, a discouraging headline, a message from a friend. A small Doxa icon appears right by your selection. Click it and receive encouragement anchored in Scripture. You can also right-click and choose "Encourage me with this".
 >
 > Select a Bible reference like "John 14:6" and choose "Look up in Doxa" to read the verse instantly (Berean Standard Bible), with a link to keep reading in Doxa's Bible reader.
 >
@@ -65,9 +63,10 @@ em dashes, no antithesis framing (voice-of-doxa Hard Rules 1 and 2).
 - Small promo tile (440x280): `store/promo/tile-440x280.png`
 - Marquee (1400x560): `store/promo/marquee-1400x560.png`
 
-All assets use the doxa.app look (brand presence audit 2026-09-28): night background with a
-cool blue radial (no dot grid, doxa-app #2463), white mountains mark with no glow, Satoshi type, flame-gradient key phrase, blue accents.
-The icon is the Doxa app icon (white mark on #FF4500). Sources: `store/assets-src/`.
+Promo tiles (2026-11-05) are the Dawn look: the descriptor in Ysabeau over a first-light mountain sky,
+rendered by openclaw `workspaces/selah/production/profile-banners/render-dawn-banners.js` (`chrome-small`,
+`chrome-marquee`), which refuses text under 4.5:1 contrast. Screenshots keep the 2026-09-28 night look.
+The icon is the Doxa app icon (white mark on #FF4500). Screenshot sources: `store/assets-src/`.
 
 ## Privacy tab answers
 

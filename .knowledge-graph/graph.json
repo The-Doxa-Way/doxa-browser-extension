@@ -31,7 +31,7 @@
       ]
     },
     {
-      "name": "BrandPresenceAudit0928",
+      "name": "DoxaForChromeBrandPresenceAudit0928",
       "entityType": "Decision",
       "observations": [
         "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation).",
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "name": "OfficialLogoLockupOnly",
+      "name": "DoxaForChromeOfficialLogoOnly",
       "entityType": "Decision",
       "observations": [
         "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
@@ -55,35 +55,17 @@
       ]
     },
     {
-      "name": "FleetSecurityBaseline20261103",
-      "entityType": "Decision",
-      "observations": [
-        "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint."
-      ]
-    },
-    {
-      "name": "CanonicalFleetGates",
-      "entityType": "Workflow",
-      "observations": [
-        "2026-11-05: this repo's five fleet gates (kg-save-gate.sh, review-gate.sh, test-gate.sh, scripts/attest-review.sh, kg-guard.yml) are now GENERATED from The-Doxa-Way-CNS fleet/gates/*.tmpl by scripts/generate-fleet-gates.mjs --repo doxa-browser-extension (decision docs/decisions/2026-11-05-canonical-fleet-gates.md; template fix PR #2379). Never hand-edit them here: fix the template and regenerate; check-hook-drift.mjs compares this copy on main daily. What the old copy lacked: kg-save-gate.sh called check-kg-merge-integrity.cjs --remote-pr, a mode the script lacks (exit 0: MCP merges were never integrity-checked) and had a .cjson typo in the merkle path; the canonical gate detects the mode and falls back to the local check (pinned in scripts/kg-save-gate-merge-integrity.test.cjs); testRe now counts scripts/*.test.cjs as tests. Carries Wamemba me's no-re-review-of-a-blocked-commit rule: attest-review.sh 'blocked: <findings>' records SHA+tree and that code can never be attested."
-      ]
-    },
-    {
-      "name": "FleetGates",
-      "entityType": "Reference",
-      "observations": [
-        "2026-11-05: re-rendered kg-save-gate.sh and review-gate.sh from The-Doxa-Way-CNS fleet/gates templates (CNS PR #2391): a GitHub origin is this repo only when the owner is the fleet org; a gh pr merge branch ref must appear verbatim or the merge is refused (merge by PR number).",
-        "2026-11-05: re-rendered the gate hooks from The-Doxa-Way-CNS fleet/gates templates at 971d0c9245 (CNS #2417, #2391). Merge-message text is data; the repo of a merge comes only from that merge's own command; any doubt applies this repo's gates.",
-        "2026-11-05: gate hooks re-rendered from The-Doxa-Way-CNS@848eaf8860 (#2424): a Bash gh pr merge must name one literal PR number or PR URL in a plain command, anything else blocks; gate hooks never run code from the checkout they judge.",
-        "2026-11-06: gate hooks re-rendered from The-Doxa-Way-CNS@65ff05174b (#2453): stricter merge contract (literal PR ref; no redirection, shell comment or empty quote; every repo flag read) and push prefilter.",
-        "2026-11-06: gate hooks re-rendered from The-Doxa-Way-CNS@46cc70a524 (#2453, #2517): literal-PR merge contract (no redirection at all, shell comment or empty quote; every repo flag read; a masked cd target or a cd/pushd the hook cannot follow blocks) and push prefilter."
-      ]
-    },
-    {
-      "name": "DoxaForChromeStoreIdentity",
+      "name": "DoxaForChromeListingDescriptor",
       "entityType": "Decision",
       "observations": [
         "2026-11-05 Dawn listing (Garth: lead every listing with 'Record and hold prophetic encouragement for decades.'): manifest description (= store Summary, 132/132 chars) now leads with the descriptor and ships with the NEXT package upload only; store/listing.md description leads with it and drops 'a word of encouragement'; promo tiles replaced by the Dawn renders from openclaw render-dawn-banners.js. Description and tiles can be submitted without a build, but the devconsole is behind a Google 'Verify it's you' wall (ceo-action chrome-web-store-reverify-google-2026-11). brand.test.mjs now requires the descriptor first and the master line kept."
+      ]
+    },
+    {
+      "name": "DoxaForChromeKgFederation",
+      "entityType": "Decision",
+      "observations": [
+        "2026-11-06 (The-Doxa-Way-CNS spec the-doxa-way-control-tower F6): this repo's KG becomes CNS source doxa-browser-extension (authority/registry.yaml). Fleet-wide facts are held by the CNS meta-KG or by the other CNS sources (doxa-app, openclaw, doxa-shared), so this repo's copies were removed (federated, they opened conflicts; the Decision ones queue for Garth): FleetSecurityBaseline20261103, CanonicalFleetGates, FleetGates. Repo-local facts that shared a name with another source were renamed: OfficialLogoLockupOnly -> DoxaForChromeOfficialLogoOnly (the canon rule stays doxa-app OfficialLogoLockupOnly), DoxaForChromeStoreIdentity -> DoxaForChromeListingDescriptor (the store id fact stays doxa-cns DoxaForChromeStoreIdentity), BrandPresenceAudit0928 -> DoxaForChromeBrandPresenceAudit0928. Rule: kg-save only facts about THIS repo here, under a repo-scoped name. A gate or fleet fact is a kg-save in The-Doxa-Way-CNS; a gate re-render PR here carries no KG change (title it chore(sync): ..., which KG Guard exempts)."
       ]
     }
   ],

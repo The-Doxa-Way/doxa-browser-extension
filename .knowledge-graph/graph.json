@@ -91,6 +91,13 @@
       "observations": [
         "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint."
       ]
+    },
+    {
+      "name": "PointNotLabelRule",
+      "entityType": "Pattern",
+      "observations": [
+        "doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a label. Extension 0.3.2 source: manifest description, popup/options/sidepanel taglines, store tile source and store/listing.md now lead with 'Record and hold prophetic encouragement for decades.' and drop the phrase. Guard: test/brand.test.mjs fails if the phrase appears in static/, src/, store/ or package.json (allowlist: the rule note in store/listing.md). The Chrome Web Store summary changes only with a new package upload; the store description is edited in the developer console."
+      ]
     }
   ],
   "relations": []

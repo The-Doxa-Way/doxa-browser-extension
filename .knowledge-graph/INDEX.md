@@ -24,3 +24,7 @@
 ## DesignSystem (1)
 
 - ExtensionBrandNightTokens — popup/sidepanel/options/toast/bubble surfaces moved from neutral charcoal (#1A1A1A/#242424/#2C2C2C/#3C3C3C) t…
+
+## Pattern (1)
+
+- PointNotLabelRule — doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a labe…

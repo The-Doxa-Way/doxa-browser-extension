@@ -204,3 +204,46 @@ test('a landing command targeting a SIBLING repo is never blocked by that siblin
   fs.rmSync(siblingDir, { recursive: true, force: true });
   fs.rmSync(ghbin, { recursive: true, force: true });
 });
+
+// Regression test (canonical fleet gates, doxa-cns 2026-11-05): the GitHub MCP
+// merge path. This repo's check-kg-merge-integrity.cjs has NO --remote-pr
+// mode, and the old hand copy called it with --remote-pr anyway: the script
+// read the flag as a git ref, never exited 1, and the MCP path then passed on
+// the PR's own ".knowledge-graph/ touched" file check — so an MCP merge of a
+// dropped observation was never checked. The canonical gate detects the mode
+// and, without it, runs the LOCAL range check of this project's checkout.
+// Fails on the old copy (exit 0), passes on the generated one (exit 2).
+test('MCP merge_pull_request without a --remote-pr detector falls back to the local check and blocks a dropped observation', () => {
+  const dir = repoWithDroppedObservation();
+  const bindir = fs.mkdtempSync(path.join(os.tmpdir(), 'ghbin-'));
+  // gh reports the PR as already touching .knowledge-graph/ — the condition
+  // under which the MCP path used to wave the merge through.
+  fs.writeFileSync(path.join(bindir, 'gh'), `#!/bin/bash
+case "$*" in
+  *"pr diff"*) echo '.knowledge-graph/graph.json'; exit 0 ;;
+  *) exit 0 ;;
+esac
+`);
+  fs.chmodSync(path.join(bindir, 'gh'), 0o755);
+  let result;
+  try {
+    execFileSync('bash', [HOOK], {
+      cwd: dir,
+      env: { ...process.env, CLAUDE_PROJECT_DIR: dir, PATH: `${bindir}:${process.env.PATH}` },
+      input: JSON.stringify({
+        tool_name: 'mcp__github__merge_pull_request',
+        tool_input: { owner: 'The-Doxa-Way', repo: 'doxa-browser-extension', pullNumber: 12 },
+        cwd: dir,
+      }),
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    result = { status: 0 };
+  } catch (e) {
+    result = { status: e.status, stderr: (e.stderr || '').toString() };
+  }
+  assert.strictEqual(result.status, 2, 'an MCP merge must get the merge-integrity check too');
+  assert.match(result.stderr, /Three/, 'must name the dropped entity');
+
+  fs.rmSync(dir, { recursive: true, force: true });
+  fs.rmSync(bindir, { recursive: true, force: true });
+});

@@ -69,9 +69,11 @@ test('toolbar and store icons are the Doxa app icon (white mark on #FF4500)', ()
   assert.ok(white > 400, `white mountains mark present (${white} px)`);
 });
 
-test('manifest summary leads with the master line and fits the store limit', () => {
+// Garth (CEO) 2026-11-05: every listing leads with this line, word for word.
+test('manifest summary leads with the CEO descriptor, keeps the master line, and fits the store limit', () => {
   const manifest = JSON.parse(read('static/manifest.json'));
-  assert.ok(manifest.description.startsWith('Know the God who speaks.'));
+  assert.ok(manifest.description.startsWith('Record and hold prophetic encouragement for decades.'));
+  assert.ok(manifest.description.includes('Know the God who speaks.'));
   assert.ok(manifest.description.length <= 132, `${manifest.description.length} chars`);
 });
 

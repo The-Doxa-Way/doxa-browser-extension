@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "4b7b42ca5b3abcbae1db5b63604b2c7719f590d9962481f99c9c67a9bc78a124",
+  "merkleRoot": "f929a90b0e23e528939d11774ac4a6883b78c56250c8a71d88da8f6a62639b63",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -118,6 +118,40 @@
       "timestamp": "2026-09-28T07:48:28.575Z"
     },
     {
+      "hash": "137eeafa0633335f5895996e519149a4b2428722eac5b1250e5db963af1056f4",
+      "entityName": "BrandPresenceAudit0928",
+      "content": "Brand presence audit 2026-09-28 (Garth: the website doxa.app is the design canon). Doxa for Chrome 0.3.1: toolbar and store icons are now the Doxa app icon (white mountains mark on #FF4500, same geometry as doxa.app/favicon.svg) in place of the #1A1A1A tile; UI accents (movement badges, Scripture pills, tier chip) moved from amber #FF9500 to brand blue #0EA5E9/#6AC7F1 because amber is reserved for Record a prophecy in the app; manifest summary and popup/options/side-panel tagline lead with the master line Know the God who speaks., keeping Engage Scripture with Doxa as the in-flow action line (the 0.3.0 PR #13 had swapped the master line out with no recorded reason; website canon wins). Store promo tile, marquee and three 1280x800 screenshots re-rendered in the doxa.app look (night #0F1B20, blue dot field, faint white watermark, no glow, Satoshi + Plus Jakarta Sans, flame-gradient key phrase) from store/assets-src/*.html + brand.css. test/brand.test.mjs guards icon colour, master line and no-amber. The store item needs the new package, icon, screenshots and tiles uploaded in the devconsole (file uploads cannot be automated there, see doxa-cns ChromeWebStoreConsoleAutomation).",
+      "provenance": {
+        "sourceFile": "store/listing.md",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "41c3373c12d4f2a898f6b393979b395d4db75d4bdcb2b7e558dcffcc7997fd58",
+        "totalLines": 107,
+        "extractedAt": "2026-09-28T07:48:28.569Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-28T07:48:28.575Z"
+    },
+    {
+      "hash": "af048de3172aab15fd2aaaa7990ecf04f3e25b0e097f9a963df3299b6c1f2116",
+      "entityName": "BrandPresenceAudit0928",
+      "content": "Follow-up the same day: store tile, marquee and screenshots re-rendered with NO blue dot field, because Garth removed the dot grid site-wide on 2026-09-28 ('they don't work', doxa-app #2463). The look is now night + one cool blue top-left radial + faint white watermark. Uploaded assets must be these versions.",
+      "provenance": {
+        "sourceFile": "store/assets-src/brand.css",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "f0d848b0cbf03f5859e96ff39dd76fb34f641aa2e9050597f9567d8f417cb192",
+        "totalLines": 54,
+        "extractedAt": "2026-09-28T08:07:42.566Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-28T08:07:42.569Z"
+    },
+    {
       "hash": "f8427688d76501acb4c96367c83901bba282f6928a40296b04e12e46e2650599",
       "entityName": "DoxaForChromeBrandPresenceAudit0928",
       "content": "Follow-up the same day: store tile, marquee and screenshots re-rendered with NO blue dot field, because Garth removed the dot grid site-wide on 2026-09-28 ('they don't work', doxa-app #2463). The look is now night + one cool blue top-left radial + faint white watermark. Uploaded assets must be these versions.",
@@ -186,6 +220,23 @@
       "timestamp": "2026-09-29T07:19:26.388Z"
     },
     {
+      "hash": "f5b1724fb51e6a44674c892e1f3bb38bb67fd24d9b2900a72e88fead5c912cad",
+      "entityName": "OfficialLogoLockupOnly",
+      "content": "Popup header drew the app icon beside a typed <h1>Doxa</h1>: a made-up word mark. Garth 2026-09-29: only the official logo, never a hallucinated Doxa word mark. Now the popup shows src/icons/doxa-full-logo.png (sha256 dbd3c11c..., byte-identical to doxa.app/images/doxa-full-logo.png, the website header lockup). test/brand.test.mjs pins the file hash, fails on a bare Doxa heading/eyebrow or Doxa text beside an icon, and allows only icon-N.png, doxa-logo.svg and doxa-full-logo.png in src/icons.",
+      "provenance": {
+        "sourceFile": "static/popup.html",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "b3d470a27a3b2e49737082a72f41a143ec7cdb858482dd7255e33154278b43a5",
+        "totalLines": 55,
+        "extractedAt": "2026-09-29T07:19:26.387Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-09-29T07:19:26.388Z"
+    },
+    {
       "hash": "81b46d12ebde7c66d7e2de9d3a323695a4f409c7aa038d1d39345bd71e17baf0",
       "entityName": "DoxaForChromeOfficialLogoOnly",
       "content": "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused.",
@@ -200,6 +251,39 @@
         "extractedBy": "knowledge-graph-merkle.cjs"
       },
       "timestamp": "2026-09-29T07:32:28.991Z"
+    },
+    {
+      "hash": "fcc0b90996a3e4f62ea5cc1bd60b90433952aa7a0ba6bc807e8e994dbfd206a7",
+      "entityName": "OfficialLogoLockupOnly",
+      "content": "Review round (opus-reviewer, 0 HIGH/0 MED/3 LOW): guard opening-tag match widened to [^<]*? so a tag with => in an attribute is still read. Decision recorded: a product title that only starts with the name (sidepanel 'Doxa Engage', options 'Doxa for Chrome — Settings') is a title, not a word mark; only the bare name is refused.",
+      "provenance": {
+        "sourceFile": "test/brand.test.mjs",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "36f53d002fb475d0e5e25a929eb16ce14609f406d3ee145656c08cd3516ec752",
+        "totalLines": 142,
+        "extractedAt": "2026-09-29T07:32:28.991Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs"
+      },
+      "timestamp": "2026-09-29T07:32:28.991Z"
+    },
+    {
+      "hash": "691f1c000adba689aea8edf7c0e9f2e40a5f62222126a49c2f72b428cc8b36ab",
+      "entityName": "FleetSecurityBaseline20261103",
+      "content": "2026-11-03 fleet security baseline (doxa-cns config/fleet.yaml): .github/workflows/secret-scan.yml runs gitleaks 8.30.1 (job id 'gitleaks' = required check of the org ruleset 'fleet: PR + secret scan') on PR commits, and on all history weekly (Mon 04:17 UTC) and on dispatch; config .gitleaks.toml (default rules); classified history findings live in .gitleaksignore pinned to their commit. .github/dependabot.yml: weekly, limit 5, minor+patch grouped. Dependabot ecosystems: npm /, github-actions. Full-history scan: 3 findings, none secret (manifest 'key' = RSA public key that pins the extension ID x2; Supabase anon JWT in src/utils/auth.ts), all in .gitleaksignore. Rewriting those lines needs a new fingerprint.",
+      "provenance": {
+        "sourceFile": ".github/workflows/secret-scan.yml",
+        "lineNumber": 1,
+        "lineRange": null,
+        "fileHash": "af9088771b015861fed3514c1feab7e06a2e0b4710f35f9eee8c0557d19b2b51",
+        "totalLines": 80,
+        "extractedAt": "2026-11-03T09:12:33.346Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-03T09:12:33.347Z"
     },
     {
       "hash": "cce3f310834c56e9344dd50ce6f5326a5958a5280acbf9b97c784d19481988af",
@@ -234,9 +318,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-11-06T04:51:08.781Z"
+    },
+    {
+      "hash": "933aed666490cf64e18b60f053baee9810bf8278452f8c89487ad20f5b8dd6b2",
+      "entityName": "DoxaBrowserExtensionBankingGates",
+      "content": "2026-11-07 pr-banker (PR #20): CI had only gitleaks + KG Guard, so Dependabot's @types/chrome 0.0.270->0.3.7 bump broke tsc yet showed green. 0.3 types chrome.storage.local.get results as unknown; readSession() now casts to Partial<SessionTokens> (runtime typeof guards unchanged). Added .github/workflows/ci.yml (npm ci, typecheck, test) so every PR, Dependabot included, must build and pass tests.",
+      "provenance": {
+        "sourceFile": ".github/workflows/ci.yml",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "a09778a38b8e8285440e61fccb3133b8be90a9a8db46c13a6517b6af2aee385a",
+        "totalLines": 29,
+        "extractedAt": "2026-11-07T09:36:31.541Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-07T09:36:31.542Z"
     }
   ],
-  "lastVerified": "2026-11-06T04:51:17.709Z",
+  "lastVerified": "2026-11-07T09:43:11.119Z",
   "version": 1,
-  "lastModified": "2026-11-06T04:51:17.711Z"
+  "lastModified": "2026-11-07T09:43:11.120Z"
 }

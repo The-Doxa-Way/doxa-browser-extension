@@ -1,0 +1,28 @@
+name: ci
+# Typecheck + build + tests on every PR. Before this, only gitleaks + KG Guard ran, so a
+# dependency bump that broke `tsc` (@types/chrome 0.0.270 -> 0.3.7, PR #20) still showed green.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test

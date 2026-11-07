@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "0cc06915f2bb7a3d9d6ad7141589ed2b9a28571a1e55c8fa9b38c7793670e3e6",
+  "merkleRoot": "985ca259cb8f8521eea8747e537dd535a2bbf50edfdf9b3796a93e186f8504b2",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -217,9 +217,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-11-03T09:12:33.347Z"
+    },
+    {
+      "hash": "933aed666490cf64e18b60f053baee9810bf8278452f8c89487ad20f5b8dd6b2",
+      "entityName": "DoxaBrowserExtensionBankingGates",
+      "content": "2026-11-07 pr-banker (PR #20): CI had only gitleaks + KG Guard, so Dependabot's @types/chrome 0.0.270->0.3.7 bump broke tsc yet showed green. 0.3 types chrome.storage.local.get results as unknown; readSession() now casts to Partial<SessionTokens> (runtime typeof guards unchanged). Added .github/workflows/ci.yml (npm ci, typecheck, test) so every PR, Dependabot included, must build and pass tests.",
+      "provenance": {
+        "sourceFile": ".github/workflows/ci.yml",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "a09778a38b8e8285440e61fccb3133b8be90a9a8db46c13a6517b6af2aee385a",
+        "totalLines": 29,
+        "extractedAt": "2026-11-07T09:36:31.541Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-07T09:36:31.542Z"
     }
   ],
-  "lastVerified": "2026-11-03T09:12:53.873Z",
+  "lastVerified": "2026-11-07T09:36:31.631Z",
   "version": 1,
-  "lastModified": "2026-11-03T09:12:53.874Z"
+  "lastModified": "2026-11-07T09:36:31.631Z"
 }

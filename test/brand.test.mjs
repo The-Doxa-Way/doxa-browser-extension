@@ -1,8 +1,9 @@
 /**
  * Brand guards for the shipped extension (brand presence audit 2026-09-28).
  * The website doxa.app is the design canon: the toolbar/store icon is the
- * Doxa app icon (white mountains mark on sacred flame #FF4500), the master
- * line is "Know the God who speaks.", and amber is reserved for
+ * Doxa app icon (white mountains mark on sacred flame #FF4500), the
+ * descriptor "Record and hold prophetic encouragement for decades." leads,
+ * and amber is reserved for
  * "Record a prophecy" in the app, so extension accents are brand blue.
  */
 
@@ -70,11 +71,32 @@ test('toolbar and store icons are the Doxa app icon (white mark on #FF4500)', ()
 });
 
 // Garth (CEO) 2026-11-05: every listing leads with this line, word for word.
-test('manifest summary leads with the CEO descriptor, keeps the master line, and fits the store limit', () => {
+test('manifest summary leads with the CEO descriptor and fits the store limit', () => {
   const manifest = JSON.parse(read('static/manifest.json'));
   assert.ok(manifest.description.startsWith('Record and hold prophetic encouragement for decades.'));
-  assert.ok(manifest.description.includes('Know the God who speaks.'));
   assert.ok(manifest.description.length <= 132, `${manifest.description.length} chars`);
+});
+
+// Garth (CEO) 2026-11-07: "The app should not be know the God that speaks. That is
+// the point of the brand not the tagline or the app description." (doxa-brand
+// voice-of-doxa Hard Rule 15). No name, tagline, description or store line carries it.
+test('"Know the God who speaks" is never a label in the shipped UI, manifest or store copy', () => {
+  const files = [
+    'static/manifest.json',
+    'package.json',
+    ...readdirSync(new URL('src/', root), { recursive: true }).filter((f) => f.endsWith('.ts')).map((f) => `src/${f}`),
+    ...readdirSync(new URL('static/', root)).filter((f) => /\.(html|json|js|css)$/.test(f)).map((f) => `static/${f}`),
+    ...readdirSync(new URL('store/', root), { recursive: true }).filter((f) => /\.(md|html)$/.test(f)).map((f) => `store/${f}`),
+  ];
+  assert.ok(files.length > 15, `scanned ${files.length} files`);
+  for (const file of files) {
+    const lines = read(file).toString().split('\n');
+    lines.forEach((line, i) => {
+      // The one allowed mention: the rule itself, quoted in store/listing.md.
+      if (/Hard Rule 15|point of the brand/i.test(line)) return;
+      assert.doesNotMatch(line, /know the god who speaks/i, `${file}:${i + 1} uses the point of the brand as a label`);
+    });
+  }
 });
 
 test('shipped UI uses no amber accent (reserved for "Record a prophecy")', () => {

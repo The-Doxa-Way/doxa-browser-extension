@@ -20,7 +20,7 @@ CEO sign-off required before submission (public Doxa surface; see the
 
 **Summary** (132 chars max; the store reads it from `static/manifest.json` `description`, so it changes only with a new package upload):
 
-> Record and hold prophetic encouragement for decades. Select text on any page to engage Scripture with Doxa. Know the God who speaks.
+> Record and hold prophetic encouragement for decades. Select text on any page to engage Scripture with Doxa.
 
 **Category:** Lifestyle (pick the closest religion/well-being subcategory the console offers)
 
@@ -31,8 +31,10 @@ CEO sign-off required before submission (public Doxa surface; see the
 Garth (CEO) 2026-11-05: every listing leads with "Record and hold prophetic
 encouragement for decades.", word for word. The description is edited in the
 developer console without a new package. No em dashes; a prophecy is never "a word".
+"Know the God who speaks" is the point of the brand, never a tagline or a description
+line (Garth 2026-11-07, doxa-brand voice-of-doxa Hard Rule 15).
 
-> Record and hold prophetic encouragement for decades. Doxa is a free app for keeping the prophecies, verses and answered prayers that matter to you, so you have them to hand when the road gets hard. Know the God who speaks.
+> Record and hold prophetic encouragement for decades. Doxa is a free app for keeping the prophecies, verses and answered prayers that matter to you, so you have them to hand when the road gets hard.
 >
 > Doxa for Chrome brings Scripture and God's encouragement to wherever you already are on the web. The Doxa app is where you record and remember what God has said and done. This extension is Doxa meeting you in the middle of your day.
 >

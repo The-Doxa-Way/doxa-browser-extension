@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "f929a90b0e23e528939d11774ac4a6883b78c56250c8a71d88da8f6a62639b63",
+  "merkleRoot": "ce2f7397f8f14199e7949076b78dd6126464a7c0858b79478bf0b89674fb2614",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -335,9 +335,26 @@
         "entityType": "Decision"
       },
       "timestamp": "2026-11-07T09:36:31.542Z"
+    },
+    {
+      "hash": "a2c18f2b338fcd36a07754dc85da6cd732fecdc2c115542130f100e16ac71c03",
+      "entityName": "PointNotLabelRule",
+      "content": "doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a label. Extension 0.3.2 source: manifest description, popup/options/sidepanel taglines, store tile source and store/listing.md now lead with 'Record and hold prophetic encouragement for decades.' and drop the phrase. Guard: test/brand.test.mjs fails if the phrase appears in static/, src/, store/ or package.json (allowlist: the rule note in store/listing.md). The Chrome Web Store summary changes only with a new package upload; the store description is edited in the developer console.",
+      "provenance": {
+        "sourceFile": "test/brand.test.mjs",
+        "lineNumber": 83,
+        "lineRange": null,
+        "fileHash": "ae0bd3a433abad6a1424775f9cddce8846a9d695f33fbe05f3d1957260e6a6f8",
+        "totalLines": 166,
+        "extractedAt": "2026-11-07T11:36:40.351Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Pattern"
+      },
+      "timestamp": "2026-11-07T11:36:40.351Z"
     }
   ],
   "lastVerified": "2026-11-07T09:43:11.119Z",
   "version": 1,
-  "lastModified": "2026-11-07T09:43:11.120Z"
+  "lastModified": "2026-11-07T11:36:40.373Z"
 }

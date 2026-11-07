@@ -21,7 +21,7 @@ const SESSION_KEY = 'doxa_session';
 
 async function readSession(): Promise<SessionTokens | null> {
   const stored = await chrome.storage.local.get(SESSION_KEY);
-  const s = stored[SESSION_KEY];
+  const s = stored[SESSION_KEY] as Partial<SessionTokens> | undefined;
   return s && typeof s.accessToken === 'string' && typeof s.refreshToken === 'string'
     ? (s as SessionTokens)
     : null;

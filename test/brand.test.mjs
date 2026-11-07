@@ -81,7 +81,12 @@ test('manifest summary leads with the CEO descriptor and fits the store limit', 
 // the point of the brand not the tagline or the app description." (doxa-brand
 // voice-of-doxa Hard Rule 15). No name, tagline, description or store line carries it.
 test('"Know the God who speaks" is never a label in the shipped UI, manifest or store copy', () => {
+  // The one allowed mention: the rule note in store/listing.md (outside the copy blocks).
+  const ALLOWED = {
+    'store/listing.md': '"Know the God who speaks" is the point of the brand, never a tagline or a description line (Garth 2026-11-07, doxa-brand voice-of-doxa Hard Rule 15).',
+  };
   const files = [
+    'README.md',
     'static/manifest.json',
     'package.json',
     ...readdirSync(new URL('src/', root), { recursive: true }).filter((f) => f.endsWith('.ts')).map((f) => `src/${f}`),
@@ -89,13 +94,14 @@ test('"Know the God who speaks" is never a label in the shipped UI, manifest or 
     ...readdirSync(new URL('store/', root), { recursive: true }).filter((f) => /\.(md|html)$/.test(f)).map((f) => `store/${f}`),
   ];
   assert.ok(files.length > 15, `scanned ${files.length} files`);
+  const flat = (s) => s.replace(/&nbsp;|&#160;|\u00a0/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
   for (const file of files) {
-    const lines = read(file).toString().split('\n');
-    lines.forEach((line, i) => {
-      // The one allowed mention: the rule itself, quoted in store/listing.md.
-      if (/Hard Rule 15|point of the brand/i.test(line)) return;
-      assert.doesNotMatch(line, /know the god who speaks/i, `${file}:${i + 1} uses the point of the brand as a label`);
-    });
+    let text = flat(read(file).toString());
+    if (ALLOWED[file]) {
+      assert.ok(text.includes(ALLOWED[file]), `${file} lost its rule note; update ALLOWED`);
+      text = text.replace(ALLOWED[file], ' ');
+    }
+    assert.doesNotMatch(text, /know the god (who|that) speaks/i, `${file} uses the point of the brand as a label`);
   }
 });
 

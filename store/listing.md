@@ -68,7 +68,7 @@ line (Garth 2026-11-07, doxa-brand voice-of-doxa Hard Rule 15).
 Promo tiles (2026-11-05) are the Dawn look: the descriptor in Ysabeau over a first-light mountain sky,
 rendered by openclaw `workspaces/selah/production/profile-banners/render-dawn-banners.js` (`chrome-small`,
 `chrome-marquee`), which refuses text under 4.5:1 contrast. Screenshots keep the 2026-09-28 night look.
-The icon is the Doxa app icon (white mark on #FF4500). Screenshot sources: `store/assets-src/`.
+The icon is the Doxa app icon (white mark on #FF4500). Screenshot sources: `store/assets-src/`. The promo tile and marquee PNGs are the Dawn images (commit 61748d2); the `assets-src` tile and marquee HTML are the older dark design and do not render them.
 
 ## Privacy tab answers
 

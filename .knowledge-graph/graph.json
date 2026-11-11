@@ -98,6 +98,13 @@
       "observations": [
         "doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a label. Extension 0.3.2 source: manifest description, popup/options/sidepanel taglines, store tile source and store/listing.md now lead with 'Record and hold prophetic encouragement for decades.' and drop the phrase. Guard: test/brand.test.mjs fails if the phrase appears in static/, src/, store/ or package.json (allowlist: the rule note in store/listing.md). The Chrome Web Store summary changes only with a new package upload; the store description is edited in the developer console."
       ]
+    },
+    {
+      "name": "MaxReviewBeforePushGate",
+      "entityType": "Reference",
+      "observations": [
+        "Garth 2026-11-11 order: one /code-review max pass before every push of code. This repo now runs the fleet-template PreToolUse hook .claude/hooks/push-review-gate.sh (rendered from doxa-cns fleet/gates; doxa-cns KG MaxReviewBeforePushDoctrine, PR #2905): a git push of new code commits (not on main) needs ATTEST_REVIEW_LEVEL=max scripts/attest-review.sh <verdict>, or a logged 'waived:' row (docs-only: 'waived: docs-only: <reason>'), or PUSH_GATE_WAIVE=<reason> for a human-review-only push (no attestation, no merge authority). Exempt: deletes, tags, notes, a tip already on main, KG-only commits. Baseline 7 days to 2026-11-11: 44 runs, 2 failures, 0 reruns."
+      ]
     }
   ],
   "relations": []

@@ -28,3 +28,7 @@
 ## Pattern (1)
 
 - PointNotLabelRule — doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a labe…
+
+## Reference (1)
+
+- MaxReviewBeforePushGate — Garth 2026-11-11 order: one /code-review max pass before every push of code. This repo now runs the fleet-tem…

@@ -1,5 +1,5 @@
 {
-  "merkleRoot": "02439f913b2e10a8f1e0f25072fdcc89f717e8afe06a2a93cf7892659817b91c",
+  "merkleRoot": "76ad3958dfb93c85f0699b8724144c98ebd4454f24abe279ebfaf8461a5c8502",
   "observations": [
     {
       "hash": "0b8555e7dad20465953911fa433c47468686682e40e42dc48d510a76e89a9ee7",
@@ -369,9 +369,26 @@
         "entityType": "Reference"
       },
       "timestamp": "2026-11-11T15:31:05.556Z"
+    },
+    {
+      "hash": "fceeca91d09ec08ed26e731c49aa068ffca749e1f76b0c20c69683f4b464fc9e",
+      "entityName": "RepoStandingOrdersClaudeMd",
+      "content": "2026-11-14 (CEO order: the 13-14 Nov work applies to ALL repos): first CLAUDE.md for this repo, about 60 lines. It carries the CEO ownership line, what the repo is, the real verify commands (npm run typecheck, npm test; no lint), verified gotchas (manifest key = store item public key, pinned by doxa-app connect page redirect-uri.ts; key and pin never change; manifest version = package.json version) and the landing doctrine the gate hooks cite (kg-save, max review, attest the exact head SHA, push, PR, merge; gitleaks required; KG Guard). It points to The-Doxa-Way-CNS CLAUDE.md and docs/org-map.md as the authority. AGENTS.md for Codex/Cursor is generated from it by doxa-cns scripts/generate-agents-md.mjs (fleet.yaml agentsMd).",
+      "provenance": {
+        "sourceFile": "CLAUDE.md",
+        "lineNumber": null,
+        "lineRange": null,
+        "fileHash": "810ca95f33f849c56cae1e274434324719abf2b35a98391833fe40ab317ba1fe",
+        "totalLines": 67,
+        "extractedAt": "2026-11-14T08:49:36.769Z",
+        "verificationStatus": "verified",
+        "extractedBy": "knowledge-graph-merkle.cjs",
+        "entityType": "Decision"
+      },
+      "timestamp": "2026-11-14T08:49:36.770Z"
     }
   ],
-  "lastVerified": "2026-11-07T09:43:11.119Z",
+  "lastVerified": "2026-11-14T08:49:45.349Z",
   "version": 1,
-  "lastModified": "2026-11-11T15:31:05.567Z"
+  "lastModified": "2026-11-14T08:49:45.350Z"
 }

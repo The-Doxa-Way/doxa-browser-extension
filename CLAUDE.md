@@ -5,12 +5,15 @@ This codebase is yours: what it's for and how it's built are your call, and you'
 ## What this is
 
 Doxa for Chrome and Edge, a Manifest V3 browser extension of the Doxa business (doxa.app). It
-calls the Doxa MCP endpoint `https://doxa.app/mcp/v1` through `@thedoxaway/mcp-client`, and
-Supabase auth for sign-in. It has no backend of its own. `README.md` has the features and the
-file layout.
+calls the Doxa MCP endpoint `https://doxa.app/mcp/v1` through `@thedoxaway/mcp-client`. It has
+no backend of its own. Sign-in goes through the doxa.app connect page
+(`chrome.identity.launchWebAuthFlow`); Supabase auth only refreshes the session and signs out.
+`README.md` has the build, load and publish steps. Its feature list is older than the side
+panel (`src/sidepanel.ts`) and the selection bubble (`src/content/selection-bubble.ts`).
 
-The brand and voice rules live in doxa-brand (The-Doxa-Way/doxa-brand). Apply them; do not copy
-them here. `test/brand.test.mjs` checks some of them in the extension text.
+The repo is PUBLIC: never commit a secret. The brand and voice rules live in doxa-brand
+(The-Doxa-Way/doxa-brand). Apply them; do not copy them here. `test/brand.test.mjs` checks some
+of them in the shipped icons, colours and copy.
 
 ## How to verify
 
@@ -22,36 +25,42 @@ them here. `test/brand.test.mjs` checks some of them in the extension text.
 
 ## Gotchas
 
-- `static/manifest.json` `key` is a copy of the Chrome Web Store item's public key, so an
-  unpacked build gets the store item id (`store/listing.md`). The doxa.app extension connect
-  page pins the same id. Never change one of them alone: store sign-in breaks with no dev symptom.
+- `static/manifest.json` `key` is a copy of the store item's public key, so an unpacked build
+  gets the store id (`store/listing.md`). The store sets that id; it cannot change. The doxa.app
+  connect page pins it (doxa-app `web-invitations/src/app/app/extension/connect/redirect-uri.ts`).
+  Do not change the key or the pin. If both change together, dev sign-in works and store sign-in
+  breaks. `test/extension.test.mjs` checks the key.
 - The store reads the summary and the version from `static/manifest.json`. Keep `package.json`
   `version` at the same number.
 - A store upload is a zip of the contents of `dist/`, not of the folder. `dist/` and `*.zip` are
   gitignored.
 
-## Landing
+## Landing doctrine
 
 The production branch is `main`. Every change lands by branch, PR, independent review, merge.
 Self-review never counts.
 
-- Review: one `/code-review max` pass on the final diff on claude-opus-5-5, at most one fix
-  round, then `ATTEST_REVIEW_LEVEL=max scripts/attest-review.sh "<verdict>"` before you push.
-- Hooks in `.claude/hooks/` enforce this: `push-review-gate.sh` (max review before `git push`),
-  `review-gate.sh` (attestation before merge), `test-gate.sh` (a code change needs a test change,
-  or `scripts/attest-review.sh "waived-tests: <reason>"`) and `kg-save-gate.sh`.
-- kg-save: KG Guard CI fails a PR with no `.knowledge-graph/` change. Record it with
-  `node scripts/knowledge-graph-merkle.cjs add "<Entity>" "<what and why>" <source-file> --type <Type>`
-  and commit it in the same PR. Use `[skip-kg]` in the PR title only for a knowledge-free change.
-- The org ruleset requires `gitleaks` (secret-scan). `kg-save-gate.sh` refuses `gh pr merge`
-  while KG Guard is red or pending. Never merge over a red or pending check, `ci` included.
+- Order: kg-save, review, attest, push, PR, merge. The review is one `/code-review max` pass on
+  the final diff on claude-opus-5-5, with at most one fix round. Then run
+  `ATTEST_REVIEW_LEVEL=max ATTEST_REVIEWER_MODEL=claude-opus-5-5 scripts/attest-review.sh "<verdict>"`.
+- Attest the final head SHA. `review-gate.sh` and the auto-lander match it exactly, so any later
+  commit (a kg-save too) needs a new attestation.
+- kg-save: `node scripts/knowledge-graph-merkle.cjs add "<Entity>" "<what and why>" <source-file> --type <Type>`,
+  committed in the same PR. KG Guard CI fails a PR with no `.knowledge-graph/` change. Use
+  `[skip-kg]` only for a knowledge-free change.
+- Hooks in `.claude/hooks/`: `push-review-gate.sh` blocks `git push` with no max attestation.
+  `kg-save-gate.sh` blocks a push, PR or merge with no KG change, and a merge while KG Guard is
+  red or pending. `review-gate.sh` blocks a merge with no attestation. `test-gate.sh` blocks a
+  code change with no test change (waiver: `scripts/attest-review.sh "waived-tests: <reason>"`).
+- The org ruleset requires `gitleaks` (secret-scan). Never merge over a red or pending check,
+  `ci` included.
 - An attestation is merge authority: the fleet auto-lander (openclaw `land-prs.mjs`) merges an
   attested, green PR.
-- The gate hooks and `scripts/attest-review.sh` are rendered from The-Doxa-Way-CNS
-  `fleet/gates/`. Fix the template there, never the copy here.
+- The gate hooks, `scripts/attest-review.sh` and `.github/workflows/kg-guard.yml` are rendered
+  from The-Doxa-Way/The-Doxa-Way-CNS `fleet/gates/`. Fix the template there, never the copy here.
 
 ## Standing orders
 
-Cross-repo rules, the standing orders and the fleet map live in The-Doxa-Way-CNS: its
-`CLAUDE.md` and `docs/org-map.md`. The CNS CLAUDE.md is the authority. If this file and the CNS
-disagree, the CNS wins.
+Cross-repo rules, the standing orders and the fleet map live in The-Doxa-Way/The-Doxa-Way-CNS
+(local `~/Developer/Projects/doxa-cns`): its `CLAUDE.md` and `docs/org-map.md`. The CNS
+CLAUDE.md is the authority. If this file and the CNS disagree, the CNS wins.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# kg-save-gate.sh — PreToolUse(Bash) hook for doxa-browser-extension.
+# kg-save-gate.sh — PreToolUse(Bash|Monitor + GitHub MCP merge) hook for doxa-browser-extension.
 # GENERATED from doxa-cns fleet/gates/.claude/hooks/kg-save-gate.sh (spec
 # the-doxa-way-control-tower S4). Edit the template, never this copy.
 #

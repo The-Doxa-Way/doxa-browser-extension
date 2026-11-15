@@ -54,15 +54,15 @@ of them in the shipped icons, colours and copy.
 The production branch is `main`. Every change lands by branch, PR, independent review, merge.
 Self-review never counts.
 
-- Order: kg-save, review, attest, push, PR, merge. The review is one `/code-review max` pass on
-  the final diff on claude-opus-5-5, with at most one fix round. Then run
-  `ATTEST_REVIEW_LEVEL=max ATTEST_REVIEWER_MODEL=claude-opus-5-5 scripts/attest-review.sh "<verdict>"`.
+- Order: kg-save, review, attest, push, PR, merge. The review is one `/code-review <tier>` pass on
+  the final diff on claude-opus-5-5, with at most one fix round (`<tier>` = what `bash .claude/hooks/push-review-gate.sh --tier` prints: low for prose docs, medium for tests and listed data, max for every other path). Then run
+  `ATTEST_REVIEW_LEVEL=<the level that ran> ATTEST_REVIEWER_MODEL=claude-opus-5-5 scripts/attest-review.sh "<verdict>"`.
 - Attest the final head SHA. `review-gate.sh` and the auto-lander match it exactly, so any later
   commit (a kg-save too) needs a new attestation.
 - kg-save: `node scripts/knowledge-graph-merkle.cjs add "<Entity>" "<what and why>" <source-file> --type <Type>`,
   committed in the same PR. KG Guard CI fails a PR with no `.knowledge-graph/` change. Use
   `[skip-kg]` only for a knowledge-free change.
-- Hooks in `.claude/hooks/`: `push-review-gate.sh` blocks `git push` with no max attestation.
+- Hooks in `.claude/hooks/`: `push-review-gate.sh` blocks `git push` with no attestation at the diff's tier (`--tier`).
   `kg-save-gate.sh` blocks a push, PR or merge with no KG change, and a merge while KG Guard is
   red or pending. `review-gate.sh` blocks a merge with no attestation. `test-gate.sh` blocks a
   code change with no test change (waiver: `scripts/attest-review.sh "waived-tests: <reason>"`).

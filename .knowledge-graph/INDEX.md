@@ -35,3 +35,7 @@
 ## Pattern (1)
 
 - PointNotLabelRule — doxa-brand Hard Rule 15 (Garth 2026-11-07): 'Know the God who speaks' is the point of the brand, never a labe…
+
+## System (1)
+
+- FleetGateReviewModes — 2026-11-16: gates re-rendered from doxa-cns #3050 (two max modes). Max diffs: ONE opus-reviewer pass (prompt …

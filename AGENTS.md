@@ -55,7 +55,7 @@ The production branch is `main`. Every change lands by branch, PR, independent r
 Self-review never counts.
 
 - Order: kg-save, review, attest, push, PR, merge. The review is one `/code-review <tier>` pass on
-  the final diff on claude-opus-5-5, with at most one fix round (`<tier>` = what `bash .claude/hooks/push-review-gate.sh --tier` prints: low for prose docs, medium for tests and listed data, max for every other path). Then run
+  the final diff on claude-opus-5-5, with at most one fix round (`<tier>` = what `bash .claude/hooks/push-review-gate.sh --tier` prints: low for prose docs, medium for tests and listed data, max for every other path, max-fanout for the critical set (auth, credentials, gate/hook/CI files, SQL). max = ONE `opus-reviewer` pass (no fan-out); max-fanout = `/code-review max`, the fan-out.). Then run
   `ATTEST_REVIEW_LEVEL=<the level that ran> ATTEST_REVIEWER_MODEL=claude-opus-5-5 scripts/attest-review.sh "<verdict>"`.
 - Attest the final head SHA. `review-gate.sh` and the auto-lander match it exactly, so any later
   commit (a kg-save too) needs a new attestation.
